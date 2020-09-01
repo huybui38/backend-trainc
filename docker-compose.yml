@@ -1,22 +1,35 @@
-version: '3.1'
+version: "3.1"
 
 services:
-
   mongo:
     image: mongo
     restart: always
     ports:
+     - 27016:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: 123123
+    volumes:
+      - database:/var/lib/db/
+    networks:
+      - backend
 
   mongo-express:
     image: mongo-express
     restart: always
     ports:
       - 8081:8081
+    depends_on:
+      - mongo
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: 'admin' 
-      ME_CONFIG_BASICAUTH_PASSWORD: '123123'
+      ME_CONFIG_BASICAUTH_USERNAME: "admin"
+      ME_CONFIG_BASICAUTH_PASSWORD: "123123"
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123123
+    networks:
+      - backend
+volumes:
+  database:
+networks:
+  backend:
+    driver: bridge
