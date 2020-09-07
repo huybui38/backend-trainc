@@ -1,0 +1,1746 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0-oas3",
+      "title": "Fcode",
+      "description": "Fcode API documentation"
+    },
+    "paths": {
+      "/api/user/login": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "login",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "mssv",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "password",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "confirm",
+              "required": true,
+              "description": "must match with password",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "login success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "login success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "login failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user/create": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "create",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "mssv",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "password",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "confirm",
+              "required": true,
+              "description": "must match with password",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "role",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "ADMIN",
+                  "MENTOR",
+                  "STUDENT"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "create success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "create failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user/changePassword": {
+        "put": {
+          "tags": [
+            "User"
+          ],
+          "summary": "change password",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "password",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "new password",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "confirm",
+              "required": true,
+              "description": "must match with new password",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "change password success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "change password success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "change password failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/list/:page": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "get all user, will render an ejs file list user (summary)",
+          "responses": {
+            "200": {
+              "description": "get all user success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get all users success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get all user failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:id": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "get one user (all details), render an ejs about user",
+          "responses": {
+            "200": {
+              "description": "get user success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get user success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get user failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/course/create": {
+        "post": {
+          "tags": [
+            "Course"
+          ],
+          "summary": "Create a course",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "courseName",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create course success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "create course success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "create course failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/course/list/:page": {
+        "get": {
+          "tags": [
+            "Course"
+          ],
+          "summary": "List all course name",
+          "responses": {
+            "200": {
+              "description": "get all course success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get all courses success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get all course failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/course/:id": {
+        "get": {
+          "tags": [
+            "Course"
+          ],
+          "summary": "get a course details",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/course/delete": {
+        "delete": {
+          "tags": [
+            "Course"
+          ],
+          "summary": "delete a course base on couseId",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "delete success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found course"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/class/create": {
+        "post": {
+          "tags": [
+            "Class"
+          ],
+          "summary": "create a new class",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "className",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "course",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "students",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": [
+                    "5f3d1875087baebfc14d35ab",
+                    "5f3d18e8f6e4aacc45d1a026",
+                    "5f3d18ed0b0c27733e9bc597"
+                  ]
+                }
+              }
+            },
+            {
+              "in": "query",
+              "name": "mentors",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": [
+                    "5f3d1875087baebfc14d35ab",
+                    "5f3d18e8f6e4aacc45d1a026",
+                    "5f3d18ed0b0c27733e9bc597"
+                  ]
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create class success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "create class success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "create class failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "Invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/class/update": {
+        "put": {
+          "tags": [
+            "Class"
+          ],
+          "summary": "update class",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "className",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "course",
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "students",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": [
+                    "5f3d1875087baebfc14d35ab",
+                    "5f3d18e8f6e4aacc45d1a026",
+                    "5f3d18ed0b0c27733e9bc597"
+                  ]
+                }
+              }
+            },
+            {
+              "in": "query",
+              "name": "mentors",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": [
+                    "5f3d1875087baebfc14d35ab",
+                    "5f3d18e8f6e4aacc45d1a026",
+                    "5f3d18ed0b0c27733e9bc597"
+                  ]
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "update class success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "update class success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "update class failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/class/:id": {
+        "get": {
+          "tags": [
+            "Class"
+          ],
+          "summary": "get a class details",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/course/rank/:page": {
+        "get": {
+          "tags": [
+            "Course/Rank"
+          ],
+          "summary": "List rank table",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get rank table success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/exercise/create": {
+        "post": {
+          "tags": [
+            "Exercise"
+          ],
+          "summary": "create a new exercise",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "title",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "details",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "class",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "course",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "point",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "in": "query",
+              "name": "type",
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            {
+              "in": "query",
+              "name": "startDay",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "endDay",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "status",
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "create success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "create failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/exercise/update": {
+        "put": {
+          "tags": [
+            "Exercise"
+          ],
+          "summary": "update exercise",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "title",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "details",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "class",
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "course",
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "point",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "in": "query",
+              "name": "type",
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            {
+              "in": "query",
+              "name": "startDay",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "endDay",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "status",
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "update success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "update success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "update failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/exercise/:id": {
+        "get": {
+          "tags": [
+            "Exercise"
+          ],
+          "summary": "get a exercise details",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/course/exercise/list/:page": {
+        "get": {
+          "tags": [
+            "Course"
+          ],
+          "summary": "List all exercises in course",
+          "responses": {
+            "200": {
+              "description": "get all exercise success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get all exercise success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get all exercise failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user/:id/exercise/create": {
+        "post": {
+          "tags": [
+            "User/Exercise"
+          ],
+          "summary": "get exercise student submit",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "title",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "courseId",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "userId",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "5f3d16dcc910b67dd02ed0e5"
+              }
+            },
+            {
+              "in": "query",
+              "name": "status",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "PROCESS",
+                  "SUCCESS",
+                  "FAILED",
+                  "REJECT"
+                ]
+              }
+            },
+            {
+              "in": "query",
+              "name": "point",
+              "required": true,
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "upload success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "upload success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "upload failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user/:id/exercise/update": {
+        "put": {
+          "tags": [
+            "User/Exercise"
+          ],
+          "summary": "update status exercise",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "_id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "status",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "PROCESS",
+                  "SUCCESS",
+                  "FAILED",
+                  "REJECT"
+                ]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "update success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "update success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "update failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:id/exercise/:id": {
+        "get": {
+          "tags": [
+            "User/Exercise"
+          ],
+          "summary": "list details one exercise of a user",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "update failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:id/exercise/list/:page": {
+        "get": {
+          "tags": [
+            "User/Exercise"
+          ],
+          "summary": "list all exercise title and status of a user",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "update failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/notification/create": {
+        "post": {
+          "tags": [
+            "Nofitication"
+          ],
+          "summary": "create a new nofitication",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "title",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "content",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "expired",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "create success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "create failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/notification/update": {
+        "put": {
+          "tags": [
+            "Nofitication"
+          ],
+          "summary": "update nofitication",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "title",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "content",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "expired",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "update success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "update success"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "update failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 400,
+                      "data": null,
+                      "msg": "invalid input"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/notification/delete": {
+        "delete": {
+          "tags": [
+            "Nofitication"
+          ],
+          "summary": "delete nofitication",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "_id",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "delete success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "delete success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "delete failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/notification/list/:page": {
+        "get": {
+          "tags": [
+            "Notification"
+          ],
+          "summary": "get all notification",
+          "responses": {
+            "200": {
+              "description": "get success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 200,
+                      "data": null,
+                      "msg": "get success"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "get failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "example": {
+                      "status": 404,
+                      "data": null,
+                      "msg": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "servers": [
+      {
+        "description": "SwaggerHub API Auto Mocking",
+        "url": "https://virtserver.swaggerhub.com/tantruong2303/Fcode/1.0"
+      }
+    ],
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "mssv": {
+              "type": "string",
+              "example": "SE150115"
+            },
+            "password": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 255,
+              "example": "1234567890"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "ADMIN",
+                "MENTOR",
+                "STUDENT"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "example": "truong binh tan"
+            },
+            "point": {
+              "type": "number",
+              "default": 0
+            },
+            "courseId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            },
+            "exerciseId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            }
+          }
+        },
+        "Course": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "courseName": {
+              "type": "string",
+              "example": "Train C"
+            },
+            "classId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            },
+            "exerciseId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            }
+          }
+        },
+        "Class": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "className": {
+              "type": "string",
+              "example": "Class 1"
+            },
+            "course": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "studentId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            },
+            "mentorId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            },
+            "exerciseId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": [
+                  "5f3d1875087baebfc14d35ab",
+                  "5f3d18e8f6e4aacc45d1a026",
+                  "5f3d18ed0b0c27733e9bc597"
+                ]
+              },
+              "default": []
+            }
+          }
+        },
+        "Exercise": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "title": {
+              "type": "string"
+            },
+            "details": {
+              "type": "string"
+            },
+            "classId": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "courseId": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "point": {
+              "type": "number"
+            },
+            "status": {
+              "type": "boolean",
+              "default": true
+            },
+            "type": {
+              "type": "boolean",
+              "default": false
+            },
+            "startDay": {
+              "type": "string"
+            },
+            "endDay": {
+              "type": "string"
+            }
+          }
+        },
+        "StudentExercise": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "title": {
+              "type": "string"
+            },
+            "courseId": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "userId": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "PROCESS",
+                "SUCCESS",
+                "FAILED",
+                "REJECT"
+              ]
+            },
+            "point": {
+              "type": "number"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        },
+        "ThongBao": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "5f3d16dcc910b67dd02ed0e5"
+            },
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "expired": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "host": "localhost:800",
+    "basePath": "/",
+    "schemes": [
+      "https"
+    ]
+  }
