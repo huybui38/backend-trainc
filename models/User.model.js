@@ -71,6 +71,21 @@ UserSchema.statics.validatorSchema = function (fields = []) {
                     .required();
             case "active":
                 return Joi.boolean().required();
+            case "newPassword":
+                return Joi.string()
+                    .min(5)
+                    .max(255)
+                    .trim()
+                    .regex(/^[a-zA-Z0-9]/)
+                    .required();
+            case "confirm":
+                return Joi.string()
+                    .min(5)
+                    .max(255)
+                    .trim()
+                    .regex(/^[a-zA-Z0-9]/)
+                    .required()
+                    .valid(Joi.ref("newPassword"));
         }
     };
 

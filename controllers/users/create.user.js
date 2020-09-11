@@ -1,18 +1,19 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
-const { BadRequest } = require("../../helpers/errors.helper");
+const { BadRequest, DefaultError } = require("../../helpers/errors.helper");
 const { User } = require("../../models/User.model");
 const { hashingString } = require("../../helpers/bcrypt.helper");
 
 const defaultPassword = "123456789";
-const defaultRound = 10;
 
 const createUser = AsyncCatch(async (req, res, next) => {
     const user = await User.findOne({ mssv: req.input.mssv });
     if (user) throw new BadRequest("MSSV is taken.");
 
-    req.input.password = await hashingString(defaultPassword, defaultRound);
+    req.input.password = await hashingString(defaultPassword);
 
-    User.create(req.input);
+    const result = await User.create(req.input);
+    if (!result) throw new DefaultError("Can't connect to database.");
+
     res.send("Create user successful.");
 });
 
