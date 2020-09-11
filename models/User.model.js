@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
-const { User } = require("../../backend-trainc/models/user.model");
-const { func } = require("@hapi/joi");
 const jwt = require("jsonwebtoken");
+const { hashingString, compareHashingString } = require("../helpers/bcrypt.helper");
+const { User } = require("../../backend-trainc/models/user.model");
 
-const UserEnumRole = {
+const UserRoleEnum = {
     ADMIN: "2",
     MENTOR: "1",
     STUDENT: "0",
@@ -67,6 +67,8 @@ UserSchema.statics.validatorSchema = function (fields = []) {
                     .required();
             case "name":
                 return Joi.string()
+                    .min(3)
+                    .max(255)
                     .regex(/^[a-zA-Z ]/)
                     .trim()
                     .lowercase()

@@ -11,7 +11,7 @@ module.exports = (fields) => {
 
         const { error, value } = Joi.object(fields).validate(info);
         if (error) {
-            throw new BadRequest("Invalid input.");
+            throw new BadRequest(error.message);
         }
         req.input = value;
         next();
