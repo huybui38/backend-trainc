@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 const { User } = require("../../backend-trainc/models/user.model");
 const { func } = require("@hapi/joi");
+const jwt = require("jsonwebtoken");
 
 const UserEnumRole = {
     ADMIN: "2",
@@ -48,7 +49,7 @@ const UserSchema = new mongoose.Schema({
 // UserSchema.virtual("fullName").get(function () {
 //     return this.firstName + " " + this.lastName;
 // });
-UserSchema.methods.getUserToken = function ({ _id, role, mssv }) {
+UserSchema.statics.getUserToken = function ({ _id, role, mssv }) {
     return jwt.sign({ _id, role, mssv }, process.env.JWT_SECRET_KEY);
 };
 
