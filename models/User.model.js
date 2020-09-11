@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
-const { User } = require("../../backend-trainc/models/user.model");
-const { func } = require("@hapi/joi");
-const jwt = require("jsonwebtoken");
 
-const UserEnumRole = {
+const UserRoleEnum = {
     ADMIN: "2",
     MENTOR: "1",
     STUDENT: "0",
@@ -45,14 +42,6 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
-// Virtual for user's full name
-// UserSchema.virtual("fullName").get(function () {
-//     return this.firstName + " " + this.lastName;
-// });
-UserSchema.statics.getUserToken = function ({ _id, role, mssv }) {
-    return jwt.sign({ _id, role, mssv }, process.env.JWT_SECRET_KEY);
-};
-
 UserSchema.statics.validatorSchema = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
@@ -67,6 +56,8 @@ UserSchema.statics.validatorSchema = function (fields = []) {
                     .required();
             case "name":
                 return Joi.string()
+                    .min(3)
+                    .max(255)
                     .regex(/^[a-zA-Z ]/)
                     .trim()
                     .lowercase()
