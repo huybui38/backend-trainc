@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { DefaultError, BadRequest, STATUS_CODE } = require("../helpers/errors.helper");
+const { BadRequest } = require("../helpers/errors.helper");
 const Joi = require("@hapi/joi");
 
 module.exports = (fields) => {
