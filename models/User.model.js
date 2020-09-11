@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 const jwt = require("jsonwebtoken");
 const { hashingString, compareHashingString } = require("../helpers/bcrypt.helper");
-const { User } = require("../../backend-trainc/models/user.model");
 
 const UserRoleEnum = {
     ADMIN: "2",
