@@ -5,9 +5,11 @@ const create_user = require("../controllers/users/create.user");
 const login_user = require("../controllers/users/login.user");
 const { User } = require("../models/User.model");
 const validator = require("../middleware/validator");
+const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
 
 router.post("/login", validator(User.validatorSchema(["mssv", "password"])), login_user);
-router.post("/", validator(User.validatorSchema(["mssv", "name", "role"])), create_user);
+router.post("/", auth, isAdmin, validator(User.validatorSchema(["mssv", "name", "role"])), create_user);
 
 // router.route("/:user_id").put(update_user);
 
