@@ -3,9 +3,10 @@ const { Unauthorized, DefaultError } = require("../../helpers/errors.helper");
 const { User } = require("../../models/User.model");
 const { compareHashingString, hashingString } = require("../../helpers/bcrypt.helper");
 const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
 const changePassword = AsyncCatch(async (req, res, next) => {
-    const input = validator(User.validatorSchema(["password", "newPassword", "confirm"]), req.body);
+    const input = validator(validatorSchema(["password", "newPassword", "confirm"]), req.body);
     const isCorrect = await compareHashingString(input.password, req.user.password);
     if (!isCorrect) throw new Unauthorized("Password is not correct.");
 

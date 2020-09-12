@@ -3,11 +3,12 @@ const { BadRequest, DefaultError } = require("../../helpers/errors.helper");
 const { User } = require("../../models/User.model");
 const { hashingString } = require("../../helpers/bcrypt.helper");
 const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
 const defaultPassword = "123456789";
 
 const createUser = AsyncCatch(async (req, res, next) => {
-    const input = validator(User.validatorSchema(["mssv", "name", "role"]), req.body);
+    const input = validator(validatorSchema(["mssv", "name", "role"]), req.body);
     const user = await User.findOne({ mssv: input.mssv });
     if (user) throw new BadRequest("MSSV is taken.");
 

@@ -4,9 +4,10 @@ const { User } = require("../../models/User.model");
 const { compareHashingString } = require("../../helpers/bcrypt.helper");
 const { getUserToken } = require("../../helpers/jwt.helper");
 const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
 const loginUser = AsyncCatch(async (req, res, next) => {
-    const input = validator(User.validatorSchema(["mssv", "password"]), req.body);
+    const input = validator(validatorSchema(["mssv", "password"]), req.body);
     const user = await User.findOne({ mssv: input.mssv });
 
     const isCorrect = await compareHashingString(input.password, user.password);
