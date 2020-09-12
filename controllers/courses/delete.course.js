@@ -4,19 +4,14 @@ const { Course } = require("../../models/Course.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
-const updateCourse = AsyncCatch(async (req, res, next) => {
+const deleteCourse = AsyncCatch(async (req, res, next) => {
     const course = await Course.findOne({ name: req.params.name });
     if (!course) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["name", "active"]), req.body);
-
-    const result = await Course.findOneAndUpdate(
-        { name: course.name },
-        { $set: { name: input.name, active: input.active } }
-    );
+    const result = await Course.findOneAndDelete({ name: course.name });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Update course successful.");
+    res.send("Delete course successful.");
 });
 
-module.exports = updateCourse;
+module.exports = deleteCourse;
