@@ -13,6 +13,8 @@ class DefaultError extends Error {
 
         if (this instanceof Forbidden) return STATUS_CODE.FORBIDDEN;
 
+        if (this instanceof NotFound) return STATUS_CODE.NOT_FOUND;
+
         return STATUS_CODE.INTERNAL_SERVER_ERROR;
     }
 }
@@ -20,6 +22,7 @@ class DefaultError extends Error {
 class BadRequest extends DefaultError {}
 class Unauthorized extends DefaultError {}
 class Forbidden extends DefaultError {}
+class NotFound extends DefaultError {}
 
 const STATUS_CODE = {
     SUCCESS: 200,
@@ -28,11 +31,13 @@ const STATUS_CODE = {
     METHOD_NOT_ALLOW: 405,
     INTERNAL_SERVER_ERROR: 500,
     FORBIDDEN: 403,
+    NOT_FOUND: 404,
 };
 module.exports = {
     DefaultError,
     BadRequest,
     Unauthorized,
     Forbidden,
+    NotFound,
     STATUS_CODE,
 };

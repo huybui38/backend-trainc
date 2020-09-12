@@ -1,15 +1,19 @@
-const {AsyncCatch }= require("../../helpers/utils.helper")
-const {DefaultError,BadRequest, STATUS_CODE} = require("../../helpers/errors.helper");
+const { AsyncCatch } = require("../../helpers/utils.helper");
+const { BadRequest, Unauthorized } = require("../../helpers/errors.helper");
+const { User } = require("../../models/User.model");
+const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
-const updateUser = AsyncCatch(async (req, res, next) =>{
-    console.log(req.params.user_id);
-    //todo find id and update, read more at https://mongoosejs.com/docs/queries.html
+const updateUser = AsyncCatch(async (req, res, next) => {
+    const input = validator(validatorSchema(["mssv", "role", "active"]), req.body);
 
-    // throw new DefaultError('Message'); //Message with default status code
-    // throw new DefaultError('Message' , STATUS_CODE.UNAUTHORIZED); //Message with specific status code
-    // throw new BadRequest('Message');  //specific error instance
+    const result = await User.findOneAndUpdate(
+        { mssv: input.mssv },
+        { $set: { role: input.role, active: input.active } }
+    );
 
-    res.send('hello world');
-})
+    if (!result) throw new Unauthorized("MSSV is not correct.");
+    res.send("Update successful.");
+});
 
 module.exports = updateUser;
