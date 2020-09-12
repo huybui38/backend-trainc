@@ -6,7 +6,7 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 
 const changePassword = AsyncCatch(async (req, res, next) => {
-    if (req.user.mssv !== req.params.mssv) throw new NotFound("Not found.");
+    if (req.user.code !== req.params.code) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["password", "newPassword", "confirm"]), req.body);
     const isCorrect = await compareHashingString(input.password, req.user.password);

@@ -9,7 +9,7 @@ const UserRoleEnum = {
 module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
-            case "mssv":
+            case "code":
                 return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
             case "password":
                 return Joi.string()
@@ -20,7 +20,7 @@ module.exports = function (fields = []) {
                     .required();
             case "name":
                 return Joi.string()
-                    .min(3)
+                    .min(1)
                     .max(255)
                     .regex(/^[a-zA-Z ]/)
                     .trim()
