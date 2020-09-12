@@ -10,11 +10,10 @@ const changeName_user = require("../controllers/users/changeName.user");
 const getProfile_user = require("../controllers/users/getProfile.user");
 
 router.post("/", auth, isAdmin, create_user);
+router.put("/", auth, isAdmin, update_user);
 router.post("/login", login_user);
 router.get("/:mssv", auth, getProfile_user);
 router.put("/:mssv/passwords", auth, changePassword_user);
 router.put("/:mssv/names", auth, changeName_user);
-
-// router.route("/:user_id").put(update_user);
 
 module.exports = router;
