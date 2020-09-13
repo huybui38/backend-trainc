@@ -8,7 +8,7 @@ const CourseSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    listClass: {
+    listGroup: {
         type: Array,
         default: [],
     },

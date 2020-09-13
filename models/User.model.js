@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
-    listClass: {
+    listGroup: {
         type: Array,
         default: [],
     },

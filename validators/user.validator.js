@@ -15,7 +15,6 @@ module.exports = function (fields = []) {
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "name":
@@ -39,14 +38,12 @@ module.exports = function (fields = []) {
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "confirm":
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required()
                     .valid(Joi.ref("newPassword"));
