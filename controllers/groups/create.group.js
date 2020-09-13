@@ -19,7 +19,9 @@ const createGroup = AsyncCatch(async (req, res, next) => {
         const user = await User.findOne({ code: mentor });
         if (!user) throw new Unauthorized("Mentors is not correct.");
     }
+
     //chua push mentor vao duoc
+
     input.password = await hashingString(input.password);
     const result = await Group.create(input);
     if (!result) throw new DefaultError("Can't connect to database.");
