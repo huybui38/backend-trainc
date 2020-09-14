@@ -21,15 +21,15 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
     },
-    listCourse: {
+    courses: {
         type: Array,
         default: [],
     },
-    listGroup: {
+    groups: {
         type: Array,
         default: [],
     },
-    listExercise: {
+    exercises: {
         type: Array,
         default: [],
     },

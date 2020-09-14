@@ -8,11 +8,11 @@ const CourseSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    listGroup: {
+    groups: {
         type: Array,
         default: [],
     },
-    listExercise: {
+    exercises: {
         type: Array,
         default: [],
     },

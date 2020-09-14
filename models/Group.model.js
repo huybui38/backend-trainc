@@ -10,15 +10,15 @@ const GroupSchema = new mongoose.Schema({
     course: {
         type: String,
     },
-    listStudent: {
+    students: {
         type: Array,
         default: [],
     },
-    listMentor: {
+    mentors: {
         type: Array,
         default: [],
     },
-    listExercise: {
+    exercises: {
         type: Array,
         default: [],
     },
