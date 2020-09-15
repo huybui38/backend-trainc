@@ -11,6 +11,6 @@ const isAdmin = require("../middleware/isAdmin");
 router.post("/login", validator(User.validatorSchema(["mssv", "password"])), login_user);
 router.post("/", auth, isAdmin, validator(User.validatorSchema(["mssv", "name", "role"])), create_user);
 
-// router.route("/:user_id").put(update_user);
+router.route("/:user_id").put(update_user);
 
 module.exports = router;

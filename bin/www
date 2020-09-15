@@ -7,6 +7,9 @@
 var app = require("../app");
 var debug = require("debug")("be:server");
 var http = require("http");
+
+var db = require('../helpers/database.helper');
+db.connectDatabase();
 require("dotenv").config();
 /**
  * Get port from environment and store in Express.
