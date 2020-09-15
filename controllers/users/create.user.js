@@ -8,9 +8,9 @@ const validatorSchema = require("../../validators/user.validator");
 const defaultPassword = "123456789";
 
 const createUser = AsyncCatch(async (req, res, next) => {
-    const input = validator(validatorSchema(["mssv", "name", "role"]), req.body);
-    const user = await User.findOne({ mssv: input.mssv });
-    if (user) throw new BadRequest("MSSV is taken.");
+    const input = validator(validatorSchema(["code", "name", "role"]), req.body);
+    const user = await User.findOne({ code: input.code });
+    if (user) throw new BadRequest("Student code is taken.");
 
     input.password = await hashingString(defaultPassword);
 

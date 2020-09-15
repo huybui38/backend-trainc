@@ -9,18 +9,17 @@ const UserRoleEnum = {
 module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
-            case "mssv":
+            case "code":
                 return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
             case "password":
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "name":
                 return Joi.string()
-                    .min(3)
+                    .min(1)
                     .max(255)
                     .regex(/^[a-zA-Z ]/)
                     .trim()
@@ -39,14 +38,12 @@ module.exports = function (fields = []) {
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "confirm":
                 return Joi.string()
                     .min(5)
                     .max(255)
-                    .trim()
                     .regex(/^[a-zA-Z0-9]/)
                     .required()
                     .valid(Joi.ref("newPassword"));

@@ -14,8 +14,8 @@ router.post("/", auth, isAdmin, create_user);
 router.put("/", auth, isAdmin, update_user);
 router.get("/", auth, isAdmin, getAll_user);
 router.post("/login", login_user);
-router.get("/:mssv", auth, getProfile_user);
-router.put("/:mssv/passwords", auth, changePassword_user);
-router.put("/:mssv/names", auth, changeName_user);
+router.get("/:code", auth, getProfile_user);
+router.put("/:code/passwords", auth, changePassword_user);
+router.put("/:code/names", auth, changeName_user);
 
 module.exports = router;

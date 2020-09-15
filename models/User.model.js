@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-    mssv: {
+    code: {
         type: String,
     },
     password: {
@@ -21,15 +21,15 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
     },
-    listCourse: {
+    courses: {
         type: Array,
         default: [],
     },
-    listClass: {
+    groups: {
         type: Array,
         default: [],
     },
-    listExercise: {
+    exercises: {
         type: Array,
         default: [],
     },
