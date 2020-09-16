@@ -961,7 +961,7 @@
         "/api/groups/:_id": {
             "put": {
                 "tags": ["Group"],
-                "summary": "update (admin, mentors) DONE",
+                "summary": "update (admin, mentors)",
                 "parameters": [
                     {
                         "name": "name",

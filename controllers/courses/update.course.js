@@ -16,7 +16,7 @@ const updateCourse = AsyncCatch(async (req, res, next) => {
     );
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Update course successful.");
+    res.send("Course was updated successfully.");
 });
 
 module.exports = updateCourse;

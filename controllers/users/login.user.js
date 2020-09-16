@@ -14,7 +14,7 @@ const loginUser = AsyncCatch(async (req, res, next) => {
     if (!isCorrect) throw new Unauthorized("Student code or password is not correct.");
 
     const token = getUserToken(user);
-    res.cookie("token", token).send("Login successful.");
+    res.cookie("token", token).send("Login success.");
 });
 
 module.exports = loginUser;
