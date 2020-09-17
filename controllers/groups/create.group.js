@@ -14,7 +14,7 @@ const createGroup = AsyncCatch(async (req, res, next) => {
     const course = await Course.findOne({ name: input.course });
     if (!course) throw new Unauthorized("Course is not correct.");
 
-    for (let group of course.groups) if (group === input.name) throw new BadRequest("Name is taken.");
+    if (course.groups.includes(input.name)) throw new BadRequest("Name is taken.");
 
     input.password = await hashingString(input.password);
 
