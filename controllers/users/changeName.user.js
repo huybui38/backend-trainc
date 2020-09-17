@@ -15,7 +15,7 @@ const changeName = AsyncCatch(async (req, res, next) => {
     const result = await User.findOneAndUpdate({ _id: req.user._id }, { $set: { name: input.name } });
 
     if (!result) throw new DefaultError("Can't connect to database.");
-    res.send("Change name successful.");
+    res.send("Name was changed successfully.");
 });
 
 module.exports = changeName;

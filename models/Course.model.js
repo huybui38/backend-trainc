@@ -8,6 +8,10 @@ const CourseSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    createdTime: {
+        type: Date,
+        default: Date.now(),
+    },
     groups: {
         type: Array,
         default: [],

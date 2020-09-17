@@ -17,14 +17,14 @@ const createGroup = AsyncCatch(async (req, res, next) => {
 
     for (let mentor of input.mentors) {
         const user = await User.findOne({ code: mentor });
-        if (!user) throw new Unauthorized("Mentors is not correct.");
+        if (!user) throw new Unauthorized("Mentors are not correct.");
     }
 
     input.password = await hashingString(input.password);
     const result = await Group.create(input);
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Create group successful.");
+    res.send("Group was created successfully.");
 });
 
 module.exports = createGroup;

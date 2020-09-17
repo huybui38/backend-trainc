@@ -16,7 +16,7 @@ const changePassword = AsyncCatch(async (req, res, next) => {
     const result = await User.findOneAndUpdate({ _id: req.user._id }, { $set: { password: newHashingPassword } });
 
     if (!result) throw new DefaultError("Can't connect to database.");
-    res.send("Change password successful.");
+    res.send("Password was changed successfully.");
 });
 
 module.exports = changePassword;
