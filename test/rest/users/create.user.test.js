@@ -12,11 +12,11 @@ describe('Create user: /', () => {
           })
           cookie = res.headers['set-cookie'][0];
           expect(res.status).toEqual(200);
-          expect(res.text).toMatch(/Login successful./);
+          expect(res.text).toMatch("Login success.");
       })
     it('should create a new user successful', async () => {
       const res = await request
-        .post('/api/users')
+        .post('/api/users/')
         .set('cookie', cookie)
         .send({
           code: "se123123",
@@ -24,7 +24,7 @@ describe('Create user: /', () => {
           role: "0"
         })
       expect(res.status).toEqual(200);
-      expect(res.text).toMatch(/Create user successful./)
+      expect(res.text).toMatch("User was created successfully.")
     })
     it('should create a new user failed code input', async () => {
       const res = await request

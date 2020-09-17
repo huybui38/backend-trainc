@@ -10,7 +10,7 @@ const {request,init,cleanup, initDatabase, createAdmin} = require('../../helpers
             password: "123456789"
           })
           expect(res.status).toEqual(200);
-          expect(res.text).toMatch(/Login successful./);
+          expect(res.text).toMatch("Login success.");
       })
       it("should login user failed (Invalid code input)", async () => {
         const res = await request
