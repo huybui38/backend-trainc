@@ -17,7 +17,7 @@ const createUser = AsyncCatch(async (req, res, next) => {
     const result = await User.create(input);
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Create user successful.");
+    res.send("User was created successfully.");
 });
 
 module.exports = createUser;

@@ -4,7 +4,7 @@ const { User } = require("../../models/User.model");
 const _ = require("lodash");
 
 const createUser = AsyncCatch((req, res, next) => {
-    const user = _.pick(req.user, ["code", "point", "name", "listExercise", "listCourse", "listClass", "role"]);
+    const user = _.pick(req.user, ["code", "name", "role"]);
 
     if (user.code !== req.params.code) throw new NotFound("Not found.");
 

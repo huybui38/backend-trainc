@@ -14,7 +14,7 @@ const deleteGroup = AsyncCatch(async (req, res, next) => {
     const result = await Group.findOneAndDelete({ name: input.name });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Delete group successful.");
+    res.send("Group was deleted successfully.");
 });
 
 module.exports = deleteGroup;

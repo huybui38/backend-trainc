@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/User.model");
 const { Unauthorized } = require("../helpers/errors.helper");
+const { AsyncCatch } = require("../helpers/utils.helper");
 
-module.exports = async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const token = req.cookies.token;
     if (!token) throw new Unauthorized("Access denied. No token provided.");
 
@@ -13,4 +14,4 @@ module.exports = async (req, res, next) => {
     } catch (error) {
         throw new Unauthorized(error);
     }
-};
+});

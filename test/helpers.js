@@ -1,10 +1,11 @@
 const app = require("../app");
 // const mongoose = require("mongoose");
 const request = require("supertest")(app);
+const {hashingString} = require("../helpers/bcrypt.helper");
 
 const cleanup = async function () {
-  await this.db.close();
   await this.db.dropDatabase();
+  await this.db.close();
 };
 
 const initDatabase = async function () {
@@ -13,17 +14,23 @@ const initDatabase = async function () {
   this.db = db;
 };
 
-const init = function () {
-    beforeAll(async function connectToTestDB() {
+const init = async function () {
+  beforeAll(async function connectToTestDB() {
     await initDatabase();
+    await createAdmin();
   });
-  
   afterAll(async function disconnectTestDB() {
     await cleanup();
   });
 };
 
+const createAdmin = async function () {
+  const password = await hashingString("123456789");
+  await this.db.collection("users").insertOne({code: "admin123", password: password, name: "Admin", role: "2"});
+}
+
 module.exports = {
+  createAdmin,
   request,
   initDatabase,
   cleanup,

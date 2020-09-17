@@ -13,7 +13,7 @@ const updateUser = AsyncCatch(async (req, res, next) => {
     );
 
     if (!result) throw new Unauthorized("Student code is not correct.");
-    res.send("Update successful.");
+    res.send("User was updated successfully.");
 });
 
 module.exports = updateUser;

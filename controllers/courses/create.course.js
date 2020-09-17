@@ -12,7 +12,7 @@ const createCourse = AsyncCatch(async (req, res, next) => {
     const result = await Course.create(input);
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Create course successful.");
+    res.send("Course was created successfully.");
 });
 
 module.exports = createCourse;

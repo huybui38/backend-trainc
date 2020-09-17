@@ -14,7 +14,7 @@ const deleteCourse = AsyncCatch(async (req, res, next) => {
     const result = await Course.findOneAndDelete({ name: input.name });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Delete course successful.");
+    res.send("Course was deleted successfully.");
 });
 
 module.exports = deleteCourse;
