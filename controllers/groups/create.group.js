@@ -7,7 +7,7 @@ const { hashingString } = require("../../helpers/bcrypt.helper");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
 
-const createGroup = AsyncCatch(async (req, res) => {
+const createGroup = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["name", "password", "course"]), req.body);
     input.mentors = req.user.code;
 
