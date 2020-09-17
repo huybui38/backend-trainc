@@ -7,7 +7,7 @@ const validatorSchema = require("../../validators/user.validator");
 
 const defaultPassword = "123456789";
 
-const createUser = AsyncCatch(async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["code", "name", "role"]), req.body);
     const user = await User.findOne({ code: input.code });
     if (user) throw new BadRequest("Student code is taken.");
@@ -19,5 +19,3 @@ const createUser = AsyncCatch(async (req, res, next) => {
 
     res.send("User was created successfully.");
 });
-
-module.exports = createUser;

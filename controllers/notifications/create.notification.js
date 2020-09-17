@@ -5,7 +5,7 @@ const { Notification } = require("../../models/Notification.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/notification.validator");
 
-const createNotification = AsyncCatch(async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["content", "course"]), req.body);
 
     const course = await Course.findOne({ name: input.course });
@@ -16,5 +16,3 @@ const createNotification = AsyncCatch(async (req, res, next) => {
 
     res.send("Notification was created successfully.");
 });
-
-module.exports = createNotification;
