@@ -9,19 +9,20 @@ const validatorSchema = require("../../validators/group.validator");
 
 const createGroup = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["name", "password", "course"]), req.body);
-    input.mentors = req.user.code;
-
-    const group = await Group.findOne({ name: input.name });
-    if (group) throw new BadRequest("Name is taken.");
+    input.members = req.user.code;
 
     const course = await Course.findOne({ name: input.course });
     if (!course) throw new Unauthorized("Course is not correct.");
 
-    const user = await User.findOne({ code: input.mentors });
-    if (!user) throw new Unauthorized("Mentors are not correct.");
+    for (let group of course.groups) if (group === input.name) throw new BadRequest("Name is taken.");
 
     input.password = await hashingString(input.password);
-    const result = await Group.create(input);
+
+    const group = await Group.create(input);
+    if (!group) throw new DefaultError("Can't connect to database.");
+
+    course.groups.push(group.name);
+    const result = await Course.findOneAndUpdate({ _id: course._id }, { $set: { groups: course.groups } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Group was created successfully.");
