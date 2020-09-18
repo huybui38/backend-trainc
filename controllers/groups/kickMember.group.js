@@ -4,6 +4,7 @@ const { Group } = require("../../models/Group.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 const { User } = require("../../models/User.model");
+const { Mongoose } = require("mongoose");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const group = await Group.findById(req.params.id);
@@ -14,6 +15,8 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (!group.members.includes(input.code)) throw new Unauthorized("Member is not correct.");
 
     group.members = group.members.filter((member) => member !== input.code);
+
+    //User.updateOne({},{$pull})
 
     const result = await Group.findOneAndUpdate({ _id: group._id }, { $set: { members: group.members } });
     if (!result) throw new DefaultError("Can't connect to database.");
