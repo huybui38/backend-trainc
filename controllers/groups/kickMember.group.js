@@ -16,7 +16,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     group.members = group.members.filter((member) => member !== input.code);
 
-    //User.updateOne({},{$pull})
+    //User.updateOne({},{$pull}) dung cai nay hay hon cai filter o tren
 
     const result = await Group.findOneAndUpdate({ _id: group._id }, { $set: { members: group.members } });
     if (!result) throw new DefaultError("Can't connect to database.");
