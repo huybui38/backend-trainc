@@ -11,7 +11,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         { code: input.code },
         { $set: { role: input.role, active: input.active } }
     );
-
+    //thieu tra ve 500
     if (!result) throw new Unauthorized("Student code is not correct.");
     res.send("User was updated successfully.");
 });
