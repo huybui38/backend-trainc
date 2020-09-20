@@ -7,24 +7,26 @@ const { hashingString } = require("../../helpers/bcrypt.helper");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
 
-const createGroup = AsyncCatch(async (req, res, next) => {
-    const input = validator(validatorSchema(["name", "password", "course", "mentors"]), req.body);
-    const group = await Group.findOne({ name: input.name });
-    if (group) throw new BadRequest("Name is taken.");
+module.exports = AsyncCatch(async (req, res, next) => {
+    const input = validator(validatorSchema(["name", "password", "course"]), req.body);
+    input.members = req.user.code;
 
     const course = await Course.findOne({ name: input.course });
     if (!course) throw new Unauthorized("Course is not correct.");
 
-    for (let mentor of input.mentors) {
-        const user = await User.findOne({ code: mentor });
-        if (!user) throw new Unauthorized("Mentors are not correct.");
-    }
+    const groups = await Promise.all(course.groups.map((id) => Group.findById(id, "name")));
+    const names = groups.map((group) => group.name);
+
+    if (names.includes(input.name)) throw new BadRequest("Name is taken.");
 
     input.password = await hashingString(input.password);
-    const result = await Group.create(input);
+
+    const group = await Group.create(input);
+    if (!group) throw new DefaultError("Can't connect to database.");
+
+    course.groups.push(group._id);
+    const result = await Course.findOneAndUpdate({ _id: course._id }, { $set: { groups: course.groups } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Group was created successfully.");
 });
-
-module.exports = createGroup;

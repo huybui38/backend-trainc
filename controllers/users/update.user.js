@@ -4,16 +4,14 @@ const { User } = require("../../models/User.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 
-const updateUser = AsyncCatch(async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["code", "role", "active"]), req.body);
 
     const result = await User.findOneAndUpdate(
         { code: input.code },
         { $set: { role: input.role, active: input.active } }
     );
-
+    //thieu tra ve 500
     if (!result) throw new Unauthorized("Student code is not correct.");
     res.send("User was updated successfully.");
 });
-
-module.exports = updateUser;

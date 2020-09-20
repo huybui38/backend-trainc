@@ -2,6 +2,7 @@ const { DefaultError, STATUS_CODE } = require("./errors.helper");
 const AsyncCatch = (fn) => {
     return (req, res, next) => fn(req, res, next).catch(next);
 };
+
 require("dotenv").config();
 const handleError = (err, req, res, next) => {
     if (err instanceof DefaultError) {

@@ -18,7 +18,7 @@
         "/api/users/login": {
             "post": {
                 "tags": ["User"],
-                "summary": "login (All) DONE",
+                "summary": "login (All) DONE (matched)",
                 "parameters": [
                     {
                         "name": "code",
@@ -87,7 +87,7 @@
         "/api/usersss": {
             "post": {
                 "tags": ["User"],
-                "summary": "create (admin) DONE",
+                "summary": "create (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "code",
@@ -329,7 +329,7 @@
         "/api/users": {
             "get": {
                 "tags": ["User"],
-                "summary": "get all users (admin) DONE",
+                "summary": "get all users (admin) DONE (matched)",
                 "responses": {
                     "200": {
                         "description": "get all user success",
@@ -741,7 +741,7 @@
         "/api/coursess": {
             "get": {
                 "tags": ["Course"],
-                "summary": "List all course (all)",
+                "summary": "List all course (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get all course success",
@@ -1018,10 +1018,10 @@
                 }
             }
         },
-        "/api/:course/groups": {
+        "/api/courses/:course/groups": {
             "get": {
-                "tags": ["Group"],
-                "summary": "get all groups (all)",
+                "tags": ["Course"],
+                "summary": "get all groups (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get success",
@@ -1059,7 +1059,7 @@
         "/api/groups/_id": {
             "get": {
                 "tags": ["Group"],
-                "summary": "get group (all)",
+                "summary": "get group (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get success",
@@ -1097,7 +1097,7 @@
         "/api/groups/_idd": {
             "post": {
                 "tags": ["Group"],
-                "summary": "enroll group (all)",
+                "summary": "enroll group (all) DONE",
                 "parameters": [
                     {
                         "name": "password",
