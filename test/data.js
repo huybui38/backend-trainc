@@ -1,7 +1,7 @@
 const { User } = require("../models/User.model");
 
 function getProfile() {
-    return { code: 'se000000', name: 'Test', role: '0' }
+    return { code: 'se000000', name: 'Student', role: '0' }
 }
 
 function  getAllUsers() {
@@ -22,8 +22,18 @@ function  getAllUsers() {
                 courses: [],
                 groups: [],
                 exercises: [],
+                code: 'mentor00',
+                name: 'Mentor',
+                role: '1'
+              },
+              {
+                active: true,
+                point: 0,
+                courses: [],
+                groups: [],
+                exercises: [],
                 code: 'se000000',
-                name: 'Test',
+                name: 'Student',
                 role: '0'
               }
             ];
