@@ -1941,10 +1941,10 @@
                 }
             }
         },
-        "/api/:course/notifications": {
+        "/api/courses/:course/notifications": {
             "get": {
-                "tags": ["Notification"],
-                "summary": "get all (all)",
+                "tags": ["Course"],
+                "summary": "get all (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get success",

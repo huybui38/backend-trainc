@@ -23,6 +23,10 @@ const CourseSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    notifications: {
+        type: Array,
+        default: [],
+    },
 });
 
 module.exports.Course = mongoose.model("Course", CourseSchema);
