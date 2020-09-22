@@ -4,7 +4,7 @@ const { Course } = require("../../models/Course.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
-const createCourse = AsyncCatch(async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["name"]), req.body);
     const course = await Course.findOne({ name: input.name });
     if (course) throw new BadRequest("Name is taken.");
@@ -14,5 +14,3 @@ const createCourse = AsyncCatch(async (req, res, next) => {
 
     res.send("Course was created successfully.");
 });
-
-module.exports = createCourse;

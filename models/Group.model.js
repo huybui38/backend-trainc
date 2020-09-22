@@ -10,11 +10,7 @@ const GroupSchema = new mongoose.Schema({
     course: {
         type: String,
     },
-    students: {
-        type: Array,
-        default: [],
-    },
-    mentors: {
+    members: {
         type: Array,
         default: [],
     },

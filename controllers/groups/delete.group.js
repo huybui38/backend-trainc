@@ -4,8 +4,8 @@ const { Group } = require("../../models/Group.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
 
-const deleteGroup = AsyncCatch(async (req, res, next) => {
-    const group = await Group.findOne({ name: req.params.name });
+module.exports = AsyncCatch(async (req, res, next) => {
+    const group = await Group.findById(req.params.id);
     if (!group) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["name"]), req.body);
@@ -16,5 +16,3 @@ const deleteGroup = AsyncCatch(async (req, res, next) => {
 
     res.send("Group was deleted successfully.");
 });
-
-module.exports = deleteGroup;

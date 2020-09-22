@@ -4,7 +4,7 @@ const { Course } = require("../../models/Course.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
-const deleteCourse = AsyncCatch(async (req, res, next) => {
+module.exports = AsyncCatch(async (req, res, next) => {
     const course = await Course.findOne({ name: req.params.name });
     if (!course) throw new NotFound("Not found.");
 
@@ -16,5 +16,3 @@ const deleteCourse = AsyncCatch(async (req, res, next) => {
 
     res.send("Course was deleted successfully.");
 });
-
-module.exports = deleteCourse;

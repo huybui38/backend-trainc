@@ -12,6 +12,9 @@ const CourseSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     },
+    thumbnail: {
+        type: String,
+    },
     groups: {
         type: Array,
         default: [],
