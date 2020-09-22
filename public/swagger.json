@@ -1794,7 +1794,7 @@
         "/api/notifications/:id": {
             "put": {
                 "tags": ["Notification"],
-                "summary": "update (admin)",
+                "summary": "update (admin) DONE",
                 "parameters": [
                     {
                         "name": "content",
@@ -1874,7 +1874,7 @@
         "/api/notifications/:idd": {
             "delete": {
                 "tags": ["Notification"],
-                "summary": "delete (admin)",
+                "summary": "delete (admin) DONE",
                 "parameters": [
                     {
                         "name": "_id",
