@@ -1,19 +1,24 @@
-const { request, init, getCookie } = require('../../helpers');
+const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
 const { getAllUsers } = require('../../data');
 let cookieAdmin, cookieStudent, cookie;
 
 describe('Get all users /', () => {
+    let db;
+    beforeAll(async()=>{
+        db = await setupDatabase('getAll_user');
+        await createUsers(db);
+        cookieStudent = await getCookie('se000000');
+        cookieAdmin = await getCookie('admin123');
+    });
+    afterAll(async ()=>{
+        await cleanup(db);
+    });
+
     const exec = async () => {
         return await request
         .get('/api/users/')
         .set('cookie', cookie)
     }
-
-    init();
-    beforeEach( async () => {
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
-    })
 
     it('should return 200 GET ALL successful', async () => {
         cookie = cookieAdmin;

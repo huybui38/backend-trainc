@@ -1,9 +1,20 @@
-const { iteratee } = require('lodash');
-const {request,init, getCookie} = require('../../helpers');
+const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse} = require('../../helpers');
 let cookieAdmin, cookieStudent, cookie;
 let name, active, nameCourse;
 
 describe('Update courses /:name', () => {
+    let db;
+    beforeAll(async()=>{
+        db = await setupDatabase('create_course');
+        await createUsers(db);
+        await createCourse(db);
+        cookieStudent = await getCookie('se000000');
+        cookieAdmin = await getCookie('admin123');
+    });
+    afterAll(async ()=>{
+        await cleanup(db);
+    });
+
     const exec = async  () => {
         return await request
             .put(`/api/courses/${nameCourse}`)
@@ -13,12 +24,6 @@ describe('Update courses /:name', () => {
                 active: active
             })
     }
-
-    init();
-    beforeEach( async () => {
-        cookieAdmin = await getCookie('admin123');
-        cookieStudent =await getCookie('se000000')
-    })
 
     it("should return 200 UPDATE COURSES successful", async () => {
         cookie = cookieAdmin;

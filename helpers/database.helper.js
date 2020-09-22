@@ -1,11 +1,12 @@
 
 const config = require('../config/');
 const mongoose = require('mongoose');
-const connectDatabase = async () => {
+const connectDatabase = async (postfix='') => {
     try{
-        const db = await mongoose.connect(`${config.db_url}/${config.db_name}`, {useNewUrlParser:true, useUnifiedTopology: true,authSource:'admin'})
+
+        const db = await mongoose.connect(`${config.db_url}/${config.db_name}${postfix}`, {useNewUrlParser:true, useUnifiedTopology: true,authSource:'admin'})
         if (process.env.NODE_ENV !== 'production'){
-            console.log('Connected to database');
+            console.log('Connected to database '+config.db_url);
         }
         return db.connection;
     }catch(err){

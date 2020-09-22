@@ -1,7 +1,16 @@
-const { request, init, getCookie } = require('../../helpers');
+const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
 let code, password;
 
-  describe('Login user: /users', () => {
+describe('Login user: /users', () => {
+	let db;
+	beforeAll(async()=>{
+		db = await setupDatabase('login_user');
+		await createUsers(db);
+	});
+	afterAll(async ()=>{
+		await cleanup(db);
+	});
+	
 	const exec = async () => {
         return await request
         .post('/api/users/login')
@@ -10,7 +19,6 @@ let code, password;
 			password: password
 	})}
 	
-	init();
 	it("should return 200 LOGIN user successful", async () => {
 		code = "admin123";
 		password = "123456789"
@@ -72,5 +80,4 @@ let code, password;
 		expect(res.status).toEqual(401);
 		expect(res.body.message).toMatch('Student code or password is not correct.');
 	})
-	
   })

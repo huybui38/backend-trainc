@@ -1,8 +1,19 @@
-const { request, init, getCookie } = require('../../helpers');
+const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
 let cookieAdmin, cookieStudent, cookie;
 let code, name, role;
 
 describe('Create user: /', () => {
+	let db;
+	beforeAll(async()=>{
+        db = await setupDatabase('create_user');
+		await createUsers(db);
+		cookieStudent = await getCookie('se000000');
+        cookieAdmin = await getCookie('admin123');
+    });
+    afterAll(async ()=>{
+        await cleanup(db);
+	});
+	
 	const exec = async () => {
         return await request
         .post('/api/users/')
@@ -12,12 +23,6 @@ describe('Create user: /', () => {
 			name: name,
 			role: role
 	})}
-	
-	init();
-	beforeEach( async () => {
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
-	})
 	
     it('should return 200 CREATE successful', async () => {
 		cookie = cookieAdmin;

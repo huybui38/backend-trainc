@@ -5,46 +5,38 @@ const {hashingString} = require("../helpers/bcrypt.helper");
 const { User } = require('../models/User.model')
 const { getUserToken } = require('../helpers/jwt.helper')
 
-const cleanup = async function () {
-  await this.db.dropDatabase();
-  await this.db.close();
+const cleanup = async function (db) {
+  await db.dropDatabase();
+  await db.close();
 };
 
-const initDatabase = async function () {
-  const { connectDatabase } = require("../helpers/database.helper");
-  const db = await connectDatabase();
-  this.db = db;
-};
+const setupDatabase = async (postfix) =>{
+    const { connectDatabase } = require("../helpers/database.helper");
+    return await connectDatabase(postfix);
+}
 
-const init = async function () {
-  beforeAll(async function connectToTestDB() {
-    await initDatabase();
-    await createDbUsers();
-  });
-  afterAll(async function disconnectTestDB() {
-     await cleanup();
-  });
-};
-
-const createDbUsers = async function () {
+const createUsers = async function (db) {
   const password = await hashingString("123456789");
-  await this.db.collection("users").insertOne({code: "admin123", password: password, name: "Admin", role: "2"});
-  await this.db.collection("users").insertOne({code: "mentor00", password: password, name: "Mentor", role: "1"});
-  await this.db.collection("users").insertOne({code: "se000000", password: password, name: "Student", role: "0"});
-  await this.db.collection("courses").insertOne({name: "learning c"});
+  await User.create({code: "admin123", password: password, name: "Admin", role: "2"});
+  await User.create({code: "mentor00", password: password, name: "Mentor", role: "1"});
+  await User.create({code: "se000000", password: password, name: "Student", role: "0"});
+}
+
+const createCourse = async function (db) {
+  const { Course } = require('../models/Course.model');
+  await Course.create({name: "learning c"})
 }
 
 const getCookie = async (code) => {
-    const user = await User.findOne({ code: code });
-    const token = getUserToken(user);
-    const cookie = `token=${token}; Path=/`
-    return cookie;
+  const user = await User.findOne({ code: code });
+  const token = getUserToken(user);
+  const cookie = `token=${token}; Path=/`
+  return cookie;
 }
 
 module.exports = {
-  getCookie,
-  request,
-  initDatabase,
-  cleanup,
-  init
+  createUsers,
+  createCourse ,
+  request,cleanup,setupDatabase,
+  getCookie
 };

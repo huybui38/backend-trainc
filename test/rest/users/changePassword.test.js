@@ -1,8 +1,18 @@
-const { request, init, getCookie } = require('../../helpers');
+const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
 let cookieAdmin, cookieStudent, cookie;
 let password, newPassword, confirm;
 
 describe('Change password user /:code/password', () => {
+    let db;
+    beforeAll(async()=>{
+        db = await setupDatabase('change_password_user');
+        await createUsers(db);
+        cookieStudent = await getCookie('se000000');
+        cookieAdmin = await getCookie('admin123');
+    });
+    afterAll(async ()=>{
+        await cleanup(db);
+    });
     const exec = async () => {
         return await request
         .put('/api/users/se000000/passwords')
@@ -12,12 +22,6 @@ describe('Change password user /:code/password', () => {
             newPassword: newPassword,
             confirm: confirm
     })}
-    
-    init();
-    beforeEach( async () => {
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
-    })
 
     it("should return 200 CHANGE successful", async () => {
         cookie = cookieStudent;
