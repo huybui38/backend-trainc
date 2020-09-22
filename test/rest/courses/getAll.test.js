@@ -1,10 +1,10 @@
 const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse} = require('../../helpers');
 let cookieAdmin, cookieStudent, cookie;
 
-describe('Create courses /', () => {
+describe('Get all courses /', () => {
     let db;
     beforeAll(async()=>{
-        db = await setupDatabase('create_course');
+        db = await setupDatabase('getAll_course');
         await createUsers(db);
         await createCourse(db);
         cookieStudent = await getCookie('se000000');
