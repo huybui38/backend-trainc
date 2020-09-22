@@ -2,6 +2,8 @@ const app = require("../app");
 // const mongoose = require("mongoose");
 const request = require("supertest")(app);
 const {hashingString} = require("../helpers/bcrypt.helper");
+const { User } = require('../models/User.model')
+const { getUserToken } = require('../helpers/jwt.helper')
 
 const cleanup = async function () {
   await this.db.dropDatabase();
@@ -20,7 +22,7 @@ const init = async function () {
     await createDbUsers();
   });
   afterAll(async function disconnectTestDB() {
-    await cleanup();
+     await cleanup();
   });
 };
 
@@ -29,9 +31,18 @@ const createDbUsers = async function () {
   await this.db.collection("users").insertOne({code: "admin123", password: password, name: "Admin", role: "2"});
   await this.db.collection("users").insertOne({code: "mentor00", password: password, name: "Mentor", role: "1"});
   await this.db.collection("users").insertOne({code: "se000000", password: password, name: "Student", role: "0"});
+  await this.db.collection("courses").insertOne({name: "learning c"});
+}
+
+const getCookie = async (code) => {
+    const user = await User.findOne({ code: code });
+    const token = getUserToken(user);
+    const cookie = `token=${token}; Path=/`
+    return cookie;
 }
 
 module.exports = {
+  getCookie,
   request,
   initDatabase,
   cleanup,
