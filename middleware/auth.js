@@ -10,6 +10,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
     try {
         const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
         req.user = await User.findById(decode._id);
+        console.log(token, decode, req.user)
+
+
         next();
     } catch (error) {
         throw new Unauthorized(error);

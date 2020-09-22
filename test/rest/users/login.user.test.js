@@ -1,7 +1,15 @@
-const {request,init,cleanup, initDatabase, createAdmin} = require('../../helpers');
-
+const {request,createAdmin,cleanup,setupDatabase} = require('../../helpers');
   describe('Login user: /users', () => {
-      init();
+    let db;
+    beforeAll(async()=>{
+        const { connectDatabase } = require("../../../helpers/database.helper");
+        db =  await connectDatabase(`login_user`);
+        await createAdmin(db);
+    });
+    afterAll(async ()=>{
+        await db.dropDatabase();
+        await db.close();
+    });
       it("should login user successful", async () => {
         const res = await  request
           .post('/api/users/login')
@@ -9,6 +17,7 @@ const {request,init,cleanup, initDatabase, createAdmin} = require('../../helpers
             code: "admin123",
             password: "123456789"
           })
+          console.log(res.body)
           expect(res.status).toEqual(200);
           expect(res.text).toMatch("Login success.");
       })

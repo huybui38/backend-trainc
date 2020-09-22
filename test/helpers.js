@@ -3,36 +3,26 @@ const app = require("../app");
 const request = require("supertest")(app);
 const {hashingString} = require("../helpers/bcrypt.helper");
 
-const cleanup = async function () {
-  await this.db.dropDatabase();
-  await this.db.close();
+const cleanup = async function (db) {
+//   console.log("cleanup");
+  await db.dropDatabase();
+  await db.close();
 };
 
-const initDatabase = async function () {
-  const { connectDatabase } = require("../helpers/database.helper");
-  const db = await connectDatabase();
-  this.db = db;
-};
+const setupDatabase = async (postfix) =>{
+    const { connectDatabase } = require("../helpers/database.helper");
+    return await connectDatabase(postfix);
+}
 
-const init = async function () {
-  beforeAll(async function connectToTestDB() {
-    await initDatabase();
-    await createAdmin();
-  });
-  afterAll(async function disconnectTestDB() {
-    await cleanup();
-  });
-};
 
-const createAdmin = async function () {
+
+const createAdmin = async function (db) {
   const password = await hashingString("123456789");
-  await this.db.collection("users").insertOne({code: "admin123", password: password, name: "Admin", role: "2"});
+  const {User} = require('../models/User.model')
+  await User.create({code: "admin123", password: password, name: "Admin", role: "2"});
 }
 
 module.exports = {
   createAdmin,
-  request,
-  initDatabase,
-  cleanup,
-  init
+  request,cleanup,setupDatabase
 };

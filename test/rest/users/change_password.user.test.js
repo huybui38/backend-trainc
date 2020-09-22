@@ -1,10 +1,17 @@
-const {request,init,cleanup, initDatabase, createAdmin} = require('../../helpers');
-var cookie;
+// const { before, after } = require('lodash');
+const {request,createAdmin,cleanup,setupDatabase} = require('../../helpers');
 
 describe('Change password user /:code/password', () => {
-    init();
+    let db,cookie;
+    beforeAll(async()=>{
+        db = await setupDatabase('change_password_user');
+        await createAdmin(db);
+    });
+    afterAll(async ()=>{
+        await cleanup(db);
+    });
     describe("", () => {
-        it("should login user successful", async () => {
+        it("should login user successful", async (done) => {
             const res = await  request
               .post('/api/users/login')
               .send({
@@ -14,6 +21,7 @@ describe('Change password user /:code/password', () => {
             cookie = res.headers['set-cookie'][0];
             expect(res.status).toEqual(200);
             expect(res.text).toMatch("Login success.");
+            done();
         });
     
         it("should change password success", async () => {
