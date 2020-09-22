@@ -13,6 +13,8 @@ module.exports = function (fields = []) {
                     .required();
             case "active":
                 return Joi.boolean().required();
+            case "thumbnail":
+                return Joi.string().min(1).max(2000).required();
         }
     };
 

@@ -1724,7 +1724,7 @@
         "/api/notifications": {
             "post": {
                 "tags": ["Notification"],
-                "summary": "create (admin)",
+                "summary": "create (admin) DONE",
                 "parameters": [
                     {
                         "name": "course",
