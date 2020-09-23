@@ -27,6 +27,14 @@ const createCourse = async function (db) {
   await Course.create({name: "learning c"})
 }
 
+const createGroup = async function (db) {
+  const password = await hashingString("123456789");
+  const { Group } = require('../models/Group.model');
+  await Group.create(
+    {name: "project c", password: password, course: "learning c", members: ["se000000", "se111111"]}
+  );
+}
+
 const getCookie = async (code) => {
   const user = await User.findOne({ code: code });
   const token = getUserToken(user);
@@ -36,7 +44,8 @@ const getCookie = async (code) => {
 
 module.exports = {
   createUsers,
-  createCourse ,
+  createCourse,
+  createGroup,
   request,cleanup,setupDatabase,
   getCookie
 };
