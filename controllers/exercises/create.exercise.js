@@ -12,7 +12,6 @@ module.exports = AsyncCatch(async (req, res, next) => {
         validatorSchema(["code", "content", "group", "course", "active", "point", "attempt", "deadline"]),
         req.body
     );
-
     if (await Exercise.findOne({ code: input.code })) throw new BadRequest("Code is taken.");
 
     const course = await Course.findOne({ name: input.course });
@@ -23,7 +22,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         input.type = true;
     }
 
-    input.deadline = formatDay(input.deadline);
+    input.deadline = formatDate(input.deadline);
     const exercise = await Exercise.create(input);
     if (!exercise) throw new DefaultError("Can't connect to database.");
 
