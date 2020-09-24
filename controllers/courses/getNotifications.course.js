@@ -8,5 +8,6 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (!course) throw new BadRequest("Not found.");
 
     const notifications = await Promise.all(course.notifications.map((id) => Notification.findById(id)));
+    if (!notifications) throw new DefaultError("Can't connect to database.");
     res.send(notifications);
 });

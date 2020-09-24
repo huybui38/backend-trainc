@@ -4,10 +4,10 @@ module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
             case "content":
-                return Joi.string().min(1).max(2000).required();
+                return Joi.string().min(2).max(2000).required();
             case "course":
                 return Joi.string()
-                    .min(1)
+                    .min(2)
                     .max(255)
                     .trim()
                     .lowercase()

@@ -6,7 +6,7 @@ module.exports.Exercise = mongoose.model(
         code: {
             type: String,
         },
-        detail: {
+        content: {
             type: String,
         },
         group: {
@@ -18,16 +18,23 @@ module.exports.Exercise = mongoose.model(
         point: {
             type: Number,
         },
-        active: {
-            type: Boolean,
-            default: false,
+        attempt: {
+            type: Number,
         },
         createdTime: {
             type: Date,
             default: Date.now(),
         },
+        active: {
+            type: Boolean,
+            default: false,
+        },
+        deadline: {
+            type: Date,
+        },
         type: {
             type: Boolean,
+            default: false, //false la bai tap chung
         },
     })
 );

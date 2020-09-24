@@ -13,13 +13,13 @@ module.exports = function (fields = []) {
                 return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
             case "password":
                 return Joi.string()
-                    .min(5)
+                    .min(8)
                     .max(255)
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "name":
                 return Joi.string()
-                    .min(1)
+                    .min(2)
                     .max(255)
                     .regex(/^[a-zA-Z ]/)
                     .trim()
@@ -28,21 +28,18 @@ module.exports = function (fields = []) {
             case "role":
                 return Joi.string().valid(UserRoleEnum.MENTOR, UserRoleEnum.STUDENT).required();
             case "point":
-                return Joi.string()
-                    .regex(/^[0-9]/)
-                    .trim()
-                    .required();
+                return Joi.number().required();
             case "active":
                 return Joi.boolean().required();
             case "newPassword":
                 return Joi.string()
-                    .min(5)
+                    .min(8)
                     .max(255)
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "confirm":
                 return Joi.string()
-                    .min(5)
+                    .min(8)
                     .max(255)
                     .regex(/^[a-zA-Z0-9]/)
                     .required()

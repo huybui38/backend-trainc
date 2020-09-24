@@ -1157,7 +1157,7 @@
         "/api/exercises": {
             "post": {
                 "tags": ["Exercise"],
-                "summary": "create a new exercise (admin, mentors)",
+                "summary": "create a new exercise (admin, mentors) DONE",
                 "parameters": [
                     {
                         "name": "code",
@@ -1230,7 +1230,7 @@
                         }
                     },
                     {
-                        "name": "endDay",
+                        "name": "deadline",
                         "in": "query",
                         "required": false,
                         "style": "form",
