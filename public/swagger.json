@@ -396,8 +396,8 @@
         },
         "/api/:course/students": {
             "get": {
-                "tags": ["Student"],
-                "summary": "for rank (all)",
+                "tags": ["Course"],
+                "summary": "for rank (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get all user success",
@@ -1444,8 +1444,8 @@
         },
         "/api/:course/exercises": {
             "get": {
-                "tags": ["Exercise"],
-                "summary": "List all (admin, mentors)",
+                "tags": ["Course"],
+                "summary": "List all (admin, mentors) DONE",
                 "responses": {
                     "200": {
                         "description": "get all exercise success",
