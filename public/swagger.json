@@ -1297,7 +1297,7 @@
         "/api/exercises/:code": {
             "put": {
                 "tags": ["Exercise"],
-                "summary": "update (mentors, admin)",
+                "summary": "update (mentors, admin) DONE",
                 "parameters": [
                     {
                         "name": "code",
@@ -1350,7 +1350,7 @@
                         }
                     },
                     {
-                        "name": "endDay",
+                        "name": "deadline",
                         "in": "query",
                         "required": false,
                         "style": "form",
@@ -1391,16 +1391,6 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "update failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
                     "403": {
                         "description": "update failed",
                         "content": {
@@ -1417,7 +1407,7 @@
         "/api/exercises/:codee": {
             "get": {
                 "tags": ["Exercise"],
-                "summary": "(admin, mentors)",
+                "summary": "(admin, mentors) DONE",
                 "responses": {
                     "200": {
                         "description": "get success",
