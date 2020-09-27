@@ -173,6 +173,19 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "internal error"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -343,8 +356,7 @@
                                                 "code": null,
                                                 "name": null,
                                                 "active": null,
-                                                "role": null,
-                                                "courses": null
+                                                "role": null
                                             }
                                         ]
                                     }
@@ -378,14 +390,14 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "get all users failed",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "example": {
-                                        "msg": "not found"
+                                        "msg": "internal error"
                                     }
                                 }
                             }
@@ -394,7 +406,7 @@
                 }
             }
         },
-        "/api/:course/students": {
+        "/api/courses/:course/students": {
             "get": {
                 "tags": ["Course"],
                 "summary": "for rank (all) DONE",
@@ -741,7 +753,7 @@
         "/api/coursess": {
             "get": {
                 "tags": ["Course"],
-                "summary": "List all course (all) DONE",
+                "summary": "List all course (all) DONE (matched)",
                 "responses": {
                     "200": {
                         "description": "get all course success",
@@ -760,17 +772,23 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "get all course failed",
+
+                    "401": {
+                        "description": "no token provided",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "example": {
-                                        "status": 404,
-                                        "data": null,
-                                        "msg": "not found"
-                                    }
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -1714,7 +1732,7 @@
         "/api/notifications": {
             "post": {
                 "tags": ["Notification"],
-                "summary": "create (admin) DONE",
+                "summary": "create (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "course",
@@ -1743,7 +1761,8 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "type": "object",
+                                    "msg": "success"
                                 }
                             }
                         }
@@ -1753,7 +1772,8 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "type": "object",
+                                    "msg": "invalid input"
                                 }
                             }
                         }
@@ -1774,6 +1794,17 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "mag": "internal error"
                                 }
                             }
                         }
