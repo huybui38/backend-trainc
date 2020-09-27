@@ -5,7 +5,6 @@ const coursesRouter = require("./courses");
 const groupsRouter = require("./groups");
 const notificationsRouter = require("./notifications");
 const exercisesRouter = require("./exercises");
-const studentsRouter = require("./students");
 
 router.use("/users", usersRouter);
 router.use("/courses", coursesRouter);
