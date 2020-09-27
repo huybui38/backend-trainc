@@ -5,13 +5,12 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const course = await Course.findOne({ name: req.params.name });
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const course = await Course.findById(params.id);
     if (!course) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["name"]), req.body);
-    if (input.name !== course.name) throw new Unauthorized("Name is not correct.");
-
-    const result = await Course.findOneAndDelete({ name: input.name });
+    const result = await Course.findByIdAndDelete(course._id);
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Course was deleted successfully.");

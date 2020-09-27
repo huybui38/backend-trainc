@@ -7,7 +7,9 @@ const { User } = require("../../models/User.model");
 const { Mongoose } = require("mongoose");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const group = await Group.findById(req.params.id);
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const group = await Group.findById(params.id);
     if (!group) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["code"]), req.body);

@@ -1,8 +1,11 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
+            case "id":
+                return Joi.objectId();
             case "content":
                 return Joi.string().min(2).max(2000).required();
             case "course":

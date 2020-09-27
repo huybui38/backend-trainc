@@ -1,4 +1,5 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const UserRoleEnum = {
     ADMIN: "2",
@@ -9,6 +10,8 @@ const UserRoleEnum = {
 module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
+            case "id":
+                return Joi.objectId();
             case "code":
                 return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
             case "password":

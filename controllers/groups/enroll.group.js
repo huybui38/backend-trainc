@@ -7,7 +7,9 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const group = await Group.findById(req.params.id);
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const group = await Group.findById(params.id);
     if (!group) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["password"]), req.body);

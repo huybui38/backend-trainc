@@ -2,10 +2,13 @@ const { AsyncCatch } = require("../../helpers/utils.helper");
 const { DefaultError, Unauthorized, BadRequest } = require("../../helpers/errors.helper");
 const { Course } = require("../../models/Course.model");
 const { Notification } = require("../../models/Notification.model");
-const { mongoose } = require("mongoose");
+const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/notification.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const notification = await Notification.findById(req.params.id);
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const notification = await Notification.findById(params.id);
     if (!notification) throw new BadRequest("Not found.");
 
     const course = await Course.updateOne(

@@ -6,7 +6,9 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/exercise.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const exercise = await Exercise.findOne({ code: req.params.code });
+    const params = validator(validatorSchema(["code"]), req.params);
+
+    const exercise = await Exercise.findOne({ code: params.code });
     if (!exercise) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["code", "content", "active", "point", "attempt", "deadline"]), req.body);

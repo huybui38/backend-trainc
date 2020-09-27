@@ -6,6 +6,7 @@ const validatorSchema = require("../../validators/course.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["name", "thumbnail"]), req.body);
+
     const course = await Course.findOne({ name: input.name });
     if (course) throw new BadRequest("Name is taken.");
 

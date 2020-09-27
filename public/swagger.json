@@ -590,21 +590,11 @@
                 }
             }
         },
-        "/api/userss": {
+        "/api/users/:codee": {
             "put": {
                 "tags": ["User"],
                 "summary": "update users (admin) DONE",
                 "parameters": [
-                    {
-                        "name": "code",
-                        "in": "query",
-                        "required": true,
-                        "style": "form",
-                        "explode": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "role",
                         "in": "query",

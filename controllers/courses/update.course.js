@@ -5,15 +5,14 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const course = await Course.findOne({ name: req.params.name });
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const course = await Course.findById(params.id);
     if (!course) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["name", "active"]), req.body);
 
-    const result = await Course.findOneAndUpdate(
-        { name: course.name },
-        { $set: { name: input.name, active: input.active } }
-    );
+    const result = await Course.findByIdAndUpdate(course._id, { $set: { name: input.name, active: input.active } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Course was updated successfully.");
