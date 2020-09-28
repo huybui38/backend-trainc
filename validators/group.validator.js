@@ -1,11 +1,14 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 module.exports = function (fields = []) {
     const getSchema = (field) => {
         switch (field) {
+            case "id":
+                return Joi.objectId();
             case "name":
                 return Joi.string()
-                    .min(1)
+                    .min(2)
                     .max(255)
                     .trim()
                     .lowercase()
@@ -13,13 +16,13 @@ module.exports = function (fields = []) {
                     .required();
             case "password":
                 return Joi.string()
-                    .min(5)
+                    .min(8)
                     .max(255)
                     .regex(/^[a-zA-Z0-9]/)
                     .required();
             case "course":
                 return Joi.string()
-                    .min(1)
+                    .min(2)
                     .max(255)
                     .trim()
                     .lowercase()

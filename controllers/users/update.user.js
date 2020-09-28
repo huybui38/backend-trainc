@@ -1,17 +1,17 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
-const { BadRequest, Unauthorized } = require("../../helpers/errors.helper");
+const { NotFound, DefaultError } = require("../../helpers/errors.helper");
 const { User } = require("../../models/User.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const input = validator(validatorSchema(["code", "role", "active"]), req.body);
+    const params = validator(validatorSchema(["code"]), req.params);
+    if (req.user.code !== params.code) throw new NotFound("Not found.");
 
-    const result = await User.findOneAndUpdate(
-        { code: input.code },
-        { $set: { role: input.role, active: input.active } }
-    );
-    //thieu tra ve 500
-    if (!result) throw new Unauthorized("Student code is not correct.");
+    const input = validator(validatorSchema(["role", "active"]), req.body);
+
+    const result = await User.findByIdAndUpdate(params.code, { $set: { role: input.role, active: input.active } });
+    if (!result) throw new DefaultError("Can't connect to database.");
+
     res.send("User was updated successfully.");
 });

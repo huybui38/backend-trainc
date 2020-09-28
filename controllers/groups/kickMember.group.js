@@ -7,18 +7,16 @@ const { User } = require("../../models/User.model");
 const { Mongoose } = require("mongoose");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const group = await Group.findById(req.params.id);
+    const params = validator(validatorSchema(["id"]), req.params);
+
+    const group = await Group.findById(params.id);
     if (!group) throw new NotFound("Not found.");
 
     const input = validator(validatorSchema(["code"]), req.body);
 
     if (!group.members.includes(input.code)) throw new Unauthorized("Member is not correct.");
 
-    group.members = group.members.filter((member) => member !== input.code);
-
-    //User.updateOne({},{$pull}) dung cai nay hay hon cai filter o tren
-
-    const result = await Group.findOneAndUpdate({ _id: group._id }, { $set: { members: group.members } });
+    const result = await Group.findByIdAndUpdate(group._id, { $pull: { members: input.code } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Member was deleted successfully.");

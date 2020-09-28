@@ -173,6 +173,19 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "internal error"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -343,8 +356,7 @@
                                                 "code": null,
                                                 "name": null,
                                                 "active": null,
-                                                "role": null,
-                                                "courses": null
+                                                "role": null
                                             }
                                         ]
                                     }
@@ -378,14 +390,14 @@
                             }
                         }
                     },
-                    "404": {
+                    "500": {
                         "description": "get all users failed",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "example": {
-                                        "msg": "not found"
+                                        "msg": "internal error"
                                     }
                                 }
                             }
@@ -394,10 +406,10 @@
                 }
             }
         },
-        "/api/:course/students": {
+        "/api/courses/:course/students": {
             "get": {
-                "tags": ["Student"],
-                "summary": "for rank (all)",
+                "tags": ["Course"],
+                "summary": "for rank (all) DONE",
                 "responses": {
                     "200": {
                         "description": "get all user success",
@@ -578,7 +590,7 @@
                 }
             }
         },
-        "/api/userss": {
+        "/api/users": {
             "put": {
                 "tags": ["User"],
                 "summary": "update users (admin) DONE",
@@ -741,7 +753,7 @@
         "/api/coursess": {
             "get": {
                 "tags": ["Course"],
-                "summary": "List all course (all) DONE",
+                "summary": "List all course (all) DONE (matched)",
                 "responses": {
                     "200": {
                         "description": "get all course success",
@@ -760,17 +772,23 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "get all course failed",
+
+                    "401": {
+                        "description": "no token provided",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "example": {
-                                        "status": 404,
-                                        "data": null,
-                                        "msg": "not found"
-                                    }
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -961,7 +979,7 @@
         "/api/groups/:_id": {
             "put": {
                 "tags": ["Group"],
-                "summary": "update (admin, mentors)",
+                "summary": "update (admin, mentors) DONE",
                 "parameters": [
                     {
                         "name": "name",
@@ -1157,7 +1175,7 @@
         "/api/exercises": {
             "post": {
                 "tags": ["Exercise"],
-                "summary": "create a new exercise (admin, mentors)",
+                "summary": "create a new exercise (admin, mentors) DONE",
                 "parameters": [
                     {
                         "name": "code",
@@ -1230,7 +1248,7 @@
                         }
                     },
                     {
-                        "name": "endDay",
+                        "name": "deadline",
                         "in": "query",
                         "required": false,
                         "style": "form",
@@ -1297,7 +1315,7 @@
         "/api/exercises/:code": {
             "put": {
                 "tags": ["Exercise"],
-                "summary": "update (mentors, admin)",
+                "summary": "update (mentors, admin) DONE",
                 "parameters": [
                     {
                         "name": "code",
@@ -1350,7 +1368,7 @@
                         }
                     },
                     {
-                        "name": "endDay",
+                        "name": "deadline",
                         "in": "query",
                         "required": false,
                         "style": "form",
@@ -1391,16 +1409,6 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "update failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
                     "403": {
                         "description": "update failed",
                         "content": {
@@ -1417,7 +1425,7 @@
         "/api/exercises/:codee": {
             "get": {
                 "tags": ["Exercise"],
-                "summary": "(admin, mentors)",
+                "summary": "(admin, mentors) DONE",
                 "responses": {
                     "200": {
                         "description": "get success",
@@ -1454,8 +1462,8 @@
         },
         "/api/:course/exercises": {
             "get": {
-                "tags": ["Exercise"],
-                "summary": "List all (admin, mentors)",
+                "tags": ["Course"],
+                "summary": "List all (admin, mentors) DONE",
                 "responses": {
                     "200": {
                         "description": "get all exercise success",
@@ -1724,7 +1732,7 @@
         "/api/notifications": {
             "post": {
                 "tags": ["Notification"],
-                "summary": "create (admin)",
+                "summary": "create (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "course",
@@ -1753,7 +1761,8 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "type": "object",
+                                    "msg": "success"
                                 }
                             }
                         }
@@ -1763,7 +1772,8 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "type": "object",
+                                    "msg": "invalid input"
                                 }
                             }
                         }
@@ -1787,6 +1797,17 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "mag": "internal error"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1794,10 +1815,20 @@
         "/api/notifications/:id": {
             "put": {
                 "tags": ["Notification"],
-                "summary": "update (admin)",
+                "summary": "update (admin) DONE",
                 "parameters": [
                     {
                         "name": "content",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "course",
                         "in": "query",
                         "required": false,
                         "style": "form",
@@ -1864,7 +1895,7 @@
         "/api/notifications/:idd": {
             "delete": {
                 "tags": ["Notification"],
-                "summary": "delete (admin)",
+                "summary": "delete (admin) DONE",
                 "parameters": [
                     {
                         "name": "_id",
@@ -1931,10 +1962,10 @@
                 }
             }
         },
-        "/api/:course/notifications": {
+        "/api/courses/:course/notifications": {
             "get": {
-                "tags": ["Notification"],
-                "summary": "get all (all)",
+                "tags": ["Course"],
+                "summary": "get all (all) DONE (matched)",
                 "responses": {
                     "200": {
                         "description": "get success",
