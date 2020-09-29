@@ -21,9 +21,7 @@ describe('Delete Group /groups/:id', () => {
         return await request
         .delete(`/api/groups/${idGroup}`)
         .set('cookie', cookie)
-        .send({
-            name: name
-        })
+        .send({ name })
     }
 
     it("should return 200 DELETE GROUP failed: 'name' not found", async () => {

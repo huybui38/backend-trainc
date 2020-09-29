@@ -18,11 +18,8 @@ describe('Create user: /', () => {
         return await request
         .post('/api/users/')
 		.set('cookie', cookie)
-		.send({
-			code: code,
-			name: name,
-			role: role
-	})}
+		.send({ code, name, role })
+	}
 	
     it('should return 200 CREATE successful', async () => {
 		cookie = cookieAdmin;
@@ -109,6 +106,5 @@ describe('Create user: /', () => {
 
 		const res = await exec();
 		expect(res.status).toEqual(403);
-		console.log(res.body.message)
 	})
   })

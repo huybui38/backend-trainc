@@ -16,34 +16,28 @@ describe('Update users /', () => {
 
     const exec = async () => {
         return await request
-        .put('/api/users/')
+        .put(`/api/users/${code}`)
         .set('cookie', cookie)
-        .send({
-            code: code,
-            role: role,
-            active: active
-        })
+        .send({ role, active })
     }     
 
-    it("should return UPDATE USER successful", async () => {
+    it("should return 400 UPDATE USER failed: 'code' is less than 8 characters long", async () => {
         cookie = cookieAdmin;
-        code = "se000000";
-        role = "0";
+        code = "1";
+        role = "1";
         active = true;
 
         const res = await exec();
-
-        expect(res.status).toEqual(200);
+        expect(res.status).toEqual(400);
     })
 
-    it("should return 400 UPDATE USER failed: 'code' is less then 8 characters long", async () => {
+    it("should return 400 UPDATE USER failed: 'code' is more than 8 characters long", async () => {
         cookie = cookieAdmin;
-        code = "se000";
-        role = "0";
+        code = new Array(10).join('a');
+        role = "1";
         active = true;
 
         const res = await exec();
-
         expect(res.status).toEqual(400);
     })
 
@@ -57,6 +51,17 @@ describe('Update users /', () => {
         expect(res.status).toEqual(400);
     })
 
+    it("should return UPDATE USER successful", async () => {
+        cookie = cookieStudent;
+        code = "se000000";
+        role = "1";
+        active = true;
+
+        const res = await exec();
+
+        expect(res.status).toEqual(403);
+    })
+
     it("should return 401 UPDATE USER failed: 'code' isn't correct", async () => {
         cookie = cookieAdmin;
         code = "se111111";
@@ -64,7 +69,18 @@ describe('Update users /', () => {
         active = true;
 
         const res = await exec();
-        expect(res.status).toEqual(401);
+        expect(res.status).toEqual(404);
+    })
+
+    it("should return UPDATE USER successful", async () => {
+        cookie = cookieAdmin;
+        code = "se000000";
+        role = "1";
+        active = true;
+
+        const res = await exec();
+
+        expect(res.status).toEqual(200);
     })
 
 });

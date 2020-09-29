@@ -19,11 +19,8 @@ describe('Create Group /groups', () => {
         return await request
         .post('/api/groups/')
         .set('cookie', cookie)
-        .send({
-            name: name,
-            password: password,
-            course: course
-    })}
+        .send({ name, password, course })
+    }
 
     it("should return 200 CREATE GROUP successful", async () => {
         cookie = cookieAdmin;
@@ -62,7 +59,7 @@ describe('Create Group /groups', () => {
         expect(res.body.message).toMatch('"name" length must be less than or equal to 255 characters long');
     })
 
-    it("should return 400 CREATE GROUP failed: 'password' is less than 5 characters long", async () => {
+    it("should return 400 CREATE GROUP failed: 'password' is less than 8 characters long", async () => {
         cookie = cookieAdmin;
         name = 'project C';
         password = '1';
@@ -71,7 +68,7 @@ describe('Create Group /groups', () => {
         const res = await exec();
 
         expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"password" length must be at least 5 characters long')
+        expect(res.body.message).toMatch('"password" length must be at least 8 characters long')
     })
 
     it("should return 400 CREATE GROUP failed: 'password' is more than 255 characters long", async () => {

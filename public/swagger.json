@@ -590,7 +590,7 @@
                 }
             }
         },
-        "/api/users": {
+        "/api/userss": {
             "put": {
                 "tags": ["User"],
                 "summary": "update users (admin) DONE",

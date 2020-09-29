@@ -21,10 +21,10 @@ describe('Enroll Group /groups/:id', () => {
         return await request
         .post(`/api/groups/${idGroup}`)
         .set('cookie', cookie)
-        .send({ password : password})
+        .send({ password })
     }
 
-    it("should return 400 ENROLL GROUP failed: 'password' is less than 5 charaters long", async () => {
+    it("should return 400 ENROLL GROUP failed: 'password' is less than 8 charaters long", async () => {
         cookie = cookieAdmin;
         const group = await Group.findOne({ name: "project c" });
         idGroup = group._id;
@@ -33,7 +33,7 @@ describe('Enroll Group /groups/:id', () => {
         const res = await exec();
 
         expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"password" length must be at least 5 characters long');
+        expect(res.body.message).toEqual('"password" length must be at least 8 characters long');
     })
 
     it("should return 400 ENROLL GROUP failed: 'password' is more than 255 charaters long", async () => {

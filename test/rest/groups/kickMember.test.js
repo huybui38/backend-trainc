@@ -21,7 +21,7 @@ describe('Kick Member Group /groups/:id/members', () => {
         return await request
         .delete(`/api/groups/${idGroup}/members`)
         .set('cookie', cookie)
-        .send({ code : code})
+        .send({ code })
     }
 
     it("should return 400 KICK MEMBER failed: 'code' has special characters", async () => {

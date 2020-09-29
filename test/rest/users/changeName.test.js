@@ -18,10 +18,8 @@ describe('Change user name: /:code/names', () => {
         return await request
         .put('/api/users/se000000/names')
         .set('cookie', cookie)
-        .send({
-            password: password,
-            name: name
-    })}
+        .send({ password, name })
+    }
 
     it("should return 200 CHANGE NAME successful", async () => {
         cookie = cookieStudent;

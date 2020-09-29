@@ -17,11 +17,8 @@ describe('Change password user /:code/password', () => {
         return await request
         .put('/api/users/se000000/passwords')
         .set("cookie", cookie)
-        .send({
-            password: password,
-            newPassword: newPassword,
-            confirm: confirm
-    })}
+        .send({ password, newPassword, confirm })
+    }
 
     it("should return 200 CHANGE successful", async () => {
         cookie = cookieStudent;
@@ -43,7 +40,7 @@ describe('Change password user /:code/password', () => {
         expect(res.status).toEqual(400);
     })
 
-    it("should return 400 CHANGE failed: 'password' is less than 5 characters long", async () => {
+    it("should return 400 CHANGE failed: 'password' is less than 8 characters long", async () => {
         cookie = cookieStudent;
         password = "1";
         newPassword = "000000000";
@@ -51,7 +48,7 @@ describe('Change password user /:code/password', () => {
 
         const res = await exec(); 
         expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"password" length must be at least 5 characters long');
+        expect(res.body.message).toMatch('"password" length must be at least 8 characters long');
     })
 
     it("should return 400 CHANGE PASSWORD failed: 'confirm' don't match 'newPassword'", async () => {
@@ -64,7 +61,7 @@ describe('Change password user /:code/password', () => {
         expect(res.status).toEqual(400);
     })
 
-    it("should return 400 CHANGE PASSWORD failed: 'newPassword' less than 5 characters long", async () => {
+    it("should return 400 CHANGE PASSWORD failed: 'newPassword' less than 8 characters long", async () => {
         cookie = cookieStudent;
         password = "123456789";
         newPassword = "0";
@@ -72,7 +69,7 @@ describe('Change password user /:code/password', () => {
 
         const res = await exec(); 
         expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"newPassword" length must be at least 5 characters long');
+        expect(res.body.message).toMatch('"newPassword" length must be at least 8 characters long');
     })
 
     it("should return 401 CHANGE PASSWORD failed: 'password' isn't correct", async () => {

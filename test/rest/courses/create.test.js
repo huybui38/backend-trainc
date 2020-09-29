@@ -1,6 +1,6 @@
 const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse} = require('../../helpers');
 let cookieAdmin, cookieStudent, cookie;
-let name;
+let name, thumbnail;
 
 describe('Create courses /', () => {
     let db;
@@ -18,13 +18,13 @@ describe('Create courses /', () => {
         return await request
         .post('/api/courses/')
         .set('cookie', cookie)
-        .send({
-            name: name
-    })}
+        .send({ name, thumbnail})
+    }
 
     it("should return 200 when CREATE successful", async () => {
         cookie = cookieAdmin;
         name = "Learning Java";
+        thumbnail = "test";
         
         const res = await exec();
 
@@ -35,6 +35,7 @@ describe('Create courses /', () => {
     it("should return 400 when CREATE failed with: 'name' empty", async () => {
         cookie = cookieAdmin;
         name = "";
+        thumbnail = "test";
 
         const res = await exec();
 
@@ -44,6 +45,7 @@ describe('Create courses /', () => {
     it("should return 400 when CREATE failed with: 'name' has special characters" , async () => {
         cookie = cookieAdmin;
         name = "#Learning C#";
+        thumbnail = "test";
 
         const res = await exec();
 
@@ -53,6 +55,7 @@ describe('Create courses /', () => {
     it("should return 403 when CREATE failed with: isAdmin false", async () => {
         cookie = cookieStudent;
         name = "Learning C";
+        thumbnail = "test";
 
         const res = await exec();
 

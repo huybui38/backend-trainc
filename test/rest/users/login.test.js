@@ -14,10 +14,8 @@ describe('Login user: /users', () => {
 	const exec = async () => {
         return await request
         .post('/api/users/login')
-		.send({
-			code: code,
-			password: password
-	})}
+		.send({ code, password })
+	}
 	
 	it("should return 200 LOGIN user successful", async () => {
 		code = "admin123";
@@ -44,13 +42,13 @@ describe('Login user: /users', () => {
 		expect(res.status).toEqual(400);
 	})
 
-	it("should return 400 LOGIN failed: 'password' less than 5 charaters long", async () => {
+	it("should return 400 LOGIN failed: 'password' less than 8 charaters long", async () => {
 		code = "admin123";
 		password = "1"
 	
 		const res = await  exec();
 		expect(res.status).toEqual(400);
-		expect(res.body.message).toMatch('"password" length must be at least 5 characters long');  
+		expect(res.body.message).toMatch('"password" length must be at least 8 characters long');  
 
 	})
 

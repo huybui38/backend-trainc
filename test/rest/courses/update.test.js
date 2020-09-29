@@ -1,4 +1,5 @@
 const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse} = require('../../helpers');
+const { Course } = require('../../../models/Course.model');
 let cookieAdmin, cookieStudent, cookie;
 let name, active, nameCourse;
 
@@ -17,28 +18,15 @@ describe('Update courses /:name', () => {
 
     const exec = async  () => {
         return await request
-            .put(`/api/courses/${nameCourse}`)
+            .put(`/api/courses/${idCourse}`)
             .set('cookie', cookie)
-            .send({
-                name: name,
-                active: active
-            })
+            .send({ name, active })
     }
-
-    it("should return 200 UPDATE COURSES successful", async () => {
-        cookie = cookieAdmin;
-        nameCourse = 'learning c'
-        name = 'learning java';
-        active = true;
-
-        const res = await exec();
-
-        expect(res.status).toEqual(200);
-    })
 
     it("should return 401 UPDATE COURSES failed: 'name' is more than 255 characters long", async () => {
         cookie = cookieAdmin;
-        nameCourse = 'learning c'
+        const course = await Course.findOne({ name: "learning c"});
+        idCourse = course._id;
         name = new Array(260).join('a');
         active = true;
 
@@ -49,7 +37,8 @@ describe('Update courses /:name', () => {
 
     it("should return 401 UPDATE COURSES failed: 'name' empty", async () => {
         cookie = cookieAdmin;
-        nameCourse = 'learning c'
+        const course = await Course.findOne({ name: "learning c"});
+        idCourse = course._id;
         name = "";
         active = true;
 
@@ -60,13 +49,25 @@ describe('Update courses /:name', () => {
 
     it("should return 404 UPDATE COURSES failed: Not found course", async () => {
         cookie = cookieAdmin;
-        nameCourse = 'learning C#'
+        idCourse = "";
         name = 'learning java';
         active = true;
 
         const res = await exec();
 
         expect(res.status).toEqual(404);
+    })
+
+    it("should return 200 UPDATE COURSES successful", async () => {
+        cookie = cookieAdmin;
+        const course = await Course.findOne({ name: "learning c"});
+        idCourse = course._id;
+        name = 'learning java';
+        active = true;
+
+        const res = await exec();
+
+        expect(res.status).toEqual(200);
     })
 
 })

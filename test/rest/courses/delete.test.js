@@ -1,8 +1,9 @@
 const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse} = require('../../helpers');
+const { Course } = require('../../../models/Course.model'); 
 let cookieAdmin, cookieStudent, cookie;
-let nameCourse
+let idCourse
 
-describe('Create courses /', () => {
+describe('Delete courses /', () => {
     let db;
     beforeAll(async()=>{
         db = await setupDatabase('delete_course');
@@ -17,13 +18,13 @@ describe('Create courses /', () => {
 
     const exec = async  () => {
         return await request
-            .delete(`/api/courses/${nameCourse}`)
+            .delete(`/api/courses/${idCourse}`)
             .set('cookie', cookie)
-            .send({name: nameCourse})
     }
 
     it("should return 403 DELETE COURSE failed: isAdmin false", async () => {
-        nameCourse = 'learning c';
+        const course = await Course.findOne({ name: "learning c"});
+        idCourse = course._id;
         cookie = cookieStudent;
 
         const res = await exec();
@@ -32,7 +33,7 @@ describe('Create courses /', () => {
     })
 
     it("should return 404 DELETE COURSE failed: Not found course", async () => {
-        nameCourse = 'learning java';
+        idCourse = "";
         cookie = cookieAdmin;
 
         const res = await exec();
@@ -41,7 +42,8 @@ describe('Create courses /', () => {
     })
 
     it("should return 200 DELETE COURSE successful", async () => {
-        nameCourse = 'learning c';
+        const course = await Course.findOne({ name: "learning c"});
+        idCourse = course._id;
         cookie = cookieAdmin;
 
         const res = await exec();
