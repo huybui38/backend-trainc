@@ -11,10 +11,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const notification = await Notification.findById(params.id);
     if (!notification) throw new BadRequest("Not found.");
 
-    const course = await Course.updateOne(
-        { name: notification.course },
-        { $pull: { notifications: notification._id } }
-    );
+    const course = await Course.findByIdAndUpdate(notification.course, { $pull: { notifications: notification._id } });
     if (!course) throw new DefaultError("Can't connect to database.");
 
     const result = await Notification.findByIdAndDelete(notification._id);
