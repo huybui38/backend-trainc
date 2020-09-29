@@ -1,5 +1,5 @@
-const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
-const { getProfile } = require('../../data');
+const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
+const { createUsers } = require('../../createDbTesting');
 let cookieAdmin, cookieStudent, cookie;
 
 describe('Get profile: /:code/names', () => {
@@ -24,8 +24,9 @@ describe('Get profile: /:code/names', () => {
 
         const res = await exec();
         
-        const profile = getProfile();
         expect(res.status).toEqual(200);
-        expect(res.body).toMatchObject(profile);
+        expect(res.body).toHaveProperty("code");
+        expect(res.body).toHaveProperty("name");
+        expect(res.body).toHaveProperty("role");
     })
 })

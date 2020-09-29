@@ -1,4 +1,5 @@
-const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
+const {request, cleanup, setupDatabase } = require('../../helpers');
+const { createUsers } = require('../../createDbTesting');
 let code, password;
 
 describe('Login user: /users', () => {

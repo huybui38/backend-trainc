@@ -1,5 +1,5 @@
-const {request, cleanup, setupDatabase, createUsers, getCookie} = require('../../helpers');
-const { getAllUsers } = require('../../data');
+const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
+const { createUsers } = require('../../createDbTesting');
 let cookieAdmin, cookieStudent, cookie;
 
 describe('Get all users /', () => {
@@ -25,9 +25,12 @@ describe('Get all users /', () => {
 
         const res = await exec();
 
-        const users =  getAllUsers();
         expect(res.status).toEqual(200);
-        expect(res.body).toMatchObject(users);
+        expect(res.body[0]).toHaveProperty("active");
+        expect(res.body[0]).toHaveProperty("code");
+        expect(res.body[0]).toHaveProperty("name");
+        expect(res.body[0]).toHaveProperty("role");
+        expect(res.body[0]).toHaveProperty("_id");
     })
 
     it('should return GET ALL failed: isAdmin false', async () => {

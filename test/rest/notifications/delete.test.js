@@ -1,5 +1,5 @@
-const {request, cleanup, setupDatabase} = require('../../helpers');
-const {  createUsers, getCookie, createCourse, createNotification } = require('../../helpers');
+const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
+const { createUsers, createCourse, createNotification } = require('../../createDbTesting');
 const { Notification } = require('../../../models/Notification.model')
 const { Course } = require('../../../models/Course.model');
 

@@ -1,4 +1,5 @@
-const {request, cleanup, setupDatabase, createUsers, getCookie, createCourse, createGroup} = require('../../helpers');
+const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
+const { createUsers, createCourse } = require('../../createDbTesting');
 const { Course } = require('../../../models/Course.model');
 
 let cookieAdmin, cookieStudent ,cookie;
