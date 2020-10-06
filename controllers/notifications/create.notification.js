@@ -16,8 +16,8 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const notification = await Notification.create(input);
     if (!notification) throw new DefaultError("Can't connect to database.");
 
-    const result = await Course.findOneAndUpdate({ _id: course._id }, { $push: { notifications: notifications._id } });
+    const result = await Course.findOneAndUpdate({ _id: course._id }, { $push: { notifications: notification._id } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Notification was created successfully.");
+    res.send(notification);
 });

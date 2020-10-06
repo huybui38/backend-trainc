@@ -7,6 +7,7 @@ const validatorSchema = require("../../validators/notification.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["id"]), req.params);
+    console.log(req.params.id);
 
     const notification = await Notification.findById(params.id);
     if (!notification) throw new BadRequest("Not found.");
