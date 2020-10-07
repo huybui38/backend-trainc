@@ -13,10 +13,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const course = await Course.findOne({ name: input.course });
     if (!course) throw new Unauthorized("Course is not correct.");
+    input.course = course._id;
 
     const groups = await Promise.all(course.groups.map((id) => Group.findById(id, "name")));
     const names = groups.map((group) => group.name);
-
     if (names.includes(input.name)) throw new BadRequest("Name is taken.");
 
     input.password = await hashingString(input.password);
@@ -24,8 +24,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const group = await Group.create(input);
     if (!group) throw new DefaultError("Can't connect to database.");
 
-    course.groups.push(group._id);
-    const result = await Course.findOneAndUpdate({ _id: course._id }, { $set: { groups: course.groups } });
+    const result = await Course.findByIdAndUpdate(course._id, { $push: { groups: group._id } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("Group was created successfully.");

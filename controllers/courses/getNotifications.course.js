@@ -13,5 +13,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const notifications = await Promise.all(course.notifications.map((id) => Notification.findById(id)));
     if (!notifications) throw new DefaultError("Can't connect to database.");
+
+    for (let notification of notifications) {
+        notification.course = course.name;
+    }
+
     res.send(notifications);
 });

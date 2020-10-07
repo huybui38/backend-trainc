@@ -10,16 +10,14 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const course = await Course.findOne({ name: input.course });
     if (!course) throw new Unauthorized("Course is not correct.");
+    input.course = course._id;
 
     const notification = await Notification.create(input);
     if (!notification) throw new DefaultError("Can't connect to database.");
 
-    course.notifications.push(notification._id);
-    const result = await Course.findOneAndUpdate(
-        { _id: course._id },
-        { $set: { notifications: course.notifications } }
-    );
+    const result = await Course.findByIdAndUpdate(course._id, { $push: { notifications: notification._id } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Notification was created successfully.");
+    notification.course = course.name;
+    res.send(notification);
 });

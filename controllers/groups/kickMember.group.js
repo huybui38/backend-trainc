@@ -1,6 +1,7 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
 const { DefaultError, NotFound, Unauthorized, BadRequest } = require("../../helpers/errors.helper");
 const { Group } = require("../../models/Group.model");
+const { Course } = require("../../models/Course.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 const { User } = require("../../models/User.model");
@@ -18,6 +19,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const result = await Group.findByIdAndUpdate(group._id, { $pull: { members: input.code } });
     if (!result) throw new DefaultError("Can't connect to database.");
+
+    const course = await Course.findByIdAndUpdate(group.course, { $pull: { students: input.code } });
+    if (!course) throw new DefaultError("Can't connect to database.");
 
     res.send("Member was deleted successfully.");
 });

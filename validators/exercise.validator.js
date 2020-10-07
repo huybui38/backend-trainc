@@ -24,13 +24,7 @@ module.exports = function (fields = []) {
             case "attempt":
                 return Joi.number().required();
             case "deadline":
-                return Joi.object({
-                    day: Joi.number().min(1).max(31).required(),
-                    month: Joi.number().min(1).max(12).required(),
-                    year: Joi.number().min(2020).max(2030).required(),
-                    hour: Joi.number().min(0).max(23).required(),
-                    minute: Joi.number().min(0).max(59).required(),
-                }).required();
+                return Joi.date().required();
         }
     };
 

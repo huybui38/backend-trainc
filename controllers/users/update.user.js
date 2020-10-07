@@ -10,7 +10,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const input = validator(validatorSchema(["role", "active"]), req.body);
 
-    const result = await User.findByIdAndUpdate(params.code, { $set: { role: input.role, active: input.active } });
+    const result = await User.findOneAndUpdate(params.code, { $set: { role: input.role, active: input.active } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
     res.send("User was updated successfully.");

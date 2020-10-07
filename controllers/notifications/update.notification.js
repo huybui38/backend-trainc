@@ -11,13 +11,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const notification = await Notification.findById(params.id);
     if (!notification) throw new BadRequest("Not found.");
 
-    const input = validator(validatorSchema(["content", "course"]), req.body);
-
-    const course = await Course.findOne({ name: input.course });
-    if (!course) throw new Unauthorized("Course is not correct.");
+    const input = validator(validatorSchema(["content"]), req.body);
 
     const result = await Notification.findByIdAndUpdate(notification._id, {
-        $set: { content: input.content, course: input.course },
+        $set: { content: input.content },
     });
 
     if (!result) throw new DefaultError("Can't connect to database.");

@@ -14,5 +14,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const groups = await Promise.all(course.groups.map((id) => Group.findById(id)));
     if (!groups) throw new DefaultError("Can't connect to database.");
 
+    for (let group of groups) {
+        group.course = course.name;
+    }
+
     res.send(groups);
 });

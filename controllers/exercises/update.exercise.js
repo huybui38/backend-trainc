@@ -1,7 +1,6 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
 const { BadRequest, DefaultError, NotFound } = require("../../helpers/errors.helper");
 const { Exercise } = require("../../models/Exercise.model");
-const { formatDate } = require("../../helpers/time.helper");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/exercise.validator");
 
@@ -14,8 +13,6 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["code", "content", "active", "point", "attempt", "deadline"]), req.body);
 
     if (await Exercise.findOne({ code: input.code })) throw new BadRequest("Code is taken.");
-
-    input.deadline = formatDate(input.deadline);
 
     const result = await Exercise.findByIdAndUpdate(exercise._id, {
         code: input.code,

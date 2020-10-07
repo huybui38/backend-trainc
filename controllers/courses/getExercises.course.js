@@ -13,5 +13,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const exercises = await Promise.all(course.exercises.map((id) => Exercise.findById(id)));
     if (!exercises) throw new DefaultError("Can't connect to database.");
+
+    for (let exercise of exercises) {
+        exercise.course = course.name;
+    }
+
     res.send(exercises);
 });

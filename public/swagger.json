@@ -1826,16 +1826,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "course",
-                        "in": "query",
-                        "required": false,
-                        "style": "form",
-                        "explode": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -1895,7 +1885,7 @@
         "/api/notifications/:idd": {
             "delete": {
                 "tags": ["Notification"],
-                "summary": "delete (admin) DONE",
+                "summary": "delete (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "_id",

@@ -2,23 +2,39 @@ const { AsyncCatch } = require("../../helpers/utils.helper");
 const { DefaultError, NotFound, Unauthorized } = require("../../helpers/errors.helper");
 const { Group } = require("../../models/Group.model");
 const { Course } = require("../../models/Course.model");
+const { User } = require("../../models/User.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["id"]), req.params);
-
     const group = await Group.findById(params.id);
     if (!group) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["name"]), req.body);
-    if (input.name !== group.name) throw new Unauthorized("Name is not correct.");
+    // xoa members va group
+    const members = await Promise.all(
+        group.members.map((userId) => {
+            User.findByIdAndUpdate(userId, { $pull: { group: group._id } });
+            Group.findByIdAndUpdate(group._id, { $pull: { members: userId } });
+        })
+    );
+    if (!members) throw new DefaultError("Can't connect to database.");
 
-    const course = await Course.updateOne({ name: group.course }, { $pull: { groups: group._id } });
-    if (!course) throw new DefaultError("Can't connect to database.");
+    //xoa students va course
+    const students = await Promise.all(
+        group.members.map((userId) => {
+            User.findByIdAndUpdate(userId, { $pull: { courses: group.course } });
+            Course.findByIdAndUpdate(group.course, { $pull: { students: userId } });
+        })
+    );
+    if (!students) throw new DefaultError("Can't connect to database.");
 
-    const result = await Group.findOneAndDelete({ name: input.name });
-    if (!result) throw new DefaultError("Can't connect to database.");
+    //xoa group va course
+    const groups = await Promise.all([
+        Group.findByIdAndDelete(group._id),
+        Course.findByIdAndUpdate(group.course, { $pull: { groups: group._id } }),
+    ]);
+    if (!groups) throw new DefaultError("Can't connect to database.");
 
     res.send("Group was deleted successfully.");
 });
