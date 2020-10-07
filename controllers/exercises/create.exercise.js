@@ -3,7 +3,7 @@ const { BadRequest, DefaultError, Unauthorized } = require("../../helpers/errors
 const { Exercise } = require("../../models/Exercise.model");
 const { Course } = require("../../models/Course.model");
 const { Group } = require("../../models/Group.model");
-const { formatDay } = require("../../helpers/time.helper");
+const { formatDateInput, formatDateOutput } = require("../../helpers/time.helper");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/exercise.validator");
 
@@ -23,17 +23,22 @@ module.exports = AsyncCatch(async (req, res, next) => {
         input.type = true;
     }
 
-    input.deadline = formatDate(input.deadline);
-    const exercise = await Exercise.create(input);
-    if (!exercise) throw new DefaultError("Can't connect to database.");
+    console.log(input.deadline);
+    // input.deadline = formatDateInput(input.deadline);
+    // console.log(input.deadline);
+    input.deadline = formatDateOutput(input.deadline);
+    console.log(input.deadline);
+    res.send(input.deadline);
+    // const exercise = await Exercise.create(input);
+    // if (!exercise) throw new DefaultError("Can't connect to database.");
 
-    if (input.type) {
-        const upGroup = await Group.findByIdAndUpdate(exercise.group, { $push: { exercises: exercise._id } });
-        if (!upGroup) throw new DefaultError("Can't connect to database.");
-    }
+    // if (input.type) {
+    //     const upGroup = await Group.findByIdAndUpdate(exercise.group, { $push: { exercises: exercise._id } });
+    //     if (!upGroup) throw new DefaultError("Can't connect to database.");
+    // }
 
-    const upCourse = await Course.findByIdAndUpdate(exercise.course, { $push: { exercises: exercise._id } });
-    if (!upCourse) throw new DefaultError("Can't connect to database.");
+    // const upCourse = await Course.findByIdAndUpdate(exercise.course, { $push: { exercises: exercise._id } });
+    // if (!upCourse) throw new DefaultError("Can't connect to database.");
 
-    res.send("Exercise was created successfully.");
+    // res.send("Exercise was created successfully.");
 });

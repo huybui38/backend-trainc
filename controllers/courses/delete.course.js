@@ -3,6 +3,7 @@ const { DefaultError, NotFound, Unauthorized } = require("../../helpers/errors.h
 const { Course } = require("../../models/Course.model");
 const { Group } = require("../../models/Group.model");
 const { User } = require("../../models/User.model");
+const { Notification } = require("../../models/Notification.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/course.validator");
 
@@ -39,10 +40,14 @@ module.exports = AsyncCatch(async (req, res, next) => {
                 Course.findByIdAndUpdate(group.course, { $pull: { groups: group._id } }),
             ]);
             if (!groups) throw new DefaultError("Can't connect to database.");
-
-            return Promise.resolve();
         })
     );
+
+    //xoa notifications
+    const notifications = await Promise.all(
+        course.notifications.map((notificationId) => Notification.findByIdAndDelete(notificationId))
+    );
+    if (!notifications) throw new DefaultError("Can't connect to database.");
 
     const result = await Course.findByIdAndDelete(course._id);
     if (!result) throw new DefaultError("Can't connect to database.");

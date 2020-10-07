@@ -9,7 +9,7 @@ const { handleError } = require("./helpers/utils.helper");
 
 var app = express();
 
-app.use(cors({ origin: "http://10.1.132.10:3000", credentials: true }));
+app.use(cors({ origin: "http://10.1.139.136:3000", credentials: true }));
 
 app.use(logger("dev"));
 app.use(express.json());

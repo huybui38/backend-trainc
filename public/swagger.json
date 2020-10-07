@@ -1885,7 +1885,7 @@
         "/api/notifications/:idd": {
             "delete": {
                 "tags": ["Notification"],
-                "summary": "delete (admin) DONE",
+                "summary": "delete (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "_id",
