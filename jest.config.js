@@ -1,5 +1,5 @@
 module.exports = {
-    testRegex: ["groups/.*.test.js"],
+    testRegex: ["groups/enroll.test.js"],
     // globalTeardown:
     //     "./test/teardown.js",
     testEnvironment: "node",

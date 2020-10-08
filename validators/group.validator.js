@@ -15,11 +15,7 @@ module.exports = function (fields = []) {
                     .regex(/^[a-zA-Z ]/)
                     .required();
             case "password":
-                return Joi.string()
-                    .min(8)
-                    .max(255)
-                    .regex(/^[a-zA-Z0-9]/)
-                    .required();
+                return Joi.string().min(8).max(255).alphanum().required();
             case "course":
                 return Joi.string()
                     .min(2)

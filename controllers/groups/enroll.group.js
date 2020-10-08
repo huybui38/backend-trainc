@@ -25,5 +25,5 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const course = await Course.findByIdAndUpdate(group.course, { $push: { students: req.user.code } });
     if (!course) throw new DefaultError("Can't connect to database.");
 
-    res.send("Enroll success.");
+    res.json({ message: "Enroll success." });
 });

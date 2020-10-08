@@ -15,11 +15,7 @@ module.exports = function (fields = []) {
             case "code":
                 return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
             case "password":
-                return Joi.string()
-                    .min(8)
-                    .max(255)
-                    .regex(/^[a-zA-Z0-9]/)
-                    .required();
+                return Joi.string().min(8).max(255).alphanum().required();
             case "name":
                 return Joi.string()
                     .min(2)
@@ -35,18 +31,9 @@ module.exports = function (fields = []) {
             case "active":
                 return Joi.boolean().required();
             case "newPassword":
-                return Joi.string()
-                    .min(8)
-                    .max(255)
-                    .regex(/^[a-zA-Z0-9]/)
-                    .required();
+                return Joi.string().min(8).max(255).alphanum().required();
             case "confirm":
-                return Joi.string()
-                    .min(8)
-                    .max(255)
-                    .regex(/^[a-zA-Z0-9]/)
-                    .required()
-                    .valid(Joi.ref("newPassword"));
+                return Joi.string().min(8).max(255).alphanum().required().valid(Joi.ref("newPassword"));
         }
     };
 

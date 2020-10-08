@@ -1,95 +1,69 @@
 const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
 const { createUsers, createCourse, createGroup } = require("../../createDbTesting");
 const { Group } = require("../../../models/Group.model");
-let cookieAdmin, cookieStudent, cookie;
-let password, idGroup;
+const { Course } = require("../../../models/Course.model");
 
 describe("Enroll Group /groups/:id", () => {
     let db;
+    let password, idGroup;
+    let cookie;
+
     beforeAll(async () => {
         db = await setupDatabase("enroll_group");
         await createUsers(db);
         await createCourse(db);
         await createGroup(db);
-        cookieStudent = await getCookie("se000000");
-        cookieAdmin = await getCookie("admin123");
-    });
-    afterAll(async () => {
-        await cleanup(db);
+
+        const group = await Group.findOne({ name: "project c" });
+        idGroup = group._id;
     });
 
-    const exec = async () => {
+    const exec = async ({ idGroup, cookie, password }) => {
         return await request.post(`/api/groups/${idGroup}`).set("cookie", cookie).send({ password });
     };
 
-    it("should return 400 ENROLL GROUP failed: 'password' is less than 8 charaters long", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = "1";
+    describe("admin cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("admin123");
+        });
 
-        const res = await exec();
+        it("ENROLL GROUP failed: Not found", async () => {
+            const course = await Course.findOne({ name: "learning c" });
+            const res = await exec({ cookie, idGroup: course._id });
+            expect(res.status).toBe(404);
+            expect(res.body.message).toBeDefined();
+        });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"password" length must be at least 8 characters long');
+        it("ENROLL GROUP failed: 'password' isn't correct", async () => {
+            password = "12345678910";
+            const res = await exec({ cookie, idGroup, password });
+            expect(res.body.message).toBeDefined();
+            expect(res.status).toBe(401);
+        });
+
+        it("ENROLL GROUP failed: 'code' have already enrolled", async () => {
+            password = "123456789";
+            const res = await exec({ cookie, idGroup, password });
+            expect(res.body.message).toBeDefined();
+            expect(res.status).toBe(400);
+        });
     });
 
-    it("should return 400 ENROLL GROUP failed: 'password' is more than 255 charaters long", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = new Array(260).join("1");
+    describe("student cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("se000000");
+        });
 
-        const res = await exec();
+        it("should return 200 ENROLL GROUP: successful", async () => {
+            password = "123456789";
+            const res = await exec({ cookie, idGroup, password });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"password" length must be less than or equal to 255 characters long');
+            expect(res.status).toBe(200);
+            expect(res.body.message).toBeDefined();
+        });
     });
 
-    it("should return 400 ENROLL GROUP failed: 'password' has special charaters", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = "#123456789@";
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-    });
-
-    it("should return 401 ENROLL GROUP failed: 'password' isn't correct", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = "12345678910";
-
-        const res = await exec();
-
-        expect(res.status).toEqual(401);
-        expect(res.body.message).toEqual("Password is not correct.");
-    });
-
-    it("should return 400 ENROLL GROUP failed: 'code' have already enrolled", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = "123456789";
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual("You have already enrolled.");
-    });
-
-    it("should return 200 ENROLL GROUP: successful", async () => {
-        cookie = cookieStudent;
-        const group = await Group.findOne({ name: "project c" });
-        idGroup = group._id;
-        password = "123456789";
-
-        const res = await exec();
-
-        expect(res.status).toEqual(200);
-        expect(res.text).toEqual("Enroll success.");
+    afterAll(async () => {
+        await cleanup(db);
     });
 });
