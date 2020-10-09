@@ -20,7 +20,7 @@ module.exports = function (fields = []) {
                 return Joi.string()
                     .min(2)
                     .max(255)
-                    .regex(/^[a-zA-Z ]/)
+                    .regex(/^[a-zA-Z ]+$/)
                     .trim()
                     .lowercase()
                     .required();

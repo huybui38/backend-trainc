@@ -18,13 +18,17 @@ describe("Enroll Group /groups/:id", () => {
         idGroup = group._id;
     });
 
-    const exec = async ({ idGroup, cookie, password }) => {
+    const exec = async ({ idGroup, cookie, password = "" }) => {
         return await request.post(`/api/groups/${idGroup}`).set("cookie", cookie).send({ password });
     };
 
-    describe("admin cookie", () => {
+    describe("with admin cookie", () => {
         beforeAll(async () => {
             cookie = await getCookie("admin123");
+        });
+
+        beforeEach(() => {
+            password = "123456789";
         });
 
         it("ENROLL GROUP failed: Not found", async () => {
@@ -35,29 +39,30 @@ describe("Enroll Group /groups/:id", () => {
         });
 
         it("ENROLL GROUP failed: 'password' isn't correct", async () => {
-            password = "12345678910";
+            password = "wrongPassword";
             const res = await exec({ cookie, idGroup, password });
             expect(res.body.message).toBeDefined();
             expect(res.status).toBe(401);
         });
 
         it("ENROLL GROUP failed: 'code' have already enrolled", async () => {
-            password = "123456789";
             const res = await exec({ cookie, idGroup, password });
             expect(res.body.message).toBeDefined();
             expect(res.status).toBe(400);
         });
     });
 
-    describe("student cookie", () => {
+    describe("with student cookie", () => {
         beforeAll(async () => {
             cookie = await getCookie("se000000");
         });
 
-        it("should return 200 ENROLL GROUP: successful", async () => {
+        beforeEach(() => {
             password = "123456789";
-            const res = await exec({ cookie, idGroup, password });
+        });
 
+        it("ENROLL GROUP succeeded", async () => {
+            const res = await exec({ cookie, idGroup, password });
             expect(res.status).toBe(200);
             expect(res.body.message).toBeDefined();
         });

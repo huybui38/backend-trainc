@@ -1815,7 +1815,7 @@
         "/api/notifications/:id": {
             "put": {
                 "tags": ["Notification"],
-                "summary": "update (admin) DONE",
+                "summary": "update (admin) DONE (matched)",
                 "parameters": [
                     {
                         "name": "content",
