@@ -12,7 +12,7 @@ module.exports = function (fields = []) {
                     .max(255)
                     .trim()
                     .lowercase()
-                    .regex(/^[a-zA-Z ]+$/)
+                    .regex(/^[a-zA-Z0-9 ]+$/)
                     .required();
             case "active":
                 return Joi.boolean().required();

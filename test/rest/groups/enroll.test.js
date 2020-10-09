@@ -2,10 +2,12 @@ const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
 const { createUsers, createCourse, createGroup } = require("../../createDbTesting");
 const { Group } = require("../../../models/Group.model");
 const { Course } = require("../../../models/Course.model");
+const { before } = require("lodash");
 
 describe("Enroll Group /groups/:id", () => {
     let db;
-    let password, idGroup;
+    let password;
+    let idGroup;
     let cookie;
 
     beforeAll(async () => {
@@ -27,7 +29,7 @@ describe("Enroll Group /groups/:id", () => {
             cookie = await getCookie("admin123");
         });
 
-        beforeEach(() => {
+        beforeEach(async () => {
             password = "123456789";
         });
 
@@ -57,7 +59,7 @@ describe("Enroll Group /groups/:id", () => {
             cookie = await getCookie("se000000");
         });
 
-        beforeEach(() => {
+        beforeEach(async () => {
             password = "123456789";
         });
 

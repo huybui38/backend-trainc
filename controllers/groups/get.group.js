@@ -21,5 +21,5 @@ module.exports = AsyncCatch(async (req, res, next) => {
         group.members.map((userCode) => User.findOne({ code: userCode }, { name: 1, role: 1, code: 1 }))
     );
 
-    await res.send([group, users]);
+    res.send([group, users]);
 });

@@ -1,5 +1,6 @@
 const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
 const { createUsers, createCourse } = require("../../createDbTesting");
+const { before } = require("lodash");
 
 describe("Create Group /groups", () => {
     let db;
@@ -25,12 +26,14 @@ describe("Create Group /groups", () => {
             cookie = await getCookie("se000000");
         });
 
-        it("CREATE GROUP failed: isAdmin false", async () => {
+        beforeEach(async () => {
             name = "project c";
             password = "123456789";
             course = "learning c";
+        });
 
-            const res = await exec();
+        it("CREATE GROUP failed: isAdmin false", async () => {
+            const res = await exec({name, password, course});
 
             expect(res.status).toBe(403);
             expect(res.body.message).toBeDefined();
@@ -42,26 +45,33 @@ describe("Create Group /groups", () => {
             cookie = await getCookie("admin123");
         });
 
-        it("CREATE GROUP failed: 'course' not found", async () => {
-            name = "project java";
+        beforeEach(async () => {
+            name = "project c";
             password = "123456789";
-            course = "learning java";
+            course = "learning c";
+        });
 
-            const res = await exec();
+        it("CREATE GROUP failed: 'course' is not correct", async () => {
+            course = "learning java";
+            const res = await exec({name, password, course});
 
             expect(res.status).toBe(401);
             expect(res.body.message).toBeDefined();
         });
 
+        
         it("CREATE GROUP succeeded", async () => {
-            name = "project c";
-            password = "123456789";
-            course = "learning c";
-
-            const res = await exec();
-
+            const res = await exec({name, password, course});
+            
             expect(res.status).toBe(200);
-            expect(res.text).toBeDefined();
+            expect(res.body.message).toBeDefined();
         });
+
+        it("CREATE GROUP failed: 'name' is taken", async() => {
+            const res = await exec({name, password, course});
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBeDefined();
+        })
     });
 });
