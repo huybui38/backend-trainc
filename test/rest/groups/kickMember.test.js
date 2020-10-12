@@ -1,101 +1,70 @@
-const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
-const { createUsers, createCourse, createGroup } = require('../../createDbTesting');
-const { Group } = require('../../../models/Group.model');
-let cookieAdmin, cookieStudent, cookie;
-let code, idGroup;
+const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
+const { createUsers, createCourse, createGroup } = require("../../createDbTesting");
+const { Group } = require("../../../models/Group.model");
 
-describe('Kick Member Group /groups/:id/members', () => {
+describe("Kick Member Group /groups/:id/members", () => {
     let db;
-    beforeAll(async()=>{
-        db = await setupDatabase('delete_group');
+    let cookie;
+    let code, group;
+
+    beforeAll(async () => {
+        db = await setupDatabase("delete_group");
         await createUsers(db);
         await createCourse(db);
         await createGroup(db);
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
+        group = await Group.findOne({ name: "project c" });
     });
-    afterAll(async ()=>{
+
+    afterAll(async () => {
         await cleanup(db);
     });
-    
-    const exec = async () => {
-        return await request
-        .delete(`/api/groups/${idGroup}/members`)
-        .set('cookie', cookie)
-        .send({ code })
-    }
 
-    it("should return 400 KICK MEMBER failed: 'code' has special characters", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = '#s000000';
+    const exec = async ({ idGroup, cookie, code }) => {
+        return await request.delete(`/api/groups/${idGroup}/members`).set("cookie", cookie).send({ code });
+    };
 
-        const res = await exec();
+    describe("with student cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("se000000");
+        });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"code" must only contain alpha-numeric characters')
-    })
+        beforeEach(async () => {
+            code = "admin123";
+        });
 
-    it("should return 400 KICK MEMBER failed: 'code' is more than 8 characters long", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = new Array(10).join(0);
+        it("KICK MEMBER failed: isAdmin false", async () => {
+            const res = await exec({ idGroup: group._id, cookie, code });
+            expect(res.status).toBe(403);
+            expect(res.body.message).toBeDefined();
+        });
+    });
 
-        const res = await exec();
+    describe("with admin cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("admin123");
+        });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"code" length must be less than or equal to 8 characters long')
-    })
+        beforeEach(async () => {
+            code = "admin123";
+        });
 
-    
-    it("should return 400 KICK MEMBER failed: 'code' empty", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = '';
+        it("KICK MEMBER failed: Not found", async () => {
+            const res = await exec({ idGroup: group.course, code, cookie });
+            expect(res.status).toBe(404);
+            expect(res.body.message).toBeDefined();
+        });
 
-        const res = await exec();
+        it("KICK MEMBER failed: 'code' not found", async () => {
+            code = "se222222";
+            const res = await exec({ idGroup: group._id, cookie, code });
+            expect(res.status).toBe(401);
+            expect(res.body.message).toBeDefined();
+        });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toEqual('"code" is not allowed to be empty')
-    })
-
-    it("should return 401 KICK MEMBER failed: 'code' not found", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = 'se222222';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(401);
-        expect(res.body.message).toEqual('Member is not correct.')
-    })
-
-
-    it("should return 403 KICK MEMBER failed: isAdmin false", async () => {
-        cookie = cookieStudent;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = 'se111111';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(403);
-        expect(res.body.message).toEqual('Forbidden.')
-    })
-
-    it("should return 200 KICK MEMBER: successful", async () => {
-        cookie = cookieAdmin;
-        const group = await Group.findOne({name: "project c"});
-        idGroup = group._id;
-        code = 'se111111';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(200);
-        expect(res.text).toEqual('Member was deleted successfully.')
-    })
+        it("KICK MEMBER succeeded", async () => {
+            const res = await exec({ idGroup: group._id, cookie, code });
+            expect(res.status).toBe(200);
+            expect(res.body.message).toBeDefined();
+        });
+    });
 });

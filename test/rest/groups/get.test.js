@@ -4,7 +4,6 @@ const { Group } = require("../../../models/Group.model");
 
 describe("Get Group /groups/:id", () => {
     let cookie;
-    let idGroup;
     let db;
     let group;
 
