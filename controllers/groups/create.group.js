@@ -27,5 +27,5 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const result = await Course.findByIdAndUpdate(course._id, { $push: { groups: group._id } });
     if (!result) throw new DefaultError("Can't connect to database.");
 
-    res.send("Group was created successfully.");
+    res.json({ message: "Group was created successfully." });
 });

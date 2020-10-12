@@ -5,7 +5,9 @@ const isAdmin = require("../middleware/isAdmin");
 const create_exercise = require("../controllers/exercises/create.exercise");
 const update_exercise = require("../controllers/exercises/update.exercise");
 const get_exercise = require("../controllers/exercises/get.exercise");
+const getAll_exercise = require("../controllers/exercises/getAll.exercise");
 
+router.get("/", auth, isAdmin, getAll_exercise);
 router.post("/", auth, isAdmin, create_exercise);
 router.put("/:code", auth, isAdmin, update_exercise);
 router.get("/:code", auth, isAdmin, get_exercise);

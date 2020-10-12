@@ -1,147 +1,77 @@
-const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
-const { createUsers, createCourse } = require('../../createDbTesting');
-let cookieAdmin, cookieStudent, cookie;
-let name, password, course;
+const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
+const { createUsers, createCourse } = require("../../createDbTesting");
+const { before } = require("lodash");
 
-describe('Create Group /groups', () => {
+describe("Create Group /groups", () => {
     let db;
-    beforeAll(async()=>{
-        db = await setupDatabase('create_group');
+    let cookie;
+    let name, password, course;
+
+    beforeAll(async () => {
+        db = await setupDatabase("create_group");
         await createUsers(db);
         await createCourse(db);
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
     });
-    afterAll(async ()=>{
+
+    afterAll(async () => {
         await cleanup(db);
     });
-    
-    const exec = async () => {
-        return await request
-        .post('/api/groups/')
-        .set('cookie', cookie)
-        .send({ name, password, course })
-    }
 
-    it("should return 200 CREATE GROUP successful", async () => {
-        cookie = cookieAdmin;
-        name = 'project c';
-        password = '123456789';
-        course = "learning c";
+    const exec = async ({ name, password, course }) => {
+        return await request.post("/api/groups/").set("cookie", cookie).send({ name, password, course });
+    };
 
-        const res = await exec();
+    describe("with student cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("se000000");
+        });
 
-        expect(res.status).toEqual(200);
-        expect(res.text).toMatch("Group was created successfully.");
-    })
+        beforeEach(async () => {
+            name = "project c";
+            password = "123456789";
+            course = "learning c";
+        });
 
-    
-    it("should return 400 CREATE GROUP failed: 'name' empty", async () => {
-        cookie = cookieAdmin;
-        name = '';
-        password = '123456789';
-        course = "learning c";
+        it("CREATE GROUP failed: isAdmin false", async () => {
+            const res = await exec({name, password, course});
 
-        const res = await exec();
+            expect(res.status).toBe(403);
+            expect(res.body.message).toBeDefined();
+        });
+    });
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"name" is not allowed to be empty');
-    })
+    describe("with admin cookie", () => {
+        beforeAll(async () => {
+            cookie = await getCookie("admin123");
+        });
 
-    it("should return 400 CREATE GROUP failed: 'name' is more than 255 characters long", async () => {
-        cookie = cookieAdmin;
-        name = new Array(260).join('a');
-        password = '123456789';
-        course = "learning c";
+        beforeEach(async () => {
+            name = "project c";
+            password = "123456789";
+            course = "learning c";
+        });
 
-        const res = await exec();
+        it("CREATE GROUP failed: 'course' is not correct", async () => {
+            course = "learning java";
+            const res = await exec({name, password, course});
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"name" length must be less than or equal to 255 characters long');
-    })
+            expect(res.status).toBe(401);
+            expect(res.body.message).toBeDefined();
+        });
 
-    it("should return 400 CREATE GROUP failed: 'password' is less than 8 characters long", async () => {
-        cookie = cookieAdmin;
-        name = 'project C';
-        password = '1';
-        course = "learning c";
+        
+        it("CREATE GROUP succeeded", async () => {
+            const res = await exec({name, password, course});
+            
+            expect(res.status).toBe(200);
+            expect(res.body.message).toBeDefined();
+        });
 
-        const res = await exec();
+        it("CREATE GROUP failed: 'name' is taken", async() => {
+            const res = await exec({name, password, course});
 
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"password" length must be at least 8 characters long')
-    })
-
-    it("should return 400 CREATE GROUP failed: 'password' is more than 255 characters long", async () => {
-        cookie = cookieAdmin;
-        name = 'project C';
-        password = new Array(260).join('0');
-        course = "learning c";
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"password" length must be less than or equal to 255 characters long')
-    })
-
-    it("should return 400 CREATE GROUP failed: 'password' has special charaters", async () => {
-        cookie = cookieAdmin;
-        name = 'project c';
-        password = '#123456@';
-        course = 'learning c';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-    })
-
-    it("should return 400 CREATE GROUP failed: 'course' empty", async () => {
-        cookie = cookieAdmin;
-        name = 'project c';
-        password = '123456789';
-        course = '';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"course" is not allowed to be empty');
-    })
-
-    
-    it("should return 400 CREATE GROUP failed: 'course' is more than 255 characters long", async () => {
-        cookie = cookieAdmin;
-        name = 'project c';
-        password = '123456789';
-        course = new Array(260).join('a');
-
-        const res = await exec();
-
-        expect(res.status).toEqual(400);
-        expect(res.body.message).toMatch('"course" length must be less than or equal to 255 characters long');
-    })
-
-    it("should return 403 CREATE GROUP failed: isAdmin false", async () => {
-        cookie = cookieStudent;
-        name = 'project c';
-        password = '123456789';
-        course = 'learning c';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(403);
-        expect(res.body.message).toMatch('Forbidden.');
-    })
-
-    it("should return 404 CREATE GROUP failed: 'course' not found", async () => {
-        cookie = cookieAdmin;
-        name = 'project java';
-        password = '123456789';
-        course = 'learning java';
-
-        const res = await exec();
-
-        expect(res.status).toEqual(401);
-        expect(res.body.message).toMatch('Course is not correct.');
-    })
-
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBeDefined();
+        })
+    });
 });

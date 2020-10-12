@@ -12,21 +12,17 @@ module.exports = function (fields = []) {
                     .max(255)
                     .trim()
                     .lowercase()
-                    .regex(/^[a-zA-Z ]/)
+                    .regex(/^[a-zA-Z0-9 ]+$/)
                     .required();
             case "password":
-                return Joi.string()
-                    .min(8)
-                    .max(255)
-                    .regex(/^[a-zA-Z0-9]/)
-                    .required();
+                return Joi.string().min(8).max(255).alphanum().required();
             case "course":
                 return Joi.string()
                     .min(2)
                     .max(255)
                     .trim()
                     .lowercase()
-                    .regex(/^[a-zA-Z ]/)
+                    .regex(/^[a-zA-Z0-9 ]+$/)
                     .required();
             case "mentors":
                 return Joi.array()

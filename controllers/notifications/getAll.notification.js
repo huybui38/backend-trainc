@@ -14,7 +14,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
             notification.course = course.name;
         })
-    );
+    )
 
     res.send(notifications);
 });
