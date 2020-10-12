@@ -13,10 +13,6 @@ describe("Create Group /groups", () => {
         await createCourse(db);
     });
 
-    afterAll(async () => {
-        await cleanup(db);
-    });
-
     const exec = async ({ name, password, course }) => {
         return await request.post("/api/groups/").set("cookie", cookie).send({ name, password, course });
     };
@@ -33,7 +29,7 @@ describe("Create Group /groups", () => {
         });
 
         it("CREATE GROUP failed: isAdmin false", async () => {
-            const res = await exec({name, password, course});
+            const res = await exec({ name, password, course });
 
             expect(res.status).toBe(403);
             expect(res.body.message).toBeDefined();
@@ -53,25 +49,28 @@ describe("Create Group /groups", () => {
 
         it("CREATE GROUP failed: 'course' is not correct", async () => {
             course = "learning java";
-            const res = await exec({name, password, course});
+            const res = await exec({ name, password, course });
 
             expect(res.status).toBe(401);
             expect(res.body.message).toBeDefined();
         });
 
-        
         it("CREATE GROUP succeeded", async () => {
-            const res = await exec({name, password, course});
-            
+            const res = await exec({ name, password, course });
+
             expect(res.status).toBe(200);
             expect(res.body.message).toBeDefined();
         });
 
-        it("CREATE GROUP failed: 'name' is taken", async() => {
-            const res = await exec({name, password, course});
+        it("CREATE GROUP failed: 'name' is taken", async () => {
+            const res = await exec({ name, password, course });
 
             expect(res.status).toBe(400);
             expect(res.body.message).toBeDefined();
-        })
+        });
+    });
+
+    afterAll(async () => {
+        await cleanup(db);
     });
 });

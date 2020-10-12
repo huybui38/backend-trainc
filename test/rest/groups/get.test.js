@@ -1,41 +1,40 @@
-const {request, cleanup, setupDatabase, getCookie} = require('../../helpers');
-const { createUsers, createCourse, createGroup } = require('../../createDbTesting');
-const { Group } = require('../../../models/Group.model');
-let cookieAdmin, cookieStudent, cookie;
-let idGroup;
+const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
+const { createUsers, createCourse, createGroup } = require("../../createDbTesting");
+const { Group } = require("../../../models/Group.model");
 
-describe('Get Group /groups/:id', () => {
+describe("Get Group /groups/:id", () => {
+    let cookie;
+    let idGroup;
     let db;
-    beforeAll(async()=>{
-        db = await setupDatabase('get_group');
+    let group;
+
+    beforeAll(async () => {
+        db = await setupDatabase("get_group");
         await createUsers(db);
         await createCourse(db);
         await createGroup(db);
-        cookieStudent = await getCookie('se000000');
-        cookieAdmin = await getCookie('admin123');
+        cookie = await getCookie("se000000");
+        group = await Group.findOne({ name: "project c" });
     });
-    afterAll(async ()=>{
+
+    afterAll(async () => {
         await cleanup(db);
     });
-    
-    const exec = async () => {
-        return await request
-        .get(`/api/groups/${idGroup}`)
-        .set('cookie', cookie)
-    }
 
-    it("should return 200 GET GROUP: successful", async () => {
-        cookie = cookieStudent;
-        const group = await Group.findOne({name: 'project c'});
-        idGroup = group._id;
+    const exec = async ({ idGroup, cookie }) => {
+        return await request.get(`/api/groups/${idGroup}`).set("cookie", cookie);
+    };
 
-        const res = await exec();
+    it("GET GROUP failed: Not found", async () => {
+        const res = await exec({ idGroup: group.course, cookie });
+        expect(res.status).toBe(404);
+        expect(res.body.message).toBeDefined();
+    });
 
-        expect(res.status).toEqual(200);
-        expect(res.body).toHaveProperty("members");
-        expect(res.body).toHaveProperty("exercises");
-        expect(res.body).toHaveProperty("_id");
-        expect(res.body).toHaveProperty("name", "project c");
-        expect(res.body).toHaveProperty("course", "learning c");
-    })
-})
+    it("GET GROUP succeeded", async () => {
+        const res = await exec({ idGroup: group._id, cookie });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toBeDefined();
+    });
+});

@@ -1,5 +1,5 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
-const { BadRequest, DefaultError } = require("../../helpers/errors.helper");
+const { NotFound, DefaultError } = require("../../helpers/errors.helper");
 const { Group } = require("../../models/Group.model");
 const { User } = require("../../models/User.model");
 const { Course } = require("../../models/Course.model");
@@ -8,9 +8,8 @@ const validatorSchema = require("../../validators/group.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["id"]), req.params);
-
     const group = await Group.findById(params.id);
-    if (!group) throw new BadRequest("Not found.");
+    if (!group) throw new NotFound("Not found.");
 
     const course = await Course.findById(group.course);
     if (!course) throw new DefaultError("Can't connect to database.");
