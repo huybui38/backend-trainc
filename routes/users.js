@@ -9,10 +9,14 @@ const changePassword_user = require("../controllers/users/changePassword.user");
 const changeName_user = require("../controllers/users/changeName.user");
 const getProfile_user = require("../controllers/users/getProfile.user");
 const getAll_user = require("../controllers/users/getAll.user");
+const logout_user = require("../controllers/users/logout.user");
+const getCourses_user = require("../controllers/users/getCourses.user")
 
 router.put("/:code/passwords", auth, changePassword_user);
 router.put("/:code/names", auth, changeName_user);
+router.get("/:code/courses", auth, getCourses_user);
 router.post("/login", login_user);
+router.post("/logout", auth, logout_user);
 router.put("/:code", auth, isAdmin, update_user);
 router.get("/:code", auth, getProfile_user);
 router.post("/", auth, isAdmin, create_user);
