@@ -2,13 +2,13 @@ const { request, cleanup, setupDatabase, getCookie } = require("../../helpers");
 const { createUsers, createCourse, createGroup } = require("../../createDbTesting");
 const { Group } = require("../../../models/Group.model");
 
-describe("Kick Member Group /groups/:id/members", () => {
+describe("Update Group /groups/:id", () => {
     let db;
     let cookie;
-    let code, group;
+    let name, active, group;
 
     beforeAll(async () => {
-        db = await setupDatabase("kick_member_group");
+        db = await setupDatabase("update_group");
         await createUsers(db);
         await createCourse(db);
         await createGroup(db);
@@ -19,8 +19,8 @@ describe("Kick Member Group /groups/:id/members", () => {
         await cleanup(db);
     });
 
-    const exec = async ({ idGroup, cookie, code }) => {
-        return await request.delete(`/api/groups/${idGroup}/members`).set("cookie", cookie).send({ code });
+    const exec = async ({ idGroup, cookie, name, active }) => {
+        return await request.put(`/api/groups/${idGroup}`).set("cookie", cookie).send({ name, active });
     };
 
     describe("with student cookie", () => {
@@ -29,11 +29,12 @@ describe("Kick Member Group /groups/:id/members", () => {
         });
 
         beforeEach(async () => {
-            code = "admin123";
+            name = "change name";
+            active = !group.active;
         });
 
-        it("KICK MEMBER failed: isAdmin false", async () => {
-            const res = await exec({ idGroup: group._id, cookie, code });
+        it("UPDATE GROUP failed: isAdmin false", async () => {
+            const res = await exec({ idGroup: group._id, cookie, name, active });
             expect(res.status).toBe(403);
             expect(res.body.message).toBeDefined();
         });
@@ -45,24 +46,18 @@ describe("Kick Member Group /groups/:id/members", () => {
         });
 
         beforeEach(async () => {
-            code = "admin123";
+            name = "change name";
+            active = !group.active;
         });
 
-        it("KICK MEMBER failed: Not found", async () => {
-            const res = await exec({ idGroup: group.course, code, cookie });
+        it("UPDATE GROUP failed: Not found", async () => {
+            const res = await exec({ idGroup: group.course, cookie, active, name });
             expect(res.status).toBe(404);
             expect(res.body.message).toBeDefined();
         });
 
-        it("KICK MEMBER failed: 'code' not found", async () => {
-            code = "se222222";
-            const res = await exec({ idGroup: group._id, cookie, code });
-            expect(res.status).toBe(401);
-            expect(res.body.message).toBeDefined();
-        });
-
-        it("KICK MEMBER succeeded", async () => {
-            const res = await exec({ idGroup: group._id, cookie, code });
+        it("UPDATE GROUP succeeded", async () => {
+            const res = await exec({ idGroup: group._id, cookie, active, name });
             expect(res.status).toBe(200);
             expect(res.body.message).toBeDefined();
         });
