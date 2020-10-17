@@ -28,6 +28,8 @@ module.exports = function (fields = []) {
                 return Joi.array()
                     .items(Joi.string().min(8).alphanum().trim().lowercase().max(8).required())
                     .required();
+            case "active":
+                return Joi.boolean().required();
         }
     };
 
