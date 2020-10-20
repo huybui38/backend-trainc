@@ -14,7 +14,6 @@ module.exports = function (fields = []) {
                     .max(255)
                     .trim()
                     .lowercase()
-                    .regex(/^[a-zA-Z0-9 ]+$/)
                     .required();
         }
     };

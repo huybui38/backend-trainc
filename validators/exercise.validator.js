@@ -13,7 +13,6 @@ module.exports = function (fields = []) {
                     .max(255)
                     .trim()
                     .lowercase()
-                    .regex(/^[a-zA-Z0-9 ]+$/)
                     .required();
             case "group":
                 return Joi.string().min(2).max(255);

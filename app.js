@@ -9,7 +9,7 @@ const { handleError } = require("./helpers/utils.helper");
 
 var app = express();
 
-app.use(cors({ origin: "http://192.168.1.46:3000", credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.46:3000');
+    res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
