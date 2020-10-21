@@ -9,6 +9,8 @@ const validatorSchema = require("../../validators/group.validator");
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["id"]), req.params);
 
+
+    
     const group = await Group.findById(params.id);
     if (!group) throw new NotFound("Not found.");
 
