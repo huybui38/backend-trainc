@@ -10,6 +10,7 @@ const { handleError } = require("./helpers/utils.helper");
 var app = express();
 
 console.log(process.env.DATABASE_URL);
+console.log(process.env.NODE_ENV)
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 app.use(logger("dev"));
