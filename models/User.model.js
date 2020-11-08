@@ -15,8 +15,8 @@ const UserSchema = new mongoose.Schema({
         default: true,
     },
     point: {
-        type: Number,
-        default: 0,
+        type: Array,
+        default: [],
     },
     role: {
         type: String,

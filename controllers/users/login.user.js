@@ -18,10 +18,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const token = getUserToken(user);
 
-    res.cookie("token", token).send("login success");
-    // if (process.env.NODE_ENV != 'production'){
-    //     res.cookie("token", token, { sameSite: "none" }).send("Login success."); //dev
-    // }else{
-    //     res.cookie("token", token, { sameSite: "none", secure: true }).send("Login success.");
-    // }
+    if (process.env.NODE_ENV != "production") {
+        res.cookie("token", token, { sameSite: "none" }).send("Login success."); //dev
+    } else {
+        // res.cookie("token", token, { sameSite: "none" }).send("Login success.");
+        res.cookie("token", token, { sameSite: "none", secure: true }).send("Login success.");
+    }
 });

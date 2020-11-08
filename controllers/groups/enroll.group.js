@@ -2,6 +2,7 @@ const { AsyncCatch } = require("../../helpers/utils.helper");
 const { DefaultError, NotFound, Unauthorized, BadRequest } = require("../../helpers/errors.helper");
 const { Group } = require("../../models/Group.model");
 const { Course } = require("../../models/Course.model");
+const { User } = require("../../models/User.model");
 const { compareHashingString } = require("../../helpers/bcrypt.helper");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
@@ -24,9 +25,16 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     const course = await Course.findById(group.course);
     if (!course) throw new DefaultError("Can't connect to database.");
-    
+
     if (!course.students.includes(req.user.code))
         await Course.findByIdAndUpdate(group.course, { $push: { students: req.user.code } });
+
+    const pointInfo = {
+        couseId: course._id,
+        point: 0,
+    };
+
+    await User.findByIdAndUpdate(req.user._id, { $push: { courses: course._id, groups: group._id, point: pointInfo } });
 
     res.json({ message: "Enroll success." });
 });

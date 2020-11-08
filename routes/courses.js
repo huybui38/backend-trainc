@@ -10,10 +10,12 @@ const getAll_course = require("../controllers/courses/getAll.course");
 const getGroups_course = require("../controllers/courses/getGroups.course");
 const getNotifications_course = require("../controllers/courses/getNotifications.course");
 const getExercises_course = require("../controllers/courses/getExercises.course");
+const getStudents_course = require("../controllers/courses/getStudents.course");
 
 router.get("/:id/groups", auth, getGroups_course);
 router.get("/:id/notifications", auth, getNotifications_course);
 router.get("/:id/exercises", auth, isMentor, isAdmin, getExercises_course);
+router.get("/:id/students", auth, isAdmin, getStudents_course);
 router.put("/:id", auth, isAdmin, update_course);
 router.delete("/:id", auth, isAdmin, delete_course);
 router.post("/", auth, isAdmin, create_course);
