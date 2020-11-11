@@ -10,12 +10,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const exercise = await Exercise.findById(params.id);
     if (!exercise) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["code", "content", "point", "attempt", "deadline"]), req.body);
-
-    if (await Exercise.findOne({ code: input.code })) throw new BadRequest("Code is taken.");
+    const input = validator(validatorSchema(["content", "point", "attempt", "deadline"]), req.body);
 
     const result = await Exercise.findByIdAndUpdate(exercise._id, {
-        code: input.code,
         content: input.content,
         point: input.point,
         attempt: input.attempt,
