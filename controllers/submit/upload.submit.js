@@ -52,7 +52,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
             if (req.file == undefined) {
                 res.send("No file");
             } else {
-                res.send("ahihi");
+                res.send("Submit success").status(200);
             }
         }
     });
