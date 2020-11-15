@@ -36,5 +36,9 @@ module.exports.Exercise = mongoose.model(
             type: Boolean,
             default: false, //false la bai tap chung
         },
+        submits: {
+            type: Array,
+            default: [],
+        },
     })
 );

@@ -4,20 +4,19 @@ const SubmitSchema = new mongoose.Schema({
     code: {
         type: String,
     },
+    locations: {
+        type: Array,
+        default: [],
+    },
     user: {
         type: String,
     },
     course: {
         type: String,
     },
-    status: {
-        type: String,
-    },
     point: {
         type: Number,
-    },
-    comment: {
-        type: String,
+        default: 0,
     },
 });
 
