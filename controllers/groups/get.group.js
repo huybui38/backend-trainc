@@ -16,9 +16,8 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     group.course = course.name;
 
-    const users = await Promise.all(
-        group.members.map((userCode) => User.findOne({ code: userCode }, { name: 1, role: 1, code: 1 }))
-    );
+    const users = await Promise.all(group.members.map((userCode) => User.findOne({ code: userCode }, { password: 0 })));
+    console.log(users);
 
     res.send([group, users]);
 });
