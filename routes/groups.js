@@ -13,8 +13,8 @@ const update_group = require("../controllers/groups/update.group");
 router.delete("/:id/members", auth, isAdmin, kick_group);
 router.post("/:id", auth, enroll_group);
 router.delete("/:id", auth, isAdmin, delete_group);
-router.put("/:id", auth, isMentor, isAdmin, update_group);
+router.put("/:id", auth, isMentor, update_group);
 router.get("/:id", auth, get_group);
-router.post("/", auth, isMentor, isAdmin, create_group);
+router.post("/", auth, isMentor, create_group);
 
 module.exports = router;

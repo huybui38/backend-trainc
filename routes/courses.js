@@ -14,7 +14,7 @@ const getStudents_course = require("../controllers/courses/getStudents.course");
 
 router.get("/:id/groups", auth, getGroups_course);
 router.get("/:id/notifications", auth, getNotifications_course);
-router.get("/:id/exercises", auth, isMentor, isAdmin, getExercises_course);
+router.get("/:id/exercises", auth, isMentor, getExercises_course);
 router.get("/:id/students", auth, isAdmin, getStudents_course);
 router.put("/:id", auth, isAdmin, update_course);
 router.delete("/:id", auth, isAdmin, delete_course);

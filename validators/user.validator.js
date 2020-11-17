@@ -1,11 +1,6 @@
 const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
-
-const UserRoleEnum = {
-    ADMIN: "2",
-    MENTOR: "1",
-    STUDENT: "0",
-};
+const { UserRoleEnum } = require("../helpers/userRoleEnum.helper");
 
 module.exports = function (fields = []) {
     const getSchema = (field) => {
