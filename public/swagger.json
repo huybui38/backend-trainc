@@ -5,7 +5,7 @@
         "description": "Fcode API documentation",
         "version": "1.0"
     },
-    "host": "https://demowebtrainc.herokuapp.com/",
+    "host": "http://128.199.124.35:80/",
     "basePath": "/",
     "schemes": ["https"],
     "servers": [
