@@ -13,7 +13,7 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "code":
-                return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
+                return Joi.string().min(8).alphanum().trim().max(8).required();
             case "password":
                 return Joi.string().min(8).max(255).alphanum().required();
             case "name":
@@ -22,7 +22,6 @@ module.exports = function (fields = []) {
                     .max(255)
                     .regex(/^[a-zA-Z ]+$/)
                     .trim()
-                    .lowercase()
                     .required();
             case "role":
                 return Joi.string().valid(UserRoleEnum.MENTOR, UserRoleEnum.STUDENT).required();

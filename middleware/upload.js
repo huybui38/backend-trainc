@@ -16,6 +16,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (exercise.type) {
         if (!req.user.groups.includes(exercise.group)) throw new Forbidden("Forbidden.");
     } else if (!req.user.courses.includes(exercise.course)) throw new Forbidden("Forbidden.");
+
     if (exercise.submits.includes(req.user.code)) {
         for (const item of req.user.exercises) {
             if (item.exercise.equals(exercise._id)) {
@@ -27,6 +28,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
             code: exercise._id,
             user: req.user.code,
             course: exercise.course,
+            attempt: exercise.attempt,
         });
 
         await Exercise.findByIdAndUpdate(exercise._id, { $push: { submits: req.user.code } });
@@ -37,7 +39,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         await User.findByIdAndUpdate(req.user._id, { $push: { exercises: submitInfo } });
     }
 
-    if (req.submit.locations.length === exercise.attempt) throw new BadRequest("Not allow to upload.");
+    if (req.submit.attempt === exercise.attempt) throw new BadRequest("Not allow to upload.");
 
     upload(req, res, (err) => {
         if (err) {

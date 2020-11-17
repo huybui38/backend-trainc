@@ -5,6 +5,15 @@ const validatorSchema = require("../../validators/user.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["code"]), req.params);
-    if (user.code !== params.code) throw new NotFound("Not found.");
-    res.send(user.courses);
+
+    if (req.user.code !== params.code) throw new NotFound("Not found.");
+
+    await Promise.all(
+        req.user.courses.map(async (courseId) => {
+            const course = await Course.findById(courseId);
+            courseId = course.name;
+        })
+    );
+
+    res.send(req.user.courses);
 });

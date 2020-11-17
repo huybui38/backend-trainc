@@ -14,9 +14,8 @@ const SubmitSchema = new mongoose.Schema({
     course: {
         type: String,
     },
-    point: {
+    attempt: {
         type: Number,
-        default: 0,
     },
 });
 

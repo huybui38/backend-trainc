@@ -7,12 +7,7 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "name":
-                return Joi.string()
-                    .min(2)
-                    .max(255)
-                    .trim()
-                    .lowercase()
-                    .required();
+                return Joi.string().min(2).max(255).trim().required();
             case "active":
                 return Joi.boolean().required();
             case "thumbnail":
