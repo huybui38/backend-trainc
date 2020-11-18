@@ -1,5 +1,5 @@
 const { AsyncCatch } = require("../../helpers/utils.helper");
-const { DefaultError, BadRequest } = require("../../helpers/errors.helper");
+const { BadRequest } = require("../../helpers/errors.helper");
 const { Exercise } = require("../../models/Exercise.model");
 const { Course } = require("../../models/Course.model");
 const { Group } = require("../../models/Group.model");
