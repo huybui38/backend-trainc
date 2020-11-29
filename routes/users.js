@@ -12,11 +12,13 @@ const getAll_user = require("../controllers/users/getAll.user");
 const logout_user = require("../controllers/users/logout.user");
 const getCourses_user = require("../controllers/users/getCourses.user");
 const getSubmits_user = require("../controllers/users/getSubmits.user");
+const getExercises_user = require("../controllers/users/getExercises.user");
 
 router.put("/:code/passwords", auth, changePassword_user);
 router.put("/:code/names", auth, changeName_user);
 router.get("/:code/courses", auth, getCourses_user);
 router.get("/:code/submits", auth, getSubmits_user);
+router.get("/:code/exercises", auth, getExercises_user);
 router.post("/login", login_user);
 router.post("/logout", auth, logout_user);
 router.put("/:code", auth, isAdmin, update_user);

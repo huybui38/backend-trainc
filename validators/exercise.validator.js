@@ -23,7 +23,7 @@ module.exports = function (fields = []) {
             case "deadline":
                 return Joi.date().required();
             case "type":
-                return Joi.boolean().required();
+                return Joi.boolean().required(); //true bai tap rieng
         }
     };
 

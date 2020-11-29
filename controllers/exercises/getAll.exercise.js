@@ -14,7 +14,6 @@ module.exports = AsyncCatch(async (req, res, next) => {
     await Promise.all(
         exercises.map(async (exercise) => {
             if (exercise.type === false) {
-                console.log(exercise);
                 const course = await Course.findById(exercise.course);
                 if (!course) throw new BadRequest("Course " + exercise.course + " does not exist.");
                 exercise.course = course.name;
