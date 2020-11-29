@@ -28,7 +28,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
             code: exercise._id,
             user: req.user.code,
             course: exercise.course,
-            attempt: exercise.attempt,
+            attempt: 0,
         });
 
         await Exercise.findByIdAndUpdate(exercise._id, { $push: { submits: req.user.code } });
@@ -45,7 +45,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         if (err) {
             res.status(400).send(err.message);
         } else {
-            if (req.file == undefined) {
+            if (req.file === undefined) {
                 res.status(400).send("No file.");
             } else {
                 next();

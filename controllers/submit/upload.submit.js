@@ -10,6 +10,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
         status: "1",
         comment: "",
     };
-    const submit = await Submit.findByIdAndUpdate(req.submit._id, { $push: { locations: locationInfo } });
+    const submit = await Submit.findByIdAndUpdate(req.submit._id, {
+        $push: { locations: locationInfo },
+        attempt: req.submit.attempt + 1,
+    });
     res.send("Upload file success.");
 });
