@@ -8,7 +8,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["code"]), req.params);
     if (req.user.code !== params.code) throw new NotFound("Not found.");
     
-    const user = _.pick(req.user, ["code", "name", "role"]);
+    const user = _.pick(req.user, ["code", "name", "role", "point"]);
     res.send(user);
 });
 

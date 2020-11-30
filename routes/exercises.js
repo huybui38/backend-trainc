@@ -12,7 +12,7 @@ const changeStatus_exercise = require("../controllers/exercises/changeStatus.exe
 router.get("/", auth, isMentor, getAll_exercise);
 router.post("/", auth, isMentor, create_exercise);
 router.put("/:id", auth, isMentor, update_exercise);
-router.get("/:id", auth, isMentor, get_exercise);
+router.get("/:id", auth, get_exercise);
 router.put("/:id/status", auth, isMentor, changeStatus_exercise);
 
 module.exports = router;
