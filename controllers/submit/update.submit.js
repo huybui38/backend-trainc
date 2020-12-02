@@ -31,16 +31,17 @@ module.exports = AsyncCatch(async (req, res, next) => {
     }
     await User.findByIdAndUpdate(user._id, { point: user.point });
 
-    var check = false;
+    let check = false;
     for (const locationInfo of submit.locations) {
-        if (locationInfo.location.equals(input.location)) {
-            locationInfo.location.status = input.status;
-            locationInfo.location.comment = input.comment;
+        if (locationInfo.location === input.location) {
+            if ((submit.locations.length === submit.attempt) && (input.status === '2')) locationInfo.status = '4';
+             else locationInfo.status = input.status;
+            locationInfo.comment = input.comment;
             check = true;
         }
     }
     if (!check) throw new BadRequest("Location is not correct.");
-    await Submit.findByIdAndUpdate(submit._id, { locations: submit.locaitons });
+    await Submit.findByIdAndUpdate(submit._id, { locations: submit.locations });
 
     res.send("Exercise was updated successfully.");
 });
