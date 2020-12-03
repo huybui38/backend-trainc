@@ -24,6 +24,8 @@ module.exports = function (fields = []) {
                 return Joi.date().required();
             case "type":
                 return Joi.boolean().required(); //true bai tap rieng
+            case "testcase":
+                return Joi.array().required();
         }
     };
 

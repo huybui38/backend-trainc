@@ -40,5 +40,9 @@ module.exports.Exercise = mongoose.model(
             type: Array,
             default: [],
         },
+        testcase: {
+            type: Array,
+            default: [],
+        },
     })
 );

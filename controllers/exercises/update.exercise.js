@@ -10,13 +10,14 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const exercise = await Exercise.findById(params.id);
     if (!exercise) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["content", "point", "attempt", "deadline"]), req.body);
+    const input = validator(validatorSchema(["content", "point", "attempt", "deadline", "testcase"]), req.body);
 
     const result = await Exercise.findByIdAndUpdate(exercise._id, {
         content: input.content,
         point: input.point,
         attempt: input.attempt,
         deadline: input.deadline,
+        testcase: input.testcase,
     });
     if (!result) throw new DefaultError("Can't connect to database.");
 
