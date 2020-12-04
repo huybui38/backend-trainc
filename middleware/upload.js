@@ -1,6 +1,6 @@
 const { BadRequest, Forbidden, NotFound } = require("../helpers/errors.helper");
 const { AsyncCatch } = require("../helpers/utils.helper");
-const { upload } = require("../helpers/upload.helper");
+const { submit } = require("../helpers/upload.helper");
 const { Exercise } = require("../models/Exercise.model");
 const { Submit } = require("../models/Submit.model");
 const { User } = require("../models/User.model");
@@ -41,7 +41,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     if (req.submit.attempt === exercise.attempt) throw new BadRequest("Not allow to upload.");
 
-    upload(req, res, (err) => {
+    submit(req, res, (err) => {
         if (err) {
             res.status(400).send(err.message);
         } else {

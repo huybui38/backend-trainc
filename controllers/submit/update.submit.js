@@ -36,7 +36,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         console.log(locationInfo.location);
         console.log(input.location);
         if (locationInfo.location === input.location) {
-            if (submit.attempt === submit.attempt && input.status === ExerciseStatusEnum.FAILED)
+            if (submit.locations.length === submit.attempt && input.status === ExerciseStatusEnum.FAILED)
                 locationInfo.status = ExerciseStatusEnum.REJECT;
             else locationInfo.status = input.status;
             locationInfo.mentors.push({

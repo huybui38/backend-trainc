@@ -5,6 +5,13 @@ const path = require("path");
 const s3 = new AWS.S3();
 
 const storage = multer.diskStorage({
+    destination: "./public/submits/",
+    filename: function (req, file, cb) {
+        cb(null, req.user.code + "-" + req.params.id + "-" + Date.now() + path.extname(file.originalname));
+    },
+});
+
+const storageUpload = multer.diskStorage({
     destination: "./public/uploads/",
     filename: function (req, file, cb) {
         cb(null, req.user.code + "-" + req.params.id + "-" + Date.now() + path.extname(file.originalname));
@@ -12,6 +19,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
+    storage: storageUpload,
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb);
+    },
+}).single("submit");
+
+const submit = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
@@ -39,7 +53,7 @@ const upload = multer({
 // }).single("submit");
 
 function checkFileType(file, cb) {
-    const fileTypes = /c|cpp/;
+    const fileTypes = /c/;
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = fileTypes.test(file.mimetype);
 
@@ -50,4 +64,4 @@ function checkFileType(file, cb) {
     }
 }
 
-module.exports = { upload, checkFileType };
+module.exports = { upload, checkFileType, submit };
