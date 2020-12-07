@@ -13,6 +13,8 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     req.exercise = exercise;
 
+    if (exercise === null) res.send("No testcase is provided.");
+
     if (exercise.type) {
         if (!req.user.groups.includes(exercise.group)) throw new Forbidden("Forbidden.");
     } else if (!req.user.courses.includes(exercise.course)) throw new Forbidden("Forbidden.");
