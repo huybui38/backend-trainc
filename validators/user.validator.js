@@ -8,7 +8,7 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "code":
-                return Joi.string().min(8).alphanum().trim().max(8).required();
+                return Joi.string().min(8).alphanum().trim().max(8).required().uppercase();
             case "password":
                 return Joi.string().min(8).max(255).alphanum().required();
             case "name":

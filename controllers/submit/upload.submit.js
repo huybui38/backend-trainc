@@ -10,6 +10,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         timeSubmit: formatDateOutput(Date.now()),
         status: ExerciseStatusEnum.PROCESS,
         mentors: [],
+        time: req.submit.attempt + 1,
     };
     const submit = await Submit.findByIdAndUpdate(req.submit._id, {
         $push: { locations: locationInfo },

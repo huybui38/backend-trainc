@@ -8,7 +8,7 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "code":
-                return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
+                return Joi.string().min(8).alphanum().trim().uppercase().max(8).required();
             case "status":
                 return Joi.string()
                     .valid(
@@ -26,6 +26,8 @@ module.exports = function (fields = []) {
                 return Joi.string().required();
             case "location":
                 return Joi.string().required();
+            case "time":
+                return Joi.number().required();
         }
     };
 

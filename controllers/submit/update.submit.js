@@ -14,40 +14,37 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const submit = await Submit.findById(params.id);
     if (!submit) throw new NotFound("Not found.");
 
-    const input = validator(validatorSchema(["status", "comment", "location"]), req.body);
+    const input = validator(validatorSchema(["status", "comment", "time"]), req.body);
+    if (input.time <= 0 || input.time > submit.attempt) throw new BadRequest("Time is invalid.");
 
-    if (submit.status === input.status) throw new BadRequest("Status is not changed.");
+    const location = submit.locations[input.time];
+    if (!location) throw new BadRequest("Location is not provided.");
+
+    if (loaction.status === input.status) throw new BadRequest("Status is not changed.");
 
     const user = await User.findOne({ code: submit.user });
     const exercise = await Exercise.findById(submit.code);
 
     for (const pointInfo of user.point) {
         if (pointInfo.courseId.equals(exercise.course)) {
-            if (submit.status === ExerciseStatusEnum.SUCCESS) {
+            if (location.status === ExerciseStatusEnum.SUCCESS) {
                 pointtInfor.point -= exercise.point;
-            } else if (input.submit === ExerciseStatusEnum.SUCCESS) {
+            } else if (input.status === ExerciseStatusEnum.SUCCESS) {
                 pointtInfor.point += exercise.point;
             }
         }
     }
 
-    let check = false;
-    for (const locationInfo of submit.locations) {
-        console.log(locationInfo.location);
-        console.log(input.location);
-        if (locationInfo.location === input.location) {
-            if (submit.locations.length === submit.attempt && input.status === ExerciseStatusEnum.FAILED)
-                locationInfo.status = ExerciseStatusEnum.REJECT;
-            else locationInfo.status = input.status;
-            locationInfo.mentors.push({
-                mentor: req.user.name,
-                comment: input.comment,
-                time: formatDateOutput(Date.now()),
-            });
-            check = true;
-        }
-    }
-    if (!check) throw new BadRequest("Location is not correct.");
+    if (submit.attempt === submit.maxAttempt && input.status === ExerciseStatusEnum.FAILED)
+        location.status = ExerciseStatusEnum.REJECT;
+    else location.status = input.status;
+    location.mentors.push({
+        mentor: req.user.name,
+        comment: input.comment,
+        time: formatDateOutput(Date.now()),
+    });
+
+    submit.locations[input.time] = location;
 
     await User.findByIdAndUpdate(user._id, { point: user.point });
     await Submit.findByIdAndUpdate(submit._id, { locations: submit.locations });
