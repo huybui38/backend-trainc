@@ -12,8 +12,6 @@ module.exports = function (fields = []) {
                 return Joi.string().min(8).max(255).alphanum().required();
             case "course":
                 return Joi.string().min(2).max(255).trim().required();
-            case "mentors":
-                return Joi.array().items(Joi.string().min(8).alphanum().trim().max(8).required()).required();
             case "active":
                 return Joi.boolean().required();
         }
