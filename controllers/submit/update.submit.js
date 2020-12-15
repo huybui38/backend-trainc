@@ -17,7 +17,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(validatorSchema(["status", "comment", "time"]), req.body);
     if (input.time <= 0 || input.time > submit.attempt) throw new BadRequest("Time is invalid.");
 
-    const location = submit.locations[input.time];
+    const location = submit.locations[input.time - 1];
     if (!location) throw new BadRequest("Location is not provided.");
 
     if (location.status === input.status) throw new BadRequest("Status is not changed.");
@@ -28,9 +28,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
     for (const pointInfo of user.point) {
         if (pointInfo.courseId.equals(exercise.course)) {
             if (location.status === ExerciseStatusEnum.SUCCESS) {
-                pointInfor.point -= exercise.point;
+                pointInfo.point -= exercise.point;
             } else if (input.status === ExerciseStatusEnum.SUCCESS) {
-                pointInfor.point += exercise.point;
+                pointInfo.point += exercise.point;
             }
         }
     }
@@ -38,13 +38,14 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (submit.attempt === submit.maxAttempt && input.status === ExerciseStatusEnum.FAILED)
         location.status = ExerciseStatusEnum.REJECT;
     else location.status = input.status;
+
     location.mentors.push({
         mentor: req.user.name,
         comment: input.comment,
         time: formatDateOutput(Date.now()),
     });
 
-    submit.locations[input.time] = location;
+    submit.locations[input.time - 1] = location;
 
     await User.findByIdAndUpdate(user._id, { point: user.point });
     await Submit.findByIdAndUpdate(submit._id, { locations: submit.locations });

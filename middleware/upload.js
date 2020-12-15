@@ -29,7 +29,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
             user: req.user.code,
             course: exercise.course,
             attempt: 0,
-            maxAttempt: excercise.attempt,
+            maxAttempt: exercise.attempt,
         });
 
         await Exercise.findByIdAndUpdate(exercise._id, { $push: { submits: req.user.code } });
