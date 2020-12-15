@@ -1,9 +1,10 @@
 const { Forbidden, Unauthorized } = require("../helpers/errors.helper");
 const { AsyncCatch } = require("../helpers/utils.helper");
+const { UserRoleEnum } = require("../helpers/userRoleEnum.helper");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const admin = req.user.role;
-    if (!admin) throw new Unauthorized("Access denied. No role provided.");
-    if (admin !== "2") throw new Forbidden("Forbidden.");
+    const role = req.user.role;
+    if (!role) throw new Unauthorized("Access denied. No role provided.");
+    if (role !== UserRoleEnum.ADMIN) throw new Forbidden("Forbidden.");
     next();
 });

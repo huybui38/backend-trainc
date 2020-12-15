@@ -8,8 +8,8 @@ const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/exercise.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
-    const params = validator(validatorSchema(["code"]), req.params);
-    const exercise = await Exercise.findOne({ code: params.code });
+    const params = validator(validatorSchema(["id"]), req.params);
+    const exercise = await Exercise.findById(params.id);
     if (!exercise) throw new NotFound("Not found.");
 
     exercise.deadline = formatDateOutput(exercise.deadline);

@@ -17,10 +17,11 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (!isCorrect) throw new Unauthorized("Student code or password is not correct.");
 
     const token = getUserToken(user);
-    
-    if (process.env.NODE_ENV != 'production'){
+
+    if (process.env.NODE_ENV != "production") {
         res.cookie("token", token, { sameSite: "none" }).send("Login success."); //dev
-    }else{
+    } else {
+        // res.cookie("token", token, { sameSite: "none" }).send("Login success.");
         res.cookie("token", token, { sameSite: "none", secure: true }).send("Login success.");
     }
 });

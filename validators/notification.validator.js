@@ -9,13 +9,7 @@ module.exports = function (fields = []) {
             case "content":
                 return Joi.string().min(2).max(2000).required();
             case "course":
-                return Joi.string()
-                    .min(2)
-                    .max(255)
-                    .trim()
-                    .lowercase()
-                    .regex(/^[a-zA-Z0-9 ]+$/)
-                    .required();
+                return Joi.string().min(2).max(255).trim().required();
         }
     };
 

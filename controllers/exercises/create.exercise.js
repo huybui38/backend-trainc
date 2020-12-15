@@ -8,9 +8,10 @@ const validatorSchema = require("../../validators/exercise.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const input = validator(
-        validatorSchema(["code", "content", "group", "course", "active", "point", "attempt", "deadline"]),
+        validatorSchema(["code", "content", "group", "course", "active", "point", "attempt", "deadline", "testcase"]),
         req.body
     );
+  
     if (await Exercise.findOne({ code: input.code })) throw new BadRequest("Code is taken.");
 
     const course = await Course.findOne({ name: input.course });

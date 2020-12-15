@@ -1,3 +1,4 @@
+
 # Logs
 logs
 *.log
@@ -59,6 +60,3 @@ typings/
 
 # next.js build output
 .next
-
-# Jest coverage
-coverage/

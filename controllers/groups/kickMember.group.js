@@ -23,5 +23,5 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const course = await Course.findByIdAndUpdate(group.course, { $pull: { students: input.code } });
     if (!course) throw new DefaultError("Can't connect to database.");
 
-    res.send("Member was deleted successfully.");
+    res.json({ message: "Member was deleted successfully" });
 });

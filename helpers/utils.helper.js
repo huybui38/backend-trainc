@@ -10,7 +10,8 @@ const handleError = (err, req, res, next) => {
             message: err.message,
         });
     }
-    if (process.env.NODE_ENV !== "production") console.log(err);
+    // if (process.env.NODE_ENV !== "production")
+    console.log(err);
     res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
         message: `Something wrongs !!`,
     });

@@ -1,11 +1,6 @@
 const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
-
-const UserRoleEnum = {
-    ADMIN: "2",
-    MENTOR: "1",
-    STUDENT: "0",
-};
+const { UserRoleEnum } = require("../helpers/userRoleEnum.helper");
 
 module.exports = function (fields = []) {
     const getSchema = (field) => {
@@ -13,16 +8,17 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "code":
-                return Joi.string().min(8).alphanum().trim().lowercase().max(8).required();
+                return Joi.string().min(8).alphanum().trim().max(8).required().uppercase();
             case "password":
                 return Joi.string().min(8).max(255).alphanum().required();
             case "name":
                 return Joi.string()
                     .min(2)
                     .max(255)
-                    .regex(/^[a-zA-Z ]+$/)
+                    .regex(
+                        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/
+                    )
                     .trim()
-                    .lowercase()
                     .required();
             case "role":
                 return Joi.string().valid(UserRoleEnum.MENTOR, UserRoleEnum.STUDENT).required();

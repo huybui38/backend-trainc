@@ -7,27 +7,11 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "name":
-                return Joi.string()
-                    .min(2)
-                    .max(255)
-                    .trim()
-                    .lowercase()
-                    .regex(/^[a-zA-Z0-9 ]+$/)
-                    .required();
+                return Joi.string().min(2).max(255).trim().required();
             case "password":
                 return Joi.string().min(8).max(255).alphanum().required();
             case "course":
-                return Joi.string()
-                    .min(2)
-                    .max(255)
-                    .trim()
-                    .lowercase()
-                    .regex(/^[a-zA-Z0-9 ]+$/)
-                    .required();
-            case "mentors":
-                return Joi.array()
-                    .items(Joi.string().min(8).alphanum().trim().lowercase().max(8).required())
-                    .required();
+                return Joi.string().min(2).max(255).trim().required();
             case "active":
                 return Joi.boolean().required();
         }
