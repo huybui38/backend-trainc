@@ -11,7 +11,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
         validatorSchema(["code", "content", "group", "course", "active", "point", "attempt", "deadline", "testcase"]),
         req.body
     );
-    console.log(input);
+  
     if (await Exercise.findOne({ code: input.code })) throw new BadRequest("Code is taken.");
 
     const course = await Course.findOne({ name: input.course });

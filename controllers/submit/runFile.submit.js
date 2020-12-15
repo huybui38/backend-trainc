@@ -5,7 +5,6 @@ const { writeFileCustom, execShellCommand } = require("../../helpers/fileExec.he
 module.exports = AsyncCatch(async (req, res, next) => {
     const result = [];
     for (const testcase of req.exercise.testcase) {
-        console.log(testcase.input);
         await writeFileCustom(testcase.input);
         const output = await execShellCommand("" + "checkExercise" + " < " + "input.inp");
 
