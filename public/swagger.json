@@ -1,1746 +1,2208 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0-oas3",
-      "title": "Fcode",
-      "description": "Fcode API documentation"
+        "title": "Fcode",
+        "description": "Fcode API documentation",
+        "version": "1.0"
     },
-    "paths": {
-      "/api/user/login": {
-        "post": {
-          "tags": [
-            "User"
-          ],
-          "summary": "login",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "mssv",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "password",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "confirm",
-              "required": true,
-              "description": "must match with password",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "login success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "login success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "login failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "Invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/user/create": {
-        "post": {
-          "tags": [
-            "User"
-          ],
-          "summary": "create",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "mssv",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "password",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "confirm",
-              "required": true,
-              "description": "must match with password",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "name",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "role",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "enum": [
-                  "ADMIN",
-                  "MENTOR",
-                  "STUDENT"
-                ]
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "create success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "create failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "Invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/user/changePassword": {
-        "put": {
-          "tags": [
-            "User"
-          ],
-          "summary": "change password",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "password",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "new password",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "confirm",
-              "required": true,
-              "description": "must match with new password",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "change password success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "change password success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "change password failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "Invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/user/list/:page": {
-        "get": {
-          "tags": [
-            "User"
-          ],
-          "summary": "get all user, will render an ejs file list user (summary)",
-          "responses": {
-            "200": {
-              "description": "get all user success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get all users success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get all user failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/user/:id": {
-        "get": {
-          "tags": [
-            "User"
-          ],
-          "summary": "get one user (all details), render an ejs about user",
-          "responses": {
-            "200": {
-              "description": "get user success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get user success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get user failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/course/create": {
-        "post": {
-          "tags": [
-            "Course"
-          ],
-          "summary": "Create a course",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "courseName",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create course success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "create course success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "create course failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "Invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/course/list/:page": {
-        "get": {
-          "tags": [
-            "Course"
-          ],
-          "summary": "List all course name",
-          "responses": {
-            "200": {
-              "description": "get all course success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get all courses success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get all course failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/course/:id": {
-        "get": {
-          "tags": [
-            "Course"
-          ],
-          "summary": "get a course details",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/course/delete": {
-        "delete": {
-          "tags": [
-            "Course"
-          ],
-          "summary": "delete a course base on couseId",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "delete success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found course"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/class/create": {
-        "post": {
-          "tags": [
-            "Class"
-          ],
-          "summary": "create a new class",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "className",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "course",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "students",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "example": [
-                    "5f3d1875087baebfc14d35ab",
-                    "5f3d18e8f6e4aacc45d1a026",
-                    "5f3d18ed0b0c27733e9bc597"
-                  ]
-                }
-              }
-            },
-            {
-              "in": "query",
-              "name": "mentors",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "example": [
-                    "5f3d1875087baebfc14d35ab",
-                    "5f3d18e8f6e4aacc45d1a026",
-                    "5f3d18ed0b0c27733e9bc597"
-                  ]
-                }
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create class success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "create class success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "create class failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "Invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/class/update": {
-        "put": {
-          "tags": [
-            "Class"
-          ],
-          "summary": "update class",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "className",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "course",
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "students",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "example": [
-                    "5f3d1875087baebfc14d35ab",
-                    "5f3d18e8f6e4aacc45d1a026",
-                    "5f3d18ed0b0c27733e9bc597"
-                  ]
-                }
-              }
-            },
-            {
-              "in": "query",
-              "name": "mentors",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "example": [
-                    "5f3d1875087baebfc14d35ab",
-                    "5f3d18e8f6e4aacc45d1a026",
-                    "5f3d18ed0b0c27733e9bc597"
-                  ]
-                }
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "update class success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "update class success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "update class failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "Not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/class/:id": {
-        "get": {
-          "tags": [
-            "Class"
-          ],
-          "summary": "get a class details",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/course/rank/:page": {
-        "get": {
-          "tags": [
-            "Course/Rank"
-          ],
-          "summary": "List rank table",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get rank table success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/exercise/create": {
-        "post": {
-          "tags": [
-            "Exercise"
-          ],
-          "summary": "create a new exercise",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "title",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "details",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "class",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "course",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "point",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            },
-            {
-              "in": "query",
-              "name": "type",
-              "schema": {
-                "type": "boolean"
-              }
-            },
-            {
-              "in": "query",
-              "name": "startDay",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "endDay",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "status",
-              "schema": {
-                "type": "boolean"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "create success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "create failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/exercise/update": {
-        "put": {
-          "tags": [
-            "Exercise"
-          ],
-          "summary": "update exercise",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "title",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "details",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "class",
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "course",
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "point",
-              "schema": {
-                "type": "number"
-              }
-            },
-            {
-              "in": "query",
-              "name": "type",
-              "schema": {
-                "type": "boolean"
-              }
-            },
-            {
-              "in": "query",
-              "name": "startDay",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "endDay",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "status",
-              "schema": {
-                "type": "boolean"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "update success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "update success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "update failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/exercise/:id": {
-        "get": {
-          "tags": [
-            "Exercise"
-          ],
-          "summary": "get a exercise details",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/course/exercise/list/:page": {
-        "get": {
-          "tags": [
-            "Course"
-          ],
-          "summary": "List all exercises in course",
-          "responses": {
-            "200": {
-              "description": "get all exercise success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get all exercise success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get all exercise failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/user/:id/exercise/create": {
-        "post": {
-          "tags": [
-            "User/Exercise"
-          ],
-          "summary": "get exercise student submit",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "title",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "courseId",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "userId",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "example": "5f3d16dcc910b67dd02ed0e5"
-              }
-            },
-            {
-              "in": "query",
-              "name": "status",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "enum": [
-                  "PROCESS",
-                  "SUCCESS",
-                  "FAILED",
-                  "REJECT"
-                ]
-              }
-            },
-            {
-              "in": "query",
-              "name": "point",
-              "required": true,
-              "schema": {
-                "type": "number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "upload success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "upload success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "upload failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/user/:id/exercise/update": {
-        "put": {
-          "tags": [
-            "User/Exercise"
-          ],
-          "summary": "update status exercise",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "_id",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "status",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "enum": [
-                  "PROCESS",
-                  "SUCCESS",
-                  "FAILED",
-                  "REJECT"
-                ]
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "update success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "update success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "update failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/user/:id/exercise/:id": {
-        "get": {
-          "tags": [
-            "User/Exercise"
-          ],
-          "summary": "list details one exercise of a user",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "update failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/user/:id/exercise/list/:page": {
-        "get": {
-          "tags": [
-            "User/Exercise"
-          ],
-          "summary": "list all exercise title and status of a user",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "update failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/notification/create": {
-        "post": {
-          "tags": [
-            "Nofitication"
-          ],
-          "summary": "create a new nofitication",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "title",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "content",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "expired",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "create success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "create failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/notification/update": {
-        "put": {
-          "tags": [
-            "Nofitication"
-          ],
-          "summary": "update nofitication",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "title",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "content",
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "expired",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "update success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "update success"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "update failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 400,
-                      "data": null,
-                      "msg": "invalid input"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/notification/delete": {
-        "delete": {
-          "tags": [
-            "Nofitication"
-          ],
-          "summary": "delete nofitication",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "_id",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "delete success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "delete success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "delete failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/notification/list/:page": {
-        "get": {
-          "tags": [
-            "Notification"
-          ],
-          "summary": "get all notification",
-          "responses": {
-            "200": {
-              "description": "get success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 200,
-                      "data": null,
-                      "msg": "get success"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "get failed",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "example": {
-                      "status": 404,
-                      "data": null,
-                      "msg": "not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "servers": [
-      {
-        "description": "SwaggerHub API Auto Mocking",
-        "url": "https://virtserver.swaggerhub.com/tantruong2303/Fcode/1.0"
-      }
-    ],
-    "components": {
-      "schemas": {
-        "User": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "mssv": {
-              "type": "string",
-              "example": "SE150115"
-            },
-            "password": {
-              "type": "string",
-              "minLength": 8,
-              "maxLength": 255,
-              "example": "1234567890"
-            },
-            "role": {
-              "type": "string",
-              "enum": [
-                "ADMIN",
-                "MENTOR",
-                "STUDENT"
-              ]
-            },
-            "name": {
-              "type": "string",
-              "example": "truong binh tan"
-            },
-            "point": {
-              "type": "number",
-              "default": 0
-            },
-            "courseId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            },
-            "exerciseId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            }
-          }
-        },
-        "Course": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "courseName": {
-              "type": "string",
-              "example": "Train C"
-            },
-            "classId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            },
-            "exerciseId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            }
-          }
-        },
-        "Class": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "className": {
-              "type": "string",
-              "example": "Class 1"
-            },
-            "course": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "studentId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            },
-            "mentorId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            },
-            "exerciseId": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": [
-                  "5f3d1875087baebfc14d35ab",
-                  "5f3d18e8f6e4aacc45d1a026",
-                  "5f3d18ed0b0c27733e9bc597"
-                ]
-              },
-              "default": []
-            }
-          }
-        },
-        "Exercise": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "title": {
-              "type": "string"
-            },
-            "details": {
-              "type": "string"
-            },
-            "classId": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "courseId": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "point": {
-              "type": "number"
-            },
-            "status": {
-              "type": "boolean",
-              "default": true
-            },
-            "type": {
-              "type": "boolean",
-              "default": false
-            },
-            "startDay": {
-              "type": "string"
-            },
-            "endDay": {
-              "type": "string"
-            }
-          }
-        },
-        "StudentExercise": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "title": {
-              "type": "string"
-            },
-            "courseId": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "userId": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "status": {
-              "type": "string",
-              "enum": [
-                "PROCESS",
-                "SUCCESS",
-                "FAILED",
-                "REJECT"
-              ]
-            },
-            "point": {
-              "type": "number"
-            },
-            "comment": {
-              "type": "string"
-            }
-          }
-        },
-        "ThongBao": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "5f3d16dcc910b67dd02ed0e5"
-            },
-            "title": {
-              "type": "string"
-            },
-            "content": {
-              "type": "string"
-            },
-            "expired": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "host": "localhost:800",
+    "host": "http://128.199.124.35:80/",
     "basePath": "/",
-    "schemes": [
-      "https"
-    ]
-  }
+    "schemes": ["https"],
+    "servers": [
+        {
+            "url": "https://virtserver.swaggerhub.com/tantruong2303/Fcode/1.0",
+            "description": "SwaggerHub API Auto Mocking"
+        }
+    ],
+    "paths": {
+        "/api/users/login": {
+            "post": {
+                "tags": ["User"],
+                "summary": "login (All) DONE (matched)",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "login success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "login success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "login failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "login failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usersss": {
+            "post": {
+                "tags": ["User"],
+                "summary": "create (admin) DONE (matched)",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["2", "1", "0"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "create success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "forbidden"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "internal error"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/:code/passwords": {
+            "put": {
+                "tags": ["User"],
+                "summary": "change password (only me) DONE",
+                "parameters": [
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "newPassword",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "confirm",
+                        "in": "query",
+                        "description": "must match with new password",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "change password success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "change password success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "change password failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "change password failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/:code/names": {
+            "put": {
+                "tags": ["User"],
+                "summary": "change name (only me) DONE",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "change name success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "change name success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "change  name failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": ["User"],
+                "summary": "get all users (admin) DONE (matched)",
+                "responses": {
+                    "200": {
+                        "description": "get all user success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "code": null,
+                                                "name": null,
+                                                "active": null,
+                                                "role": null
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "forbidden"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "get all users failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "internal error"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/courses/:course/students": {
+            "get": {
+                "tags": ["Course"],
+                "summary": "for rank (all) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get all user success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "code": null,
+                                                "name": null,
+                                                "point": null
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "forbidden"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get all users failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students/exercises": {
+            "get": {
+                "tags": ["Student"],
+                "summary": "(all)",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": ["code", "point", "deadline", "attempt"],
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students/exercises/:code": {
+            "get": {
+                "tags": ["Student"],
+                "summary": "(all)",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": ["code", "point", "content", "deadline", "attempt"],
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/:code": {
+            "get": {
+                "tags": ["User"],
+                "summary": "get one user (only me) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get user success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": {
+                                            "code": null,
+                                            "name": null,
+                                            "role": null
+                                        },
+                                        "msg": "get user success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get user failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/userss": {
+            "put": {
+                "tags": ["User"],
+                "summary": "update users (admin) DONE",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/courses": {
+            "post": {
+                "tags": ["Course"],
+                "summary": "Create (admin) DONE",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "thumbnail",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create course success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "create course success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coursess": {
+            "get": {
+                "tags": ["Course"],
+                "summary": "List all course (all) DONE (matched)",
+                "responses": {
+                    "200": {
+                        "description": "get all course success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": "createdTime",
+                                        "thumbnail": null,
+                                        "name": null,
+                                        "active": null,
+                                        "_id": null
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401": {
+                        "description": "no token provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/courses/:_id": {
+            "put": {
+                "tags": ["Course"],
+                "summary": "update (admin) DONE",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "thumbnail",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create course success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "create course success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create course failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/groups": {
+            "post": {
+                "tags": ["Group"],
+                "summary": "create (admin, mentors) DONE",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "courseId",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create class success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "create class success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create class failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "Invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create class failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create class failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/groups/:_id": {
+            "put": {
+                "tags": ["Group"],
+                "summary": "update (admin, mentors) DONE",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update class success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "update class success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "update class failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "Not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/courses/:course/groups": {
+            "get": {
+                "tags": ["Course"],
+                "summary": "get all groups (all) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/groups/_id": {
+            "get": {
+                "tags": ["Group"],
+                "summary": "get group (all) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/groups/_idd": {
+            "post": {
+                "tags": ["Group"],
+                "summary": "enroll group (all) DONE",
+                "parameters": [
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exercises": {
+            "post": {
+                "tags": ["Exercise"],
+                "summary": "create a new exercise (admin, mentors) DONE",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "course",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "attempt",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "deadline",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "create success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exercises/:code": {
+            "put": {
+                "tags": ["Exercise"],
+                "summary": "update (mentors, admin) DONE",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "attempt",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "deadline",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "update success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exercises/:codee": {
+            "get": {
+                "tags": ["Exercise"],
+                "summary": "(admin, mentors) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/:course/exercises": {
+            "get": {
+                "tags": ["Course"],
+                "summary": "List all (admin, mentors) DONE",
+                "responses": {
+                    "200": {
+                        "description": "get all exercise success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get all exercise success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get all exercise failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/submits/:code": {
+            "post": {
+                "tags": ["Submit"],
+                "summary": "get submit (student)",
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "upload success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "upload success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "upload failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/submits/:codee": {
+            "put": {
+                "tags": ["Submit"],
+                "summary": "update (admin, mentor)",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["PROCESS", "SUCCESS", "FAILED", "REJECT"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "update success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/submits": {
+            "get": {
+                "tags": ["Submit"],
+                "summary": "get all (admin, mentor)",
+                "parameters": [
+                    {
+                        "name": "course",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students/submits": {
+            "get": {
+                "tags": ["Student"],
+                "summary": "list (only me)",
+                "parameters": [
+                    {
+                        "name": "course",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notifications": {
+            "post": {
+                "tags": ["Notification"],
+                "summary": "create (admin) DONE (matched)",
+                "parameters": [
+                    {
+                        "name": "course",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "msg": "success"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "msg": "invalid input"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "mag": "internal error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notifications/:id": {
+            "put": {
+                "tags": ["Notification"],
+                "summary": "update (admin) DONE (matched)",
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "update success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "update failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 400,
+                                        "data": null,
+                                        "msg": "invalid input"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notifications/:idd": {
+            "delete": {
+                "tags": ["Notification"],
+                "summary": "delete (admin) DONE (matched)",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "delete success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "delete success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "delete failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 404,
+                                        "data": null,
+                                        "msg": "not found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/courses/:course/notifications": {
+            "get": {
+                "tags": ["Course"],
+                "summary": "get all (all) DONE (matched)",
+                "responses": {
+                    "200": {
+                        "description": "get success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "status": 200,
+                                        "data": null,
+                                        "msg": "get success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "create failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "get failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "mssv": {
+                        "type": "string",
+                        "example": "SE150115"
+                    },
+                    "password": {
+                        "maxLength": 255,
+                        "minLength": 8,
+                        "type": "string",
+                        "example": "1234567890"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": ["ADMIN", "MENTOR", "STUDENT"]
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "truong binh tan"
+                    },
+                    "point": {
+                        "type": "number",
+                        "default": 0
+                    },
+                    "courseId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    },
+                    "exerciseId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    }
+                }
+            },
+            "Course": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "courseName": {
+                        "type": "string",
+                        "example": "Train C"
+                    },
+                    "classId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    },
+                    "exerciseId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    }
+                }
+            },
+            "Class": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "className": {
+                        "type": "string",
+                        "example": "Class 1"
+                    },
+                    "course": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "studentId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    },
+                    "mentorId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    },
+                    "exerciseId": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "[\"5f3d1875087baebfc14d35ab\",\"5f3d18e8f6e4aacc45d1a026\",\"5f3d18ed0b0c27733e9bc597\"]"
+                        },
+                        "default": []
+                    }
+                }
+            },
+            "Exercise": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "string"
+                    },
+                    "classId": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "point": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "type": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "startDay": {
+                        "type": "string"
+                    },
+                    "endDay": {
+                        "type": "string"
+                    }
+                }
+            },
+            "StudentExercise": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "courseId": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["PROCESS", "SUCCESS", "FAILED", "REJECT"]
+                    },
+                    "point": {
+                        "type": "number"
+                    },
+                    "comment": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ThongBao": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "5f3d16dcc910b67dd02ed0e5"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "expired": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

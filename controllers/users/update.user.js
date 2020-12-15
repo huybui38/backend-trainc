@@ -1,15 +1,22 @@
-const {AsyncCatch }= require("../../helpers/utils.helper")
-const {DefaultError,BadRequest, STATUS_CODE} = require("../../helpers/errors.helper");
+const { AsyncCatch } = require("../../helpers/utils.helper");
+const { NotFound, DefaultError } = require("../../helpers/errors.helper");
+const { User } = require("../../models/User.model");
+const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
-const updateUser = AsyncCatch(async (req, res, next) =>{
-    console.log(req.params.user_id);
-    //todo find id and update, read more at https://mongoosejs.com/docs/queries.html
+module.exports = AsyncCatch(async (req, res, next) => {
+    const params = validator(validatorSchema(["code"]), req.params);
 
-    // throw new DefaultError('Message'); //Message with default status code
-    // throw new DefaultError('Message' , STATUS_CODE.UNAUTHORIZED); //Message with specific status code
-    // throw new BadRequest('Message');  //specific error instance
+    const user = await User.findOne({ code: params.code });
+    if (!user) throw new NotFound("Not found.");
 
-    res.send('hello world');
-})
+    const input = validator(validatorSchema(["role", "active"]), req.body);
 
-module.exports = updateUser;
+    const result = await User.findOneAndUpdate(
+        { code: params.code },
+        { $set: { role: input.role, active: input.active } }
+    );
+    if (!result) throw new DefaultError("Can't connect to database.");
+
+    res.send("User was updated successfully.");
+});

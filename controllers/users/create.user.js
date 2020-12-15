@@ -1,18 +1,21 @@
-const {AsyncCatch }= require("../../helpers/utils.helper")
-const {DefaultError,BadRequest, STATUS_CODE} = require("../../helpers/errors.helper");
-const User = require('../../models/User');
-const createUser = AsyncCatch(async (req, res, next) =>{
-    const SampleData = {
-        firstName:'Ngoc',
-        lastName:'Huy',
-        email:'test@gmail.com',
-        password:'string'
-    };
-    await User.create(SampleData);
-    // throw new DefaultError('Message'); //Message with default status code
-    // throw new DefaultError('Message' , STATUS_CODE.UNAUTHORIZED); //Message with specific status code
-    // throw new BadRequest('Message');  //specific error instance
-    res.send('ok');
-})
+const { AsyncCatch } = require("../../helpers/utils.helper");
+const { BadRequest, DefaultError } = require("../../helpers/errors.helper");
+const { User } = require("../../models/User.model");
+const { hashingString } = require("../../helpers/bcrypt.helper");
+const validator = require("../../helpers/validator.helper");
+const validatorSchema = require("../../validators/user.validator");
 
-module.exports = createUser;
+const defaultPassword = "123456789";
+
+module.exports = AsyncCatch(async (req, res, next) => {
+    const input = validator(validatorSchema(["code", "name", "role"]), req.body);
+    const user = await User.findOne({ code: input.code });
+    if (user) throw new BadRequest("Student code is taken.");
+
+    input.password = await hashingString(defaultPassword);
+
+    const result = await User.create(input);
+    if (!result) throw new DefaultError("Can't connect to database.");
+
+    res.send("User was created successfully.");
+});
