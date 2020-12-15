@@ -9,11 +9,21 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const query = validator(validatorSchema(["type"]), req.query);
     if (req.user.code !== params.code) throw new NotFound("Not found.");
 
-    const exercises = await Promise.all(
-        req.user.courses.map(async (courseId) => {
-            const exercise = await Exercise.find({ course: courseId, active: true, type: query.type });
-            return exercise;
-        })
-    );
+    let exercises = [];
+    if(query.type){
+        exercises = await Promise.all(
+            req.user.groups.map(async (groupId) => {
+                const exercise = await Exercise.find({group: groupId, active: true, type: query.type});
+                return exercise;
+            })
+        )
+    } else {
+        exercises = await Promise.all(
+            req.user.courses.map(async (courseId) => {
+                const exercise = await Exercise.find({ course: courseId, active: true, type: query.type });
+                return exercise;
+            })
+        );
+    }
     res.send(exercises);
 });
