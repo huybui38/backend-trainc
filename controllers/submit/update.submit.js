@@ -20,17 +20,17 @@ module.exports = AsyncCatch(async (req, res, next) => {
     const location = submit.locations[input.time - 1];
     if (!location) throw new BadRequest("Location is not provided.");
 
-    if (location.status === input.status) throw new BadRequest("Status is not changed.");
-
     const user = await User.findOne({ code: submit.user });
     const exercise = await Exercise.findById(submit.code);
 
-    for (const pointInfo of user.point) {
-        if (pointInfo.courseId.equals(exercise.course)) {
-            if (location.status === ExerciseStatusEnum.SUCCESS) {
-                pointInfo.point -= exercise.point;
-            } else if (input.status === ExerciseStatusEnum.SUCCESS) {
-                pointInfo.point += exercise.point;
+    if (location.status !== input.status) {
+        for (const pointInfo of user.point) {
+            if (pointInfo.courseId.equals(exercise.course)) {
+                if (location.status === ExerciseStatusEnum.SUCCESS) {
+                    pointInfo.point -= exercise.point;
+                } else if (input.status === ExerciseStatusEnum.SUCCESS) {
+                    pointInfo.point += exercise.point;
+                }
             }
         }
     }
