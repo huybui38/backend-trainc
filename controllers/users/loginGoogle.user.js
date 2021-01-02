@@ -28,4 +28,5 @@ module.exports = AsyncCatch(async (req, res, next) => {
             res.cookie("token", token, { sameSite: "none", secure: true }).send("Login success.");
         }
     }
+    throw BadRequest("Mail is not verified!.");
 });
