@@ -37,6 +37,10 @@ module.exports = AsyncCatch(async (req, res, next) => {
         await User.findByIdAndUpdate(req.user._id, {
             $push: { courses: course._id, groups: group._id, point: pointInfo },
         });
+    } else {
+        await User.findByIdAndUpdate(req.user._id, {
+            $push: { groups: group._id },
+        });
     }
 
     res.json({ message: "Enroll success." });
