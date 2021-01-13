@@ -7,7 +7,7 @@ const validatorSchema = require("../../validators/user.validator");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["code"]), req.params);
-    const user = await User.findOne({ code: "params.code" });
+    const user = await User.findOne({ code: params.code });
     if (!user) throw new NotFound("Not found.");
     
     const result = _.pick(user, ["code", "name", "role", "point"]);
