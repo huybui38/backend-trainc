@@ -14,6 +14,6 @@ const update_submit = require("../controllers/submit/update.submit");
 router.post("/:id", auth, upload, upload_submit);
 router.post("/check/:id", auth, uploadCompile, compileFile, runFile_submit);
 router.put("/:id", auth, isMentor, update_submit);
-router.get("/", auth, getAll_submit);
+router.get("/", auth, isMentor, getAll_submit);
 
 module.exports = router;
