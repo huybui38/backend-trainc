@@ -16,7 +16,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (exercise.type) {
         if (!req.user.groups.includes(exercise.group)) throw new Forbidden("Forbidden.");
     } else if (!req.user.courses.includes(exercise.course)) throw new Forbidden("Forbidden.");
-
+ 
     if (exercise.submits.includes(req.user.code)) {
         for (const item of req.user.exercises) {
             if (item.exercise.equals(exercise._id)) {
@@ -31,7 +31,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
             attempt: 0,
             maxAttempt: exercise.attempt,
         });
-
+   
         await Exercise.findByIdAndUpdate(exercise._id, { $push: { submits: req.user.code } });
         const submitInfo = {
             exercise: exercise._id,
@@ -44,7 +44,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
 
     submit(req, res, (err) => {
         if (err) {
-            res.status(400).send(err.message);
+            res.status(400).send(err);
         } else {
             if (req.file === undefined) {
                 res.status(400).send("No file.");

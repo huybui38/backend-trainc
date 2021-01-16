@@ -32,11 +32,12 @@ const submit = multer({
 }).single("submit");
 
 function checkFileType(file, cb) {
+  
     const fileTypes = /c/;
+    const mimeTypes = ["text/x-c","text/plain"];
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = fileTypes.test(file.mimetype);
 
-    if (mimetype && extname) {
+    if (mimeTypes.includes(file.mimetype) && extname) {
         return cb(null, true);
     } else {
         cb("File c or cpp is required!");
