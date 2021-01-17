@@ -20,6 +20,9 @@ const SubmitSchema = new mongoose.Schema({
     maxAttempt: {
         type: Number,
     },
+    exercise: {
+        type: Object,
+    },
 });
 
 module.exports.Submit = mongoose.model("Submit", SubmitSchema);
