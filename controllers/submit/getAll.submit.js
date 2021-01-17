@@ -4,6 +4,7 @@ const { Course } = require("../../models/Course.model");
 const { Submit } = require("../../models/Submit.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/group.validator");
+const { Exercise } = require("../../models/Exercise.model");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const submits = await Submit.find({});
@@ -11,6 +12,9 @@ module.exports = AsyncCatch(async (req, res, next) => {
         submits.map(async (submit) => {
             const course = await Course.findById(submit.course);
             submit.course = course.name;
+
+            const exercise = await Exercise.findById(submit.code);
+            submit.exercise = exercise;
         })
     );
 
