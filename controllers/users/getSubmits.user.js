@@ -3,7 +3,7 @@ const { NotFound, DefaultError, Forbidden } = require("../../helpers/errors.help
 const { Submit } = require("../../models/Submit.model");
 const { User } = require("../../models/User.model");
 const { Course } = require("../../models/Course.model");
-const { Exercise } = require("../../models/Exercise.model.model");
+const { Exercise } = require("../../models/Exercise.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
 
