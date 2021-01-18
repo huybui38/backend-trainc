@@ -6,15 +6,15 @@ const { Course } = require("../../models/Course.model");
 const { Exercise } = require("../../models/Exercise.model");
 const validator = require("../../helpers/validator.helper");
 const validatorSchema = require("../../validators/user.validator");
+const { submit } = require("../../helpers/upload.helper");
+const _ = require("lodash");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const params = validator(validatorSchema(["code"]), req.params);
     const user = await User.findOne({ code: params.code });
     if (!user) throw new NotFound("Not found.");
 
-    if (user.code !== req.user.code) throw new Forbidden("Forbidden");
-
-    const submits = await Promise.all(
+    let submits = await Promise.all(
         req.user.exercises.map(async (exercise) => {
             return await Submit.findById(exercise.submit);
         })
@@ -30,5 +30,13 @@ module.exports = AsyncCatch(async (req, res, next) => {
         })
     );
 
+    if (req.user.code !== params.code) {
+        submits = submits.map((submit) => {
+            for (item of submit.locations) {
+                delete item.location;
+            }
+            return submit;
+        });
+    }
     res.send(submits);
 });
