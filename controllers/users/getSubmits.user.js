@@ -15,7 +15,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (!user) throw new NotFound("Not found.");
 
     let submits = await Promise.all(
-        req.user.exercises.map(async (exercise) => {
+        user.exercises.map(async (exercise) => {
             return await Submit.findById(exercise.submit);
         })
     );
