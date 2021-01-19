@@ -8,15 +8,27 @@ const { Exercise } = require("../../models/Exercise.model");
 
 module.exports = AsyncCatch(async (req, res, next) => {
     const submits = await Submit.find({});
+
+    const submitsFilter = await Promise.all(
+        submits.filter((submit) => {
+					return submit.locations[submit.attempt - 1].status === "1";
+        })
+    );
+    
     await Promise.all(
-        submits.map(async (submit) => {
+        submitsFilter.map(async (submit) => {
             const course = await Course.findById(submit.course);
             submit.course = course.name;
 
             const exercise = await Exercise.findById(submit.code);
-            submit.exercise = exercise;
+            const exerciseInfo = {
+              code: exercise.code,
+              _id: exercise._id,
+              point: exercise.point
+          };
+            submit.exercise = exerciseInfo;
         })
     );
 
-    res.send(submits);
+    res.send(submitsFilter);
 });
