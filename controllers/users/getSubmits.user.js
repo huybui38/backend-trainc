@@ -15,7 +15,7 @@ module.exports = AsyncCatch(async (req, res, next) => {
     if (!user) throw new NotFound("Not found.");
 
     let submits = await Promise.all(
-        req.user.exercises.map(async (exercise) => {
+        user.exercises.map(async (exercise) => {
             return await Submit.findById(exercise.submit);
         })
     );
@@ -26,14 +26,22 @@ module.exports = AsyncCatch(async (req, res, next) => {
             submit.course = course.name;
 
             const exercise = await Exercise.findById(submit.code);
-            submit.exercise = exercise;
+            const exerciseInfo = {
+                code: exercise.code,
+                _id: exercise._id,
+                point: exercise.point
+            };
+            submit.exercise = exerciseInfo;
         })
     );
+    let check = 1;
+    if ((req.user.role === "0") && (req.user.code !== params.code)) check = 0;
 
-    if (req.user.code !== params.code) {
+    if (!check) {
         submits = submits.map((submit) => {
             for (item of submit.locations) {
                 delete item.location;
+                delete item.mentors;
             }
             return submit;
         });
