@@ -10,7 +10,7 @@ const NotificationSchema = new mongoose.Schema({
     },
     createdTime: {
         type: Date,
-        default: formatDateOutput(Date.now()),
+        default: Date.now(),
     },
 });
 
