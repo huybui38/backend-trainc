@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { formatDateOutput } = require("../helpers/time.helper");
 
 const NotificationSchema = new mongoose.Schema({
     content: {
@@ -9,7 +10,7 @@ const NotificationSchema = new mongoose.Schema({
     },
     createdTime: {
         type: Date,
-        default: Date.now(),
+        default: formatDateOutput(Date.now()),
     },
 });
 
