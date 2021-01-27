@@ -9,7 +9,7 @@ module.exports = function (fields = []) {
             case "code":
                 return Joi.string().min(2).max(255).required().uppercase();
             case "content":
-                return Joi.string().min(2).max(2000).required();
+                return Joi.string().min(2).max(10000).required();
             case "course":
                 return Joi.string().min(2).max(255).trim().required();
             case "group":
