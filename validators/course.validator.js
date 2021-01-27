@@ -11,7 +11,7 @@ module.exports = function (fields = []) {
             case "active":
                 return Joi.boolean().required();
             case "thumbnail":
-                return Joi.string().min(2).max(2000).required();
+                return Joi.string().min(2).max(10000).required();
         }
     };
 
