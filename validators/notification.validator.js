@@ -7,7 +7,7 @@ module.exports = function (fields = []) {
             case "id":
                 return Joi.objectId();
             case "content":
-                return Joi.string().min(2).max(2000).required();
+                return Joi.string().min(2).max(10000).required();
             case "course":
                 return Joi.string().min(2).max(255).trim().required();
         }
