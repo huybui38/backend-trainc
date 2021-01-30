@@ -41,8 +41,6 @@ module.exports = AsyncCatch(async (req, res, next) => {
     }
 
     if (req.submit.attempt === exercise.attempt) throw new BadRequest("Not allow to upload.");
-    if (req.submit.locations[req.submit.locations.length - 1].status === ExerciseStatusEnum.REJECT)
-        throw new BadRequest("Not allow to upload.");
 
     submit(req, res, (err) => {
         if (err) {
