@@ -6,7 +6,7 @@ const cors = require("cors");
 const api = require("./routes/index");
 const { handleError } = require("./helpers/utils.helper");
 
-var app = express();
+//var app = express();
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
